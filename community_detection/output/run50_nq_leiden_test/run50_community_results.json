@@ -1,0 +1,49 @@
+{
+  "run_id": "run50",
+  "timestamp": "2025-09-12 03:00:30",
+  "graph_info": {
+    "source": "NQ (Natural Questions) from Google",
+    "description": "Graph constructed from wiki articles citation data in the Natural Questions dataset"
+  },
+  "leiden": {
+    "num_communities": 18,
+    "metrics": {
+      "modularity": 0.6016146177561361,
+      "homophily": 0.7209280218185381,
+      "community_size_stats": {
+        "num_communities": 18,
+        "min_size": 2,
+        "max_size": 21024,
+        "mean_size": 5974.222222222223,
+        "median_size": 4645.5,
+        "num_singleton": 0,
+        "num_size_2": 1,
+        "num_size_3": 0,
+        "num_small": 1,
+        "size_histogram": {
+          "2": 1,
+          "49": 1,
+          "75": 1,
+          "113": 1,
+          "457": 1,
+          "484": 1,
+          "1284": 1,
+          "4381": 1,
+          "4585": 1,
+          "4706": 1,
+          "5089": 1,
+          "5300": 1,
+          "5854": 1,
+          "11821": 1,
+          "12782": 1,
+          "13857": 1,
+          "15673": 1,
+          "21024": 1
+        }
+      },
+      "avg_conductance": 0.2783646568307301,
+      "avg_tpr": 0.9616965481327183,
+      "avg_clustering": 0.3226628672302297
+    }
+  }
+}

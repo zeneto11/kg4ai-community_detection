@@ -1,0 +1,73 @@
+2025-09-12 15:33:44,897 - INFO - 
+====================================================================================================
+                             Initializing Community Detection Pipeline                              
+====================================================================================================
+2025-09-12 15:34:08,638 - INFO - NQ (Natural Questions) from Google graph
+2025-09-12 15:34:08,638 - INFO - Description: Graph constructed from wiki articles citation data in the Natural Questions dataset
+2025-09-12 15:34:08,638 - INFO - 
+====================================================================================================
+                                           Graph Analysis                                           
+====================================================================================================
+2025-09-12 15:35:26,622 - INFO - Initiating advanced metrics calculation...
+2025-09-12 15:35:26,622 - INFO - Calculating transitivity...
+2025-09-12 15:36:47,267 - INFO - Calculating average clustering...
+2025-09-12 15:53:16,566 - INFO - Calculating filtered average clustering...
+2025-09-12 16:07:22,874 - INFO - Calculating metrics for largest connected component...
+2025-09-12 20:07:54,138 - INFO - Calculating degree assortativity...
+2025-09-12 20:08:10,392 - INFO - Calculating core numbers...
+2025-09-12 20:09:53,446 - INFO - Calculating rich club coefficient...
+2025-09-12 20:09:53,446 - INFO - Calculating global efficiency...
+2025-09-12 20:10:12,577 - INFO - --> Citation network analysis completed
+2025-09-12 20:10:12,582 - INFO - --> JSON metrics saved to community_detection/output/run53/run53_metrics.json
+2025-09-12 20:10:12,583 - INFO - --> Enhanced Markdown report saved to community_detection/output/run53/run53_report.md
+2025-09-12 20:10:12,583 - INFO - ===================================================================
+2025-09-12 20:10:12,583 - INFO -                        Graph Analysis Summary                      
+2025-09-12 20:10:12,583 - INFO - -------------------------------------------------------------------
+2025-09-12 20:10:12,583 - INFO - This analysis examined a **large directed graph** with:
+2025-09-12 20:10:12,583 - INFO -  - 108,071 nodes (entities) and 5,122,983 connections
+2025-09-12 20:10:12,583 - INFO -  - 107,536 nodes remaining after isolation removal (535 isolated nodes removed)
+2025-09-12 20:10:12,583 - INFO -  - Sparse connectivity (density: 0.0%)
+2025-09-12 20:10:12,583 - INFO -  - Low clustering (0.0% - how tightly grouped entities are)
+2025-09-12 20:10:12,583 - INFO -  - Average connections per entity: 95.3
+2025-09-12 20:10:12,583 - INFO - **Key Insights:**
+2025-09-12 20:10:12,583 - INFO -  - The network has 0 disconnected clusters, with the largest containing 0 entities
+2025-09-12 20:10:12,583 - INFO -  - Low connectivity suggests potential for network growth
+2025-09-12 20:10:12,583 - INFO - 
+====================================================================================================
+                                        Community Detection                                         
+====================================================================================================
+2025-09-12 20:13:46,794 - INFO - Infomap found 1262 communities in 3m 34s
+2025-09-12 20:13:56,627 - INFO - Converted to undirected weighted graph:
+2025-09-12 20:13:56,628 - INFO -    Weight distribution: {1: 3621599, 2: 750692}
+2025-09-12 20:16:01,178 - INFO - Louvain found 27 communities in 2m 14s
+2025-09-12 20:16:20,963 - INFO - Converted to undirected weighted graph:
+2025-09-12 20:16:20,966 - INFO -    Weight distribution: {1: 3621599, 2: 750692}
+2025-09-12 20:17:56,294 - INFO - Leiden found 18 communities in 1m 55s
+2025-09-12 20:17:56,294 - INFO - 
+====================================================================================================
+                                        Community Evaluation                                        
+====================================================================================================
+2025-09-12 21:22:46,278 - INFO - --> Community results saved to community_detection/output/run53/run53_community_results.json
+2025-09-12 21:22:46,280 - INFO - 📊 COMMUNITY DETECTION COMPARISON
+2025-09-12 21:22:46,281 - INFO - ==================================================
+2025-09-12 21:22:46,281 - INFO - Method       Communities  Modularity   Homophily   
+2025-09-12 21:22:46,281 - INFO - --------------------------------------------------
+2025-09-12 21:22:46,281 - INFO - Infomap      1262         0.5024       0.5311      
+2025-09-12 21:22:46,281 - INFO - Louvain      27           0.5980       0.7182      
+2025-09-12 21:22:46,281 - INFO - Leiden       18           0.6016       0.7209      
+2025-09-12 21:22:46,281 - INFO - ==================================================
+2025-09-12 21:22:46,281 - INFO - 
+====================================================================================================
+                                      Community Visualization                                       
+====================================================================================================
+2025-09-12 21:22:46,281 - INFO - 
+====================================================================================================
+                                         Pipeline Complete                                          
+====================================================================================================
+2025-09-12 21:22:46,281 - INFO - --> All outputs saved to community_detection/output/run53
+2025-09-12 21:22:46,281 - INFO - ===================================================================
+2025-09-12 21:22:46,281 - INFO -                           Pipeline Summary                         
+2025-09-12 21:22:46,281 - INFO - -------------------------------------------------------------------
+2025-09-12 21:22:46,281 - INFO -    • Run ID: run53
+2025-09-12 21:22:46,281 - INFO -    • Graph: NQ (Natural Questions) from Google (108071 nodes)
+2025-09-12 21:22:46,282 - INFO -    • Runtime: 349m 1s

@@ -1,0 +1,72 @@
+2025-09-11 02:44:01,418 - INFO - 
+====================================================================================================
+                             Initializing Community Detection Pipeline                              
+====================================================================================================
+2025-09-11 02:44:01,424 - INFO - Simulated Citation Network graph
+2025-09-11 02:44:01,424 - INFO - Description: Directed graph simulating academic paper citations
+2025-09-11 02:44:01,424 - INFO - 
+====================================================================================================
+                                           Graph Analysis                                           
+====================================================================================================
+2025-09-11 02:44:01,439 - INFO - Initiating advanced metrics calculation...
+2025-09-11 02:44:01,439 - INFO - Calculating transitivity...
+2025-09-11 02:44:01,442 - INFO - Calculating average clustering...
+2025-09-11 02:44:01,445 - INFO - Calculating filtered average clustering...
+2025-09-11 02:44:01,449 - INFO - Calculating average shortest path length...
+2025-09-11 02:44:01,464 - INFO - Calculating diameter...
+2025-09-11 02:44:01,475 - INFO - Calculating radius...
+2025-09-11 02:44:01,486 - INFO - Calculating centrality measures...
+2025-09-11 02:44:01,684 - INFO - Calculating degree assortativity...
+2025-09-11 02:44:01,687 - INFO - Calculating core numbers...
+2025-09-11 02:44:01,687 - INFO - Calculating rich club coefficient...
+2025-09-11 02:44:01,687 - INFO - Calculating global efficiency...
+2025-09-11 02:44:01,933 - INFO - --> Citation network analysis completed
+2025-09-11 02:44:01,933 - INFO - --> JSON metrics saved to community_detection/output/run45/run45_metrics.json
+2025-09-11 02:44:01,934 - INFO - --> Enhanced Markdown report saved to community_detection/output/run45/run45_report.md
+2025-09-11 02:44:01,934 - INFO - ===================================================================
+2025-09-11 02:44:01,934 - INFO -                        Graph Analysis Summary                      
+2025-09-11 02:44:01,934 - INFO - -------------------------------------------------------------------
+2025-09-11 02:44:01,934 - INFO - This analysis examined a **medium directed graph** with:
+2025-09-11 02:44:01,934 - INFO -  - 200 nodes (entities) and 714 connections
+2025-09-11 02:44:01,934 - INFO -  - 0 nodes remaining after isolation removal (0 isolated nodes removed)
+2025-09-11 02:44:01,934 - INFO -  - Sparse connectivity (density: 0.0%)
+2025-09-11 02:44:01,934 - INFO -  - Low clustering (0.0% - how tightly grouped entities are)
+2025-09-11 02:44:01,934 - INFO -  - Average connections per entity: 7.1
+2025-09-11 02:44:01,934 - INFO - **Key Insights:**
+2025-09-11 02:44:01,934 - INFO -  - The network is fully connected (all entities are reachable)
+2025-09-11 02:44:01,934 - INFO -  - Low connectivity suggests potential for network growth
+2025-09-11 02:44:01,934 - INFO - 
+====================================================================================================
+                                        Community Detection                                         
+====================================================================================================
+2025-09-11 02:44:02,405 - INFO - Infomap found 2 communities
+2025-09-11 02:44:02,410 - INFO - Edge weight 2: 123 edges
+2025-09-11 02:44:02,411 - INFO - Edge weight 1: 468 edges
+2025-09-11 02:44:02,432 - INFO - Louvain found 11 communities
+2025-09-11 02:44:02,433 - INFO - 
+====================================================================================================
+                                        Community Evaluation                                        
+====================================================================================================
+2025-09-11 02:44:02,494 - INFO - --> Community results saved to community_detection/output/run45/run45_community_results.json
+2025-09-11 02:44:02,494 - INFO - 📊 COMMUNITY DETECTION COMPARISON
+2025-09-11 02:44:02,494 - INFO - ==================================================
+2025-09-11 02:44:02,494 - INFO - Method       Communities  Modularity   Homophily   
+2025-09-11 02:44:02,495 - INFO - --------------------------------------------------
+2025-09-11 02:44:02,495 - INFO - Infomap      2            0.1402       0.7801      
+2025-09-11 02:44:02,495 - INFO - Louvain      11           0.4105       0.5084      
+2025-09-11 02:44:02,495 - INFO - ==================================================
+2025-09-11 02:44:02,495 - INFO - 
+====================================================================================================
+                                      Community Visualization                                       
+====================================================================================================
+2025-09-11 02:44:02,495 - INFO - 
+====================================================================================================
+                                         Pipeline Complete                                          
+====================================================================================================
+2025-09-11 02:44:02,495 - INFO - --> All outputs saved to community_detection/output/run45
+2025-09-11 02:44:02,495 - INFO - ===================================================================
+2025-09-11 02:44:02,495 - INFO -                           Pipeline Summary                         
+2025-09-11 02:44:02,495 - INFO - -------------------------------------------------------------------
+2025-09-11 02:44:02,495 - INFO -    • Run ID: run45
+2025-09-11 02:44:02,495 - INFO -    • Graph: Simulated Citation Network (200 nodes)
+2025-09-11 02:44:02,495 - INFO -    • Runtime: 1s

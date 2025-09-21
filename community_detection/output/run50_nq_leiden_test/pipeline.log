@@ -1,0 +1,58 @@
+2025-09-12 02:27:10,527 - INFO - 
+====================================================================================================
+                             Initializing Community Detection Pipeline                              
+====================================================================================================
+2025-09-12 02:27:35,143 - INFO - NQ (Natural Questions) from Google graph
+2025-09-12 02:27:35,143 - INFO - Description: Graph constructed from wiki articles citation data in the Natural Questions dataset
+2025-09-12 02:27:35,143 - INFO - 
+====================================================================================================
+                                           Graph Analysis                                           
+====================================================================================================
+2025-09-12 02:28:38,578 - INFO - --> Citation network analysis completed
+2025-09-12 02:28:38,583 - INFO - --> JSON metrics saved to community_detection/output/run50/run50_metrics.json
+2025-09-12 02:28:38,584 - INFO - --> Enhanced Markdown report saved to community_detection/output/run50/run50_report.md
+2025-09-12 02:28:38,584 - INFO - ===================================================================
+2025-09-12 02:28:38,584 - INFO -                        Graph Analysis Summary                      
+2025-09-12 02:28:38,584 - INFO - -------------------------------------------------------------------
+2025-09-12 02:28:38,584 - INFO - This analysis examined a **large directed graph** with:
+2025-09-12 02:28:38,584 - INFO -  - 108,071 nodes (entities) and 5,122,983 connections
+2025-09-12 02:28:38,584 - INFO -  - 107,536 nodes remaining after isolation removal (535 isolated nodes removed)
+2025-09-12 02:28:38,584 - INFO -  - Sparse connectivity (density: 0.0%)
+2025-09-12 02:28:38,584 - INFO -  - Low clustering (0.0% - how tightly grouped entities are)
+2025-09-12 02:28:38,584 - INFO -  - Average connections per entity: 95.3
+2025-09-12 02:28:38,584 - INFO - **Key Insights:**
+2025-09-12 02:28:38,584 - INFO -  - The network has 0 disconnected clusters, with the largest containing 0 entities
+2025-09-12 02:28:38,584 - INFO -  - Low connectivity suggests potential for network growth
+2025-09-12 02:28:38,584 - INFO - 
+====================================================================================================
+                                        Community Detection                                         
+====================================================================================================
+2025-09-12 02:28:49,288 - INFO - Converted to undirected weighted graph:
+2025-09-12 02:28:49,288 - INFO -    Weight distribution: {1: 3621599, 2: 750692}
+2025-09-12 02:30:35,768 - INFO - Leiden found 18 communities in 1m 57s
+2025-09-12 02:30:35,768 - INFO - 
+====================================================================================================
+                                        Community Evaluation                                        
+====================================================================================================
+2025-09-12 03:00:30,426 - INFO - --> Community results saved to community_detection/output/run50/run50_community_results.json
+2025-09-12 03:00:30,427 - INFO - 📊 COMMUNITY DETECTION COMPARISON
+2025-09-12 03:00:30,427 - INFO - ==================================================
+2025-09-12 03:00:30,427 - INFO - Method       Communities  Modularity   Homophily   
+2025-09-12 03:00:30,427 - INFO - --------------------------------------------------
+2025-09-12 03:00:30,427 - INFO - Leiden       18           0.6016       0.7209      
+2025-09-12 03:00:30,427 - INFO - ==================================================
+2025-09-12 03:00:30,427 - INFO - 
+====================================================================================================
+                                      Community Visualization                                       
+====================================================================================================
+2025-09-12 03:00:30,427 - INFO - 
+====================================================================================================
+                                         Pipeline Complete                                          
+====================================================================================================
+2025-09-12 03:00:30,427 - INFO - --> All outputs saved to community_detection/output/run50
+2025-09-12 03:00:30,427 - INFO - ===================================================================
+2025-09-12 03:00:30,427 - INFO -                           Pipeline Summary                         
+2025-09-12 03:00:30,427 - INFO - -------------------------------------------------------------------
+2025-09-12 03:00:30,427 - INFO -    • Run ID: run50
+2025-09-12 03:00:30,427 - INFO -    • Graph: NQ (Natural Questions) from Google (108071 nodes)
+2025-09-12 03:00:30,428 - INFO -    • Runtime: 33m 19s

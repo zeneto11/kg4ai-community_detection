@@ -1,0 +1,32 @@
+{
+  "run_id": "run33",
+  "timestamp": "2025-09-08 12:19:26",
+  "graph_info": {
+    "source": "Simulated Citation Network",
+    "description": "Directed graph simulating academic paper citations",
+    "parameters": {
+      "n": 200,
+      "temporal_structure": true
+    }
+  },
+  "infomap": {
+    "num_communities": 24,
+    "metrics": {
+      "modularity": 0.3972235953204811,
+      "homophily": 0.4635854341736695,
+      "avg_conductance": 0.5095192091590247,
+      "avg_tpr": 0.255,
+      "avg_clustering": 0.08058497327608155
+    }
+  },
+  "louvain": {
+    "num_communities": 9,
+    "metrics": {
+      "modularity": 0.3557422969187675,
+      "homophily": 0.4831932773109244,
+      "avg_conductance": 0.5122595369601995,
+      "avg_tpr": 0.32,
+      "avg_clustering": 0.08803611280713484
+    }
+  }
+}

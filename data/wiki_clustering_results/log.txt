@@ -1,0 +1,131 @@
+2025-09-02 20:36:26,723 [INFO] Starting Wikipedia title clustering
+2025-09-02 20:36:26,733 [INFO] Loading dataset from CSV
+2025-09-02 20:36:27,626 [INFO] Loaded 108071 rows with columns: id, d_properties_document_title, d_properties_title_encode, cites_ids
+2025-09-02 20:36:27,632 [INFO] Found 1 rows with missing titles
+2025-09-02 20:36:37,900 [INFO] Number of unique articles: 108071
+2025-09-02 20:36:37,922 [INFO] Number of unique titles: 108071
+2025-09-02 20:36:45,485 [INFO] Successfully imported sentence-transformers
+2025-09-02 20:36:45,486 [INFO] Generating embeddings with sentence-transformers
+2025-09-02 20:36:45,491 [INFO] Loading sentence transformer model: all-MiniLM-L6-v2
+2025-09-02 20:36:45,493 [INFO] Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-09-02 20:36:47,547 [INFO] Embedding 108071 titles with batch size 1024
+2025-09-02 20:40:24,717 [INFO] Embeddings shape: (108071, 384)
+2025-09-02 20:40:24,720 [INFO] Embedding method: transformer
+2025-09-02 20:40:24,721 [INFO] Embedding model: all-MiniLM-L6-v2
+2025-09-02 20:40:24,722 [INFO] Embedding shape: (108071, 384)
+2025-09-02 20:40:29,137 [INFO] Successfully imported UMAP
+2025-09-02 20:40:29,138 [INFO] Reducing dimensions with UMAP to 15 components
+2025-09-02 20:40:29,139 [INFO] Large dataset detected, sampling 50000 points for UMAP fitting
+2025-09-02 20:44:24,263 [INFO] Reduced embedding shape: (108071, 15)
+2025-09-02 20:44:24,268 [INFO] Projection method: umap
+2025-09-02 20:44:24,269 [INFO] Projection name: UMAP-15
+2025-09-02 20:44:24,270 [INFO] Reduced embeddings shape: (108071, 15)
+2025-09-02 20:44:24,319 [INFO] Computing k-distance plots for DBSCAN parameter tuning
+2025-09-02 20:44:24,330 [INFO] Computing distances for min_samples=5
+2025-09-02 20:44:30,903 [INFO] Elbow point for min_samples=5: eps=0.5609
+2025-09-02 20:44:30,904 [INFO] Running DBSCAN with min_samples=5, eps=0.4487
+2025-09-02 20:44:45,051 [INFO] DBSCAN result: 6 clusters, 595 noise points (0.6%), silhouette=-0.179
+2025-09-02 20:44:45,053 [INFO] Running DBSCAN with min_samples=5, eps=0.5048
+2025-09-02 20:45:00,982 [INFO] DBSCAN result: 6 clusters, 297 noise points (0.3%), silhouette=-0.133
+2025-09-02 20:45:00,985 [INFO] Running DBSCAN with min_samples=5, eps=0.5609
+2025-09-02 20:45:19,417 [INFO] DBSCAN result: 4 clusters, 164 noise points (0.2%), silhouette=0.239
+2025-09-02 20:45:19,418 [INFO] Running DBSCAN with min_samples=5, eps=0.6170
+2025-09-02 20:45:42,406 [INFO] DBSCAN result: 4 clusters, 84 noise points (0.1%), silhouette=0.248
+2025-09-02 20:45:42,412 [INFO] Running DBSCAN with min_samples=5, eps=0.6730
+2025-09-02 20:46:09,554 [INFO] DBSCAN result: 4 clusters, 47 noise points (0.0%), silhouette=0.241
+2025-09-02 20:46:09,555 [INFO] Computing distances for min_samples=10
+2025-09-02 20:46:16,390 [INFO] Elbow point for min_samples=10: eps=0.5360
+2025-09-02 20:46:16,391 [INFO] Running DBSCAN with min_samples=10, eps=0.4288
+2025-09-02 20:46:29,479 [INFO] DBSCAN result: 10 clusters, 940 noise points (0.9%), silhouette=-0.333
+2025-09-02 20:46:29,481 [INFO] Running DBSCAN with min_samples=10, eps=0.4824
+2025-09-02 20:46:43,249 [INFO] DBSCAN result: 5 clusters, 480 noise points (0.4%), silhouette=0.241
+2025-09-02 20:46:43,251 [INFO] Running DBSCAN with min_samples=10, eps=0.5360
+2025-09-02 20:47:00,290 [INFO] DBSCAN result: 5 clusters, 250 noise points (0.2%), silhouette=-0.131
+2025-09-02 20:47:00,291 [INFO] Running DBSCAN with min_samples=10, eps=0.5896
+2025-09-02 20:47:18,266 [INFO] DBSCAN result: 4 clusters, 145 noise points (0.1%), silhouette=0.239
+2025-09-02 20:47:18,268 [INFO] Running DBSCAN with min_samples=10, eps=0.6432
+2025-09-02 20:47:41,045 [INFO] DBSCAN result: 4 clusters, 73 noise points (0.1%), silhouette=0.244
+2025-09-02 20:47:41,046 [INFO] Computing distances for min_samples=15
+2025-09-02 20:47:48,764 [INFO] Elbow point for min_samples=15: eps=0.5790
+2025-09-02 20:47:48,765 [INFO] Running DBSCAN with min_samples=15, eps=0.4632
+2025-09-02 20:48:02,564 [INFO] DBSCAN result: 6 clusters, 735 noise points (0.7%), silhouette=-0.269
+2025-09-02 20:48:02,565 [INFO] Running DBSCAN with min_samples=15, eps=0.5211
+2025-09-02 20:48:17,598 [INFO] DBSCAN result: 5 clusters, 358 noise points (0.3%), silhouette=-0.124
+2025-09-02 20:48:17,599 [INFO] Running DBSCAN with min_samples=15, eps=0.5790
+2025-09-02 20:48:35,098 [INFO] DBSCAN result: 5 clusters, 178 noise points (0.2%), silhouette=-0.125
+2025-09-02 20:48:35,100 [INFO] Running DBSCAN with min_samples=15, eps=0.6369
+2025-09-02 20:48:55,019 [INFO] DBSCAN result: 4 clusters, 90 noise points (0.1%), silhouette=0.232
+2025-09-02 20:48:55,021 [INFO] Running DBSCAN with min_samples=15, eps=0.6947
+2025-09-02 20:49:21,801 [INFO] DBSCAN result: 4 clusters, 52 noise points (0.0%), silhouette=0.238
+2025-09-02 20:49:23,615 [INFO] Selecting best DBSCAN configuration
+2025-09-02 20:49:23,618 [WARNING] No configurations with 50-300 clusters. Using the one with highest silhouette.
+2025-09-02 20:49:23,620 [INFO] Best DBSCAN: min_samples=5, eps=0.6170
+2025-09-02 20:49:23,622 [INFO] Results: 4 clusters, 84 noise points (0.1%), silhouette=0.248
+2025-09-02 20:49:23,651 [INFO] Running MiniBatchKMeans with different values of k
+2025-09-02 20:49:23,654 [INFO] Running MiniBatchKMeans with k=50
+2025-09-02 20:49:24,611 [INFO] K-Means k=50: silhouette=0.282, CH=3024.1, DB=1.185
+2025-09-02 20:49:24,613 [INFO] Running MiniBatchKMeans with k=100
+2025-09-02 20:49:26,034 [INFO] K-Means k=100: silhouette=0.272, CH=2281.2, DB=1.256
+2025-09-02 20:49:26,036 [INFO] Running MiniBatchKMeans with k=150
+2025-09-02 20:49:27,677 [INFO] K-Means k=150: silhouette=0.265, CH=2034.1, DB=1.224
+2025-09-02 20:49:27,678 [INFO] Running MiniBatchKMeans with k=200
+2025-09-02 20:49:29,260 [INFO] K-Means k=200: silhouette=0.263, CH=1825.6, DB=1.230
+2025-09-02 20:49:29,261 [INFO] Running MiniBatchKMeans with k=300
+2025-09-02 20:49:31,401 [INFO] K-Means k=300: silhouette=0.254, CH=1517.2, DB=1.229
+2025-09-02 20:49:31,403 [INFO] Running MiniBatchKMeans with k=400
+2025-09-02 20:49:34,148 [INFO] K-Means k=400: silhouette=0.250, CH=1345.8, DB=1.230
+2025-09-02 20:49:34,654 [INFO] Selecting best k for K-Means
+2025-09-02 20:49:34,664 [INFO] K-Means evaluation metrics and ranks:
+2025-09-02 20:49:34,672 [INFO]      k  silhouette  silhouette_rank  calinski_harabasz  ch_rank  davies_bouldin  db_rank  avg_rank
+0   50    0.281694                1        3024.130127        1        1.184666        1  1.000000
+1  100    0.271994                2        2281.155762        2        1.255754        3  2.333333
+2  150    0.264929                3        2034.111328        3        1.223684        5  3.666667
+3  200    0.263260                4        1825.621094        4        1.230012        6  4.666667
+4  300    0.254258                5        1517.184937        5        1.228764        4  4.666667
+5  400    0.249588                6        1345.814331        6        1.229605        2  4.666667
+2025-09-02 20:49:34,674 [INFO] Selected best k for K-Means: 50
+2025-09-02 20:49:36,007 [INFO] Louvain community column found. Computing comparison metrics.
+2025-09-02 20:49:36,163 [INFO] DBSCAN vs Louvain: ARI=-0.0002, NMI=0.0054
+2025-09-02 20:49:36,164 [INFO] K-Means vs Louvain: ARI=0.0999, NMI=0.2737
+2025-09-02 20:49:36,184 [INFO] Generating DBSCAN cluster summaries
+2025-09-02 20:49:36,387 [INFO] Generating K-Means cluster summaries
+2025-09-02 20:49:36,591 [INFO] Creating 2D embeddings for visualization
+2025-09-02 20:49:36,592 [INFO] Dataset too large for visualization, sampling 50000 points
+2025-09-02 20:49:36,604 [INFO] Creating DBSCAN visualization
+2025-09-02 20:49:38,270 [INFO] Creating K-Means visualization
+2025-09-02 20:49:42,396 [INFO] Creating master table
+2025-09-02 20:49:42,497 [INFO] Saving master table to ../data/v0.0/wiki_clusters.parquet
+2025-09-02 20:49:42,983 [INFO] Saving DBSCAN summary to ../data/v0.0/wiki_dbscan_summary.csv
+2025-09-02 20:49:43,000 [INFO] Saving K-Means summary to ../data/v0.0/wiki_kmeans_summary.csv
+2025-09-02 20:49:43,006 [INFO] Saving evaluation metrics to ../data/v0.0/cluster_eval.json
+2025-09-02 20:49:43,015 [INFO] Saving summary log
+
+
+=== Wikipedia Title Clustering Summary ===
+Run completed on: 2025-09-02 20:49:43
+Total runtime: 796.3 seconds
+
+Dataset size: 108071 articles
+
+Embedding method: transformer
+Embedding model: all-MiniLM-L6-v2
+Projection method: umap (UMAP-15)
+
+DBSCAN results:
+- Parameters: min_samples=5, eps=0.6170
+- Clusters: 4
+- Noise points: 84 (0.1%)
+- Silhouette score: 0.2479
+
+K-Means results:
+- K: 50
+- Silhouette score: 0.2817
+- Calinski-Harabasz index: 3024.1
+- Davies-Bouldin index: 1.1847
+
+Output files:
+- Master table: ../data/v0.0/wiki_clusters.parquet
+- DBSCAN summary: ../data/v0.0/wiki_dbscan_summary.csv
+- K-Means summary: ../data/v0.0/wiki_kmeans_summary.csv
+- Evaluation metrics: ../data/v0.0/cluster_eval.json
+- Visualizations: ../data/v0.0/umap_dbscan.png, ../data/v0.0/umap_kmeans.png2025-09-02 20:49:43,018 [INFO] All tasks completed successfully!

@@ -1,0 +1,61 @@
+2025-09-07 21:16:56,430 - INFO - 
+====================================================================================================
+                               Enhanced Community Detection Pipeline                                
+====================================================================================================
+2025-09-07 21:16:56,719 - INFO - Created LFR Benchmark graph: Synthetic graph generated using LFR benchmark for community detection testing
+2025-09-07 21:16:56,719 - INFO - 
+====================================================================================================
+                                      Enhanced Graph Analysis                                       
+====================================================================================================
+2025-09-07 21:16:57,014 - INFO - JSON metrics saved to community_detection/output/run10/run10_metrics.json
+2025-09-07 21:16:57,029 - INFO - CSV summary saved to community_detection/output/run10/run10_summary.csv
+2025-09-07 21:16:57,029 - INFO - Human-readable report saved to community_detection/output/run10/run10_report.md
+2025-09-07 21:16:57,029 - INFO - 
+================================================================================
+2025-09-07 21:16:57,029 - INFO -                         GRAPH ANALYSIS EXECUTIVE SUMMARY                        
+2025-09-07 21:16:57,029 - INFO - ================================================================================
+2025-09-07 21:16:57,030 - INFO - This analysis examined a **medium undirected graph** with:
+2025-09-07 21:16:57,030 - INFO - - **250 nodes** (entities) and **513 connections**
+2025-09-07 21:16:57,030 - INFO - - **Sparse connectivity** (density: 1.6%)
+2025-09-07 21:16:57,030 - INFO - - **Low clustering** (14.8% - how tightly grouped entities are)
+2025-09-07 21:16:57,030 - INFO - - **Average connections per entity:** 4.1
+2025-09-07 21:16:57,030 - INFO - **Key Insights:**
+2025-09-07 21:16:57,030 - INFO - - ✅ The network is fully connected (all entities are reachable)
+2025-09-07 21:16:57,030 - INFO - - 📈 Low connectivity suggests potential for network growth
+2025-09-07 21:16:57,030 - INFO - ================================================================================
+2025-09-07 21:16:57,030 - INFO - 
+====================================================================================================
+                                        Community Detection                                         
+====================================================================================================
+2025-09-07 21:16:57,358 - INFO - Infomap found 2 communities
+2025-09-07 21:16:57,383 - INFO - Louvain found 8 communities
+2025-09-07 21:16:57,383 - INFO - 
+====================================================================================================
+                                        Community Evaluation                                        
+====================================================================================================
+2025-09-07 21:16:57,418 - INFO - --> Community results saved to community_detection/output/run10/run10_community_results.json
+2025-09-07 21:16:57,419 - INFO - 
+📊 COMMUNITY DETECTION COMPARISON
+2025-09-07 21:16:57,419 - INFO - ==================================================
+2025-09-07 21:16:57,419 - INFO - Method       Communities  Modularity   Homophily   
+2025-09-07 21:16:57,419 - INFO - --------------------------------------------------
+2025-09-07 21:16:57,419 - INFO - Infomap      2            0.1889       0.9883      
+2025-09-07 21:16:57,419 - INFO - Louvain      8            0.7885       0.9279      
+2025-09-07 21:16:57,419 - INFO - ==================================================
+2025-09-07 21:16:57,419 - INFO - 
+====================================================================================================
+                                        Historical Analysis                                         
+====================================================================================================
+2025-09-07 21:16:57,420 - INFO - No previous runs found for comparison
+2025-09-07 21:16:57,420 - INFO - 
+====================================================================================================
+                                         Pipeline Complete                                          
+====================================================================================================
+2025-09-07 21:16:57,420 - INFO - 📋 PIPELINE SUMMARY
+2025-09-07 21:16:57,420 - INFO -    Run ID: run10
+2025-09-07 21:16:57,420 - INFO -    Graph: LFR Benchmark (250 nodes)
+2025-09-07 21:16:57,420 - INFO -    Analysis: ✅ Complete
+2025-09-07 21:16:57,420 - INFO -    Community Detection: ✅ Complete
+2025-09-07 21:16:57,420 - INFO -    Reports Generated: JSON, CSV, Markdown
+2025-09-07 21:16:57,420 - INFO -    Runtime: 0s
+2025-09-07 21:16:57,420 - INFO - --> All outputs saved to community_detection/output/run10

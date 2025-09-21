@@ -1,0 +1,69 @@
+2025-09-08 12:19:26,054 - INFO - 
+====================================================================================================
+                             Initializing Community Detection Pipeline                              
+====================================================================================================
+2025-09-08 12:19:26,059 - INFO - Simulated Citation Network graph
+2025-09-08 12:19:26,059 - INFO - Description: Directed graph simulating academic paper citations
+2025-09-08 12:19:26,059 - INFO - 
+====================================================================================================
+                                           Graph Analysis                                           
+====================================================================================================
+2025-09-08 12:19:26,080 - INFO - Initiating advanced metrics calculation...
+2025-09-08 12:19:26,080 - INFO - Calculating transitivity...
+2025-09-08 12:19:26,081 - INFO - Calculating average clustering...
+2025-09-08 12:19:26,084 - INFO - Calculating filtered average clustering...
+2025-09-08 12:19:26,087 - INFO - Calculating average shortest path length...
+2025-09-08 12:19:26,099 - INFO - Calculating diameter...
+2025-09-08 12:19:26,110 - INFO - Calculating radius...
+2025-09-08 12:19:26,121 - INFO - Calculating centrality measures...
+2025-09-08 12:19:26,316 - INFO - Calculating degree assortativity...
+2025-09-08 12:19:26,318 - INFO - Calculating core numbers...
+2025-09-08 12:19:26,319 - INFO - Calculating rich club coefficient...
+2025-09-08 12:19:26,319 - INFO - Calculating global efficiency...
+2025-09-08 12:19:26,605 - INFO - --> Citation network analysis completed
+2025-09-08 12:19:26,606 - INFO - --> JSON metrics saved to community_detection/output/run33/run33_metrics.json
+2025-09-08 12:19:26,606 - INFO - --> Enhanced Markdown report saved to community_detection/output/run33/run33_report.md
+2025-09-08 12:19:26,606 - INFO - ===================================================================
+2025-09-08 12:19:26,606 - INFO -                        Graph Analysis Summary                      
+2025-09-08 12:19:26,607 - INFO - -------------------------------------------------------------------
+2025-09-08 12:19:26,607 - INFO - This analysis examined a **medium directed graph** with:
+2025-09-08 12:19:26,607 - INFO -  - 200 nodes (entities) and 714 connections
+2025-09-08 12:19:26,607 - INFO -  - Sparse connectivity (density: 0.0%)
+2025-09-08 12:19:26,607 - INFO -  - Low clustering (0.0% - how tightly grouped entities are)
+2025-09-08 12:19:26,607 - INFO -  - Average connections per entity: 7.1
+2025-09-08 12:19:26,607 - INFO - **Key Insights:**
+2025-09-08 12:19:26,607 - INFO -  - The network is fully connected (all entities are reachable)
+2025-09-08 12:19:26,607 - INFO -  - Low connectivity suggests potential for network growth
+2025-09-08 12:19:26,607 - INFO - 
+====================================================================================================
+                                        Community Detection                                         
+====================================================================================================
+2025-09-08 12:19:26,687 - INFO - Infomap found 24 communities
+2025-09-08 12:19:26,708 - INFO - Louvain found 9 communities
+2025-09-08 12:19:26,708 - INFO - 
+====================================================================================================
+                                        Community Evaluation                                        
+====================================================================================================
+2025-09-08 12:19:26,739 - INFO - --> Community results saved to community_detection/output/run33/run33_community_results.json
+2025-09-08 12:19:26,739 - INFO - 📊 COMMUNITY DETECTION COMPARISON
+2025-09-08 12:19:26,739 - INFO - ==================================================
+2025-09-08 12:19:26,739 - INFO - Method       Communities  Modularity   Homophily   
+2025-09-08 12:19:26,739 - INFO - --------------------------------------------------
+2025-09-08 12:19:26,739 - INFO - Infomap      24           0.3972       0.4636      
+2025-09-08 12:19:26,739 - INFO - Louvain      9            0.3557       0.4832      
+2025-09-08 12:19:26,739 - INFO - ==================================================
+2025-09-08 12:19:26,739 - INFO - 
+====================================================================================================
+                                      Community Visualization                                       
+====================================================================================================
+2025-09-08 12:19:26,739 - INFO - 
+====================================================================================================
+                                         Pipeline Complete                                          
+====================================================================================================
+2025-09-08 12:19:26,739 - INFO - --> All outputs saved to community_detection/output/run33
+2025-09-08 12:19:26,739 - INFO - ===================================================================
+2025-09-08 12:19:26,739 - INFO -                           Pipeline Summary                         
+2025-09-08 12:19:26,739 - INFO - -------------------------------------------------------------------
+2025-09-08 12:19:26,739 - INFO -    • Run ID: run33
+2025-09-08 12:19:26,739 - INFO -    • Graph: Simulated Citation Network (200 nodes)
+2025-09-08 12:19:26,740 - INFO -    • Runtime: 0s

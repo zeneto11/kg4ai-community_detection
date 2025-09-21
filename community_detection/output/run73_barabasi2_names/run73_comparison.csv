@@ -1,0 +1,5 @@
+run_id,timestamp,algorithm,num_communities,modularity,homophily,avg_conductance,avg_tpr,avg_clustering,min_community_size,max_community_size,mean_community_size,median_community_size,num_singleton_communities,num_small_communities
+run73,2025-09-18 12:45:59,Infomap,2,0.13784337264317492,0.7843137254901961,0,0,0,31,169,100.0,100.0,0,0
+run73,2025-09-18 12:45:59,Louvain,11,0.4104504546916806,0.5084033613445378,0,0,0,9,24,18.181818181818183,22.0,0,0
+run73,2025-09-18 12:45:59,Leiden,9,0.38456951408014184,0.5028011204481793,0,0,0,11,27,22.22222222222222,24.0,0,0
+run73,2025-09-18 12:45:59,Kmeans,40,-0.015461086395342452,0.018207282913165267,0,0,0,1,10,5.0,4.5,2,11

@@ -1,0 +1,56 @@
+2025-09-08 15:25:47,106 - INFO - 
+====================================================================================================
+                             Initializing Community Detection Pipeline                              
+====================================================================================================
+2025-09-08 15:26:10,266 - INFO - NQ (Natural Questions) from Google graph
+2025-09-08 15:26:10,266 - INFO - Description: Graph constructed from wiki articles citation data in the Natural Questions dataset
+2025-09-08 15:26:10,266 - INFO - 
+====================================================================================================
+                                           Graph Analysis                                           
+====================================================================================================
+2025-09-08 15:27:11,101 - INFO - --> Citation network analysis completed
+2025-09-08 15:27:11,105 - INFO - --> JSON metrics saved to community_detection/output/run41/run41_metrics.json
+2025-09-08 15:27:11,106 - INFO - --> Enhanced Markdown report saved to community_detection/output/run41/run41_report.md
+2025-09-08 15:27:11,106 - INFO - ===================================================================
+2025-09-08 15:27:11,106 - INFO -                        Graph Analysis Summary                      
+2025-09-08 15:27:11,106 - INFO - -------------------------------------------------------------------
+2025-09-08 15:27:11,106 - INFO - This analysis examined a **large directed graph** with:
+2025-09-08 15:27:11,106 - INFO -  - 108,071 nodes (entities) and 5,122,983 connections
+2025-09-08 15:27:11,106 - INFO -  - 107,536 nodes remaining after isolation removal (535 isolated nodes removed)
+2025-09-08 15:27:11,106 - INFO -  - Sparse connectivity (density: 0.0%)
+2025-09-08 15:27:11,106 - INFO -  - Low clustering (0.0% - how tightly grouped entities are)
+2025-09-08 15:27:11,106 - INFO -  - Average connections per entity: 95.3
+2025-09-08 15:27:11,106 - INFO - **Key Insights:**
+2025-09-08 15:27:11,106 - INFO -  - The network has 0 disconnected clusters, with the largest containing 0 entities
+2025-09-08 15:27:11,106 - INFO -  - Low connectivity suggests potential for network growth
+2025-09-08 15:27:11,106 - INFO - 
+====================================================================================================
+                                        Community Detection                                         
+====================================================================================================
+2025-09-08 15:30:26,012 - INFO - Infomap found 1829 communities
+2025-09-08 15:30:26,014 - INFO - 
+====================================================================================================
+                                        Community Evaluation                                        
+====================================================================================================
+2025-09-08 15:42:11,576 - INFO - --> Community results saved to community_detection/output/run41/run41_community_results.json
+2025-09-08 15:42:11,576 - INFO - 📊 COMMUNITY DETECTION COMPARISON
+2025-09-08 15:42:11,576 - INFO - ==================================================
+2025-09-08 15:42:11,576 - INFO - Method       Communities  Modularity   Homophily   
+2025-09-08 15:42:11,576 - INFO - --------------------------------------------------
+2025-09-08 15:42:11,576 - INFO - Infomap      1829         0.5055       0.5361      
+2025-09-08 15:42:11,576 - INFO - ==================================================
+2025-09-08 15:42:11,576 - INFO - 
+====================================================================================================
+                                      Community Visualization                                       
+====================================================================================================
+2025-09-08 15:42:11,576 - INFO - 
+====================================================================================================
+                                         Pipeline Complete                                          
+====================================================================================================
+2025-09-08 15:42:11,576 - INFO - --> All outputs saved to community_detection/output/run41
+2025-09-08 15:42:11,576 - INFO - ===================================================================
+2025-09-08 15:42:11,576 - INFO -                           Pipeline Summary                         
+2025-09-08 15:42:11,576 - INFO - -------------------------------------------------------------------
+2025-09-08 15:42:11,576 - INFO -    • Run ID: run41
+2025-09-08 15:42:11,576 - INFO -    • Graph: NQ (Natural Questions) from Google (108071 nodes)
+2025-09-08 15:42:11,577 - INFO -    • Runtime: 16m 24s

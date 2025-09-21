@@ -1,0 +1,59 @@
+{
+  "metadata": {
+    "run_id": "run10",
+    "timestamp": "2025-09-07T21:16:57.013845",
+    "analysis_version": "1.0",
+    "graph_source": "LFR Benchmark"
+  },
+  "basic_properties": {
+    "is_directed": false,
+    "is_weighted": false,
+    "is_multigraph": false,
+    "num_nodes": 250,
+    "num_edges": 513
+  },
+  "connectivity": {
+    "is_connected_undirected": true,
+    "num_connected_components": 1,
+    "largest_connected_component_size": 250
+  },
+  "node_statistics": {
+    "connected_component_sizes": [
+      250
+    ],
+    "cc_size_mean": 250.0,
+    "cc_size_median": 250.0,
+    "num_nodes_zero_total_degree": 0,
+    "self_loops": 19,
+    "filtered_average_clustering": 0.1479939125474009,
+    "average_shortest_path_length": 5.207967871485944,
+    "rich_club_coefficient": null
+  },
+  "degree_statistics": {
+    "average_degree": 4.104,
+    "max_degree": 46,
+    "min_degree": 2,
+    "median_degree": 3.0,
+    "std_dev_degree": 3.517766724915638
+  },
+  "advanced_metrics": {
+    "density": 0.016481927710843374,
+    "transitivity": 0.10144927536231885,
+    "average_clustering": 0.14799391254740094,
+    "diameter": 13,
+    "radius": 7,
+    "global_efficiency": 0.23333400896295328
+  },
+  "centrality_measures": {
+    "average_degree_centrality": 0.01648192771084337,
+    "average_closeness_centrality": 0.19804787094740778,
+    "average_betweenness_centrality": 0.01696761238502396,
+    "average_eigenvector_centrality": 0.025753796694386034
+  },
+  "structural_features": {
+    "num_bridges": 9,
+    "degree_assortativity": -0.07756711776725612,
+    "max_core_number": 3,
+    "mean_core_number": 2.388
+  }
+}
