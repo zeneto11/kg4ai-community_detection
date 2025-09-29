@@ -1,0 +1,3160 @@
+{
+  "infomap": {
+    "0": {
+      "keywords": [
+        [
+          "comparative",
+          9
+        ],
+        [
+          "study",
+          9
+        ],
+        [
+          "methods",
+          9
+        ],
+        [
+          "optimization",
+          9
+        ],
+        [
+          "advances",
+          8
+        ],
+        [
+          "applications",
+          8
+        ],
+        [
+          "analysis",
+          7
+        ],
+        [
+          "novel",
+          7
+        ],
+        [
+          "approach",
+          7
+        ],
+        [
+          "finance",
+          7
+        ]
+      ],
+      "node_count": 31,
+      "titles_processed": 31
+    },
+    "1": {
+      "keywords": [
+        [
+          "optimization",
+          70
+        ],
+        [
+          "enhancing",
+          40
+        ],
+        [
+          "through",
+          40
+        ],
+        [
+          "analysis",
+          40
+        ],
+        [
+          "finance",
+          39
+        ],
+        [
+          "statistical",
+          36
+        ],
+        [
+          "education",
+          35
+        ],
+        [
+          "novel",
+          33
+        ],
+        [
+          "approach",
+          33
+        ],
+        [
+          "using",
+          33
+        ]
+      ],
+      "node_count": 169,
+      "titles_processed": 169
+    }
+  },
+  "louvain": {
+    "0": {
+      "keywords": [
+        [
+          "advances",
+          7
+        ],
+        [
+          "applications",
+          7
+        ],
+        [
+          "optimization",
+          7
+        ],
+        [
+          "manufacturing",
+          6
+        ],
+        [
+          "analysis",
+          6
+        ],
+        [
+          "statistical",
+          5
+        ],
+        [
+          "finance",
+          5
+        ],
+        [
+          "comparative",
+          5
+        ],
+        [
+          "study",
+          5
+        ],
+        [
+          "methods",
+          5
+        ]
+      ],
+      "node_count": 22,
+      "titles_processed": 22
+    },
+    "1": {
+      "keywords": [
+        [
+          "optimization",
+          13
+        ],
+        [
+          "enhancing",
+          9
+        ],
+        [
+          "through",
+          9
+        ],
+        [
+          "education",
+          7
+        ],
+        [
+          "analysis",
+          6
+        ],
+        [
+          "statistical",
+          5
+        ],
+        [
+          "deep",
+          5
+        ],
+        [
+          "learning",
+          5
+        ],
+        [
+          "manufacturing",
+          5
+        ],
+        [
+          "finance",
+          4
+        ]
+      ],
+      "node_count": 23,
+      "titles_processed": 23
+    },
+    "2": {
+      "keywords": [
+        [
+          "optimization",
+          5
+        ],
+        [
+          "novel",
+          3
+        ],
+        [
+          "approach",
+          3
+        ],
+        [
+          "using",
+          3
+        ],
+        [
+          "classification",
+          3
+        ],
+        [
+          "education",
+          3
+        ],
+        [
+          "finance",
+          2
+        ],
+        [
+          "comparative",
+          2
+        ],
+        [
+          "study",
+          2
+        ],
+        [
+          "deep",
+          2
+        ]
+      ],
+      "node_count": 9,
+      "titles_processed": 9
+    },
+    "3": {
+      "keywords": [
+        [
+          "optimization",
+          10
+        ],
+        [
+          "advances",
+          9
+        ],
+        [
+          "applications",
+          9
+        ],
+        [
+          "finance",
+          7
+        ],
+        [
+          "enhancing",
+          6
+        ],
+        [
+          "through",
+          6
+        ],
+        [
+          "transportation",
+          5
+        ],
+        [
+          "education",
+          5
+        ],
+        [
+          "manufacturing",
+          5
+        ],
+        [
+          "clustering",
+          4
+        ]
+      ],
+      "node_count": 24,
+      "titles_processed": 24
+    },
+    "4": {
+      "keywords": [
+        [
+          "statistical",
+          8
+        ],
+        [
+          "analysis",
+          8
+        ],
+        [
+          "comparative",
+          8
+        ],
+        [
+          "study",
+          8
+        ],
+        [
+          "methods",
+          8
+        ],
+        [
+          "finance",
+          6
+        ],
+        [
+          "optimization",
+          5
+        ],
+        [
+          "nlp",
+          5
+        ],
+        [
+          "deep",
+          5
+        ],
+        [
+          "learning",
+          5
+        ]
+      ],
+      "node_count": 22,
+      "titles_processed": 22
+    },
+    "5": {
+      "keywords": [
+        [
+          "comparative",
+          8
+        ],
+        [
+          "study",
+          8
+        ],
+        [
+          "methods",
+          8
+        ],
+        [
+          "analysis",
+          7
+        ],
+        [
+          "optimization",
+          6
+        ],
+        [
+          "learning",
+          6
+        ],
+        [
+          "advances",
+          6
+        ],
+        [
+          "applications",
+          6
+        ],
+        [
+          "bio",
+          5
+        ],
+        [
+          "deep",
+          5
+        ]
+      ],
+      "node_count": 23,
+      "titles_processed": 23
+    },
+    "6": {
+      "keywords": [
+        [
+          "optimization",
+          10
+        ],
+        [
+          "statistical",
+          7
+        ],
+        [
+          "analysis",
+          7
+        ],
+        [
+          "enhancing",
+          5
+        ],
+        [
+          "through",
+          5
+        ],
+        [
+          "novel",
+          4
+        ],
+        [
+          "approach",
+          4
+        ],
+        [
+          "using",
+          4
+        ],
+        [
+          "transportation",
+          3
+        ],
+        [
+          "manufacturing",
+          3
+        ]
+      ],
+      "node_count": 15,
+      "titles_processed": 15
+    },
+    "7": {
+      "keywords": [
+        [
+          "optimization",
+          4
+        ],
+        [
+          "learning",
+          3
+        ],
+        [
+          "healthcare",
+          3
+        ],
+        [
+          "advances",
+          2
+        ],
+        [
+          "applications",
+          2
+        ],
+        [
+          "enhancing",
+          2
+        ],
+        [
+          "through",
+          2
+        ],
+        [
+          "deep",
+          2
+        ],
+        [
+          "finance",
+          2
+        ],
+        [
+          "comparative",
+          2
+        ]
+      ],
+      "node_count": 9,
+      "titles_processed": 9
+    },
+    "8": {
+      "keywords": [
+        [
+          "education",
+          7
+        ],
+        [
+          "novel",
+          7
+        ],
+        [
+          "approach",
+          7
+        ],
+        [
+          "using",
+          7
+        ],
+        [
+          "classification",
+          6
+        ],
+        [
+          "optimization",
+          5
+        ],
+        [
+          "finance",
+          5
+        ],
+        [
+          "clustering",
+          5
+        ],
+        [
+          "healthcare",
+          4
+        ],
+        [
+          "advances",
+          4
+        ]
+      ],
+      "node_count": 23,
+      "titles_processed": 23
+    },
+    "9": {
+      "keywords": [
+        [
+          "optimization",
+          10
+        ],
+        [
+          "enhancing",
+          8
+        ],
+        [
+          "through",
+          8
+        ],
+        [
+          "novel",
+          6
+        ],
+        [
+          "approach",
+          6
+        ],
+        [
+          "finance",
+          6
+        ],
+        [
+          "using",
+          6
+        ],
+        [
+          "classification",
+          6
+        ],
+        [
+          "transportation",
+          4
+        ],
+        [
+          "deep",
+          3
+        ]
+      ],
+      "node_count": 17,
+      "titles_processed": 17
+    },
+    "10": {
+      "keywords": [
+        [
+          "healthcare",
+          4
+        ],
+        [
+          "analysis",
+          4
+        ],
+        [
+          "optimization",
+          4
+        ],
+        [
+          "education",
+          4
+        ],
+        [
+          "advances",
+          4
+        ],
+        [
+          "applications",
+          4
+        ],
+        [
+          "novel",
+          3
+        ],
+        [
+          "approach",
+          3
+        ],
+        [
+          "using",
+          3
+        ],
+        [
+          "statistical",
+          3
+        ]
+      ],
+      "node_count": 13,
+      "titles_processed": 13
+    }
+  },
+  "leiden": {
+    "0": {
+      "keywords": [
+        [
+          "optimization",
+          10
+        ],
+        [
+          "manufacturing",
+          8
+        ],
+        [
+          "enhancing",
+          6
+        ],
+        [
+          "through",
+          6
+        ],
+        [
+          "analysis",
+          6
+        ],
+        [
+          "finance",
+          6
+        ],
+        [
+          "advances",
+          6
+        ],
+        [
+          "applications",
+          6
+        ],
+        [
+          "statistical",
+          5
+        ],
+        [
+          "deep",
+          5
+        ]
+      ],
+      "node_count": 27,
+      "titles_processed": 27
+    },
+    "1": {
+      "keywords": [
+        [
+          "optimization",
+          9
+        ],
+        [
+          "clustering",
+          8
+        ],
+        [
+          "novel",
+          7
+        ],
+        [
+          "approach",
+          7
+        ],
+        [
+          "using",
+          7
+        ],
+        [
+          "manufacturing",
+          7
+        ],
+        [
+          "learning",
+          6
+        ],
+        [
+          "enhancing",
+          5
+        ],
+        [
+          "transportation",
+          5
+        ],
+        [
+          "through",
+          5
+        ]
+      ],
+      "node_count": 25,
+      "titles_processed": 25
+    },
+    "2": {
+      "keywords": [
+        [
+          "optimization",
+          14
+        ],
+        [
+          "advances",
+          7
+        ],
+        [
+          "applications",
+          7
+        ],
+        [
+          "enhancing",
+          7
+        ],
+        [
+          "through",
+          7
+        ],
+        [
+          "transportation",
+          6
+        ],
+        [
+          "finance",
+          6
+        ],
+        [
+          "analysis",
+          6
+        ],
+        [
+          "education",
+          5
+        ],
+        [
+          "statistical",
+          5
+        ]
+      ],
+      "node_count": 25,
+      "titles_processed": 25
+    },
+    "3": {
+      "keywords": [
+        [
+          "finance",
+          9
+        ],
+        [
+          "optimization",
+          8
+        ],
+        [
+          "education",
+          7
+        ],
+        [
+          "classification",
+          6
+        ],
+        [
+          "nlp",
+          6
+        ],
+        [
+          "healthcare",
+          5
+        ],
+        [
+          "advances",
+          5
+        ],
+        [
+          "applications",
+          5
+        ],
+        [
+          "data",
+          5
+        ],
+        [
+          "novel",
+          5
+        ]
+      ],
+      "node_count": 25,
+      "titles_processed": 25
+    },
+    "4": {
+      "keywords": [
+        [
+          "optimization",
+          12
+        ],
+        [
+          "enhancing",
+          10
+        ],
+        [
+          "through",
+          10
+        ],
+        [
+          "finance",
+          8
+        ],
+        [
+          "novel",
+          7
+        ],
+        [
+          "approach",
+          7
+        ],
+        [
+          "using",
+          7
+        ],
+        [
+          "classification",
+          7
+        ],
+        [
+          "education",
+          6
+        ],
+        [
+          "statistical",
+          6
+        ]
+      ],
+      "node_count": 24,
+      "titles_processed": 24
+    },
+    "5": {
+      "keywords": [
+        [
+          "analysis",
+          8
+        ],
+        [
+          "optimization",
+          8
+        ],
+        [
+          "comparative",
+          6
+        ],
+        [
+          "study",
+          6
+        ],
+        [
+          "methods",
+          6
+        ],
+        [
+          "enhancing",
+          6
+        ],
+        [
+          "through",
+          6
+        ],
+        [
+          "advances",
+          6
+        ],
+        [
+          "applications",
+          6
+        ],
+        [
+          "statistical",
+          5
+        ]
+      ],
+      "node_count": 23,
+      "titles_processed": 23
+    },
+    "6": {
+      "keywords": [
+        [
+          "novel",
+          7
+        ],
+        [
+          "approach",
+          7
+        ],
+        [
+          "using",
+          7
+        ],
+        [
+          "statistical",
+          7
+        ],
+        [
+          "analysis",
+          7
+        ],
+        [
+          "optimization",
+          7
+        ],
+        [
+          "education",
+          6
+        ],
+        [
+          "deep",
+          5
+        ],
+        [
+          "learning",
+          5
+        ],
+        [
+          "comparative",
+          5
+        ]
+      ],
+      "node_count": 23,
+      "titles_processed": 23
+    },
+    "7": {
+      "keywords": [
+        [
+          "optimization",
+          8
+        ],
+        [
+          "advances",
+          6
+        ],
+        [
+          "applications",
+          6
+        ],
+        [
+          "finance",
+          4
+        ],
+        [
+          "healthcare",
+          4
+        ],
+        [
+          "manufacturing",
+          3
+        ],
+        [
+          "enhancing",
+          3
+        ],
+        [
+          "through",
+          3
+        ],
+        [
+          "novel",
+          3
+        ],
+        [
+          "approach",
+          3
+        ]
+      ],
+      "node_count": 17,
+      "titles_processed": 17
+    },
+    "8": {
+      "keywords": [
+        [
+          "comparative",
+          5
+        ],
+        [
+          "study",
+          5
+        ],
+        [
+          "methods",
+          5
+        ],
+        [
+          "deep",
+          4
+        ],
+        [
+          "learning",
+          4
+        ],
+        [
+          "nlp",
+          3
+        ],
+        [
+          "optimization",
+          3
+        ],
+        [
+          "healthcare",
+          2
+        ],
+        [
+          "finance",
+          2
+        ],
+        [
+          "clustering",
+          2
+        ]
+      ],
+      "node_count": 11,
+      "titles_processed": 11
+    }
+  },
+  "k-means": {
+    "0": {
+      "keywords": [
+        [
+          "novel",
+          1
+        ],
+        [
+          "approach",
+          1
+        ],
+        [
+          "finance",
+          1
+        ],
+        [
+          "using",
+          1
+        ],
+        [
+          "classification",
+          1
+        ]
+      ],
+      "node_count": 1,
+      "titles_processed": 1
+    },
+    "1": {
+      "keywords": [
+        [
+          "education",
+          3
+        ],
+        [
+          "classification",
+          3
+        ],
+        [
+          "novel",
+          2
+        ],
+        [
+          "approach",
+          2
+        ],
+        [
+          "using",
+          2
+        ],
+        [
+          "enhancing",
+          1
+        ],
+        [
+          "through",
+          1
+        ],
+        [
+          "optimization",
+          1
+        ]
+      ],
+      "node_count": 3,
+      "titles_processed": 3
+    },
+    "2": {
+      "keywords": [
+        [
+          "optimization",
+          6
+        ],
+        [
+          "enhancing",
+          3
+        ],
+        [
+          "healthcare",
+          3
+        ],
+        [
+          "through",
+          3
+        ]
+      ],
+      "node_count": 3,
+      "titles_processed": 3
+    },
+    "3": {
+      "keywords": [
+        [
+          "enhancing",
+          4
+        ],
+        [
+          "finance",
+          4
+        ],
+        [
+          "through",
+          4
+        ],
+        [
+          "statistical",
+          4
+        ],
+        [
+          "analysis",
+          4
+        ],
+        [
+          "optimization",
+          4
+        ]
+      ],
+      "node_count": 4,
+      "titles_processed": 4
+    },
+    "4": {
+      "keywords": [
+        [
+          "manufacturing",
+          3
+        ],
+        [
+          "nlp",
+          3
+        ],
+        [
+          "clustering",
+          1
+        ],
+        [
+          "classification",
+          1
+        ],
+        [
+          "optimization",
+          1
+        ]
+      ],
+      "node_count": 3,
+      "titles_processed": 3
+    },
+    "5": {
+      "keywords": [
+        [
+          "advances",
+          4
+        ],
+        [
+          "bioinformatics",
+          4
+        ],
+        [
+          "applications",
+          4
+        ],
+        [
+          "manufacturing",
+          1
+        ],
+        [
+          "healthcare",
+          1
+        ],
+        [
+          "education",
+          1
+        ],
+        [
+          "transportation",
+          1
+        ]
+      ],
+      "node_count": 4,
+      "titles_processed": 4
+    },
+    "6": {
+      "keywords": [
+        [
+          "enhancing",
+          5
+        ],
+        [
+          "education",
+          5
+        ],
+        [
+          "through",
+          5
+        ],
+        [
+          "statistical",
+          5
+        ],
+        [
+          "analysis",
+          5
+        ],
+        [
+          "optimization",
+          5
+        ]
+      ],
+      "node_count": 5,
+      "titles_processed": 5
+    },
+    "7": {
+      "keywords": [
+        [
+          "transportation",
+          3
+        ],
+        [
+          "clustering",
+          2
+        ],
+        [
+          "statistical",
+          1
+        ],
+        [
+          "analysis",
+          1
+        ],
+        [
+          "novel",
+          1
+        ],
+        [
+          "approach",
+          1
+        ],
+        [
+          "using",
+          1
+        ]
+      ],
+      "node_count": 3,
+      "titles_processed": 3
+    },
+    "8": {
+      "keywords": [
+        [
+          "advances",
+          2
+        ],
+        [
+          "healthcare",
+          2
+        ],
+        [
+          "applications",
+          2
+        ],
+        [
+          "neural",
+          1
+        ],
+        [
+          "networks",
+          1
+        ],
+        [
+          "reinforcement",
+          1
+        ],
+        [
+          "learning",
+          1
+        ]
+      ],
+      "node_count": 2,
+      "titles_processed": 2
+    },
+    "9": {
+      "keywords": [
+        [
+          "education",
+          4
+        ],
+        [
+          "statistical",
+          4
+        ],
+        [
+          "analysis",
+          4
+        ],
+        [
+          "novel",
+          3
+        ],
+        [
+          "approach",
+          3
+        ],
+        [
+          "using",
+          3
+        ],
+        [
+          "data",
+          1
+        ]
+      ],
+      "node_count": 4,
+      "titles_processed": 4
+    },
+    "10": {
+      "keywords": [
+        [
+          "comparative",
+          6
+        ],
+        [
+          "study",
+          6
+        ],
+        [
+          "methods",
+          6
+        ],
+        [
+          "bio",
+          6
+        ],
+        [
+          "statistical",
+          5
+        ],
+        [
+          "analysis",
+          5
+        ],
+        [
+          "classification",
+          1
+        ]
+      ],
+      "node_count": 6,
+      "titles_processed": 6
+    },
+    "11": {
+      "keywords": [
+        [
+          "transportation",
+          3
+        ],
+        [
+          "optimization",
+          3
+        ],
+        [
+          "enhancing",
+          2
+        ],
+        [
+          "through",
+          2
+        ],
+        [
+          "statistical",
+          2
+        ],
+        [
+          "analysis",
+          2
+        ],
+        [
+          "novel",
+          1
+        ],
+        [
+          "approach",
+          1
+        ],
+        [
+          "using",
+          1
+        ]
+      ],
+      "node_count": 3,
+      "titles_processed": 3
+    },
+    "12": {
+      "keywords": [
+        [
+          "enhancing",
+          2
+        ],
+        [
+          "healthcare",
+          2
+        ],
+        [
+          "through",
+          2
+        ],
+        [
+          "classification",
+          2
+        ],
+        [
+          "optimization",
+          2
+        ]
+      ],
+      "node_count": 2,
+      "titles_processed": 2
+    },
+    "13": {
+      "keywords": [
+        [
+          "statistical",
+          4
+        ],
+        [
+          "analysis",
+          4
+        ],
+        [
+          "finance",
+          4
+        ],
+        [
+          "data",
+          3
+        ]
+      ],
+      "node_count": 4,
+      "titles_processed": 4
+    },
+    "14": {
+      "keywords": [
+        [
+          "optimization",
+          6
+        ],
+        [
+          "enhancing",
+          3
+        ],
+        [
+          "manufacturing",
+          3
+        ],
+        [
+          "through",
+          3
+        ]
+      ],
+      "node_count": 3,
+      "titles_processed": 3
+    },
+    "15": {
+      "keywords": [
+        [
+          "transportation",
+          3
+        ],
+        [
+          "novel",
+          2
+        ],
+        [
+          "approach",
+          2
+        ],
+        [
+          "using",
+          2
+        ],
+        [
+          "deep",
+          2
+        ],
+        [
+          "learning",
+          2
+        ],
+        [
+          "advances",
+          2
+        ],
+        [
+          "drug",
+          2
+        ],
+        [
+          "discovery",
+          2
+        ],
+        [
+          "applications",
+          2
+        ]
+      ],
+      "node_count": 4,
+      "titles_processed": 4
+    },
+    "16": {
+      "keywords": [
+        [
+          "comparative",
+          1
+        ],
+        [
+          "study",
+          1
+        ],
+        [
+          "clustering",
+          1
+        ],
+        [
+          "methods",
+          1
+        ],
+        [
+          "nlp",
+          1
+        ]
+      ],
+      "node_count": 1,
+      "titles_processed": 1
+    },
+    "17": {
+      "keywords": [
+        [
+          "clustering",
+          5
+        ],
+        [
+          "education",
+          4
+        ],
+        [
+          "enhancing",
+          2
+        ],
+        [
+          "through",
+          2
+        ],
+        [
+          "optimization",
+          2
+        ],
+        [
+          "novel",
+          1
+        ],
+        [
+          "approach",
+          1
+        ],
+        [
+          "using",
+          1
+        ],
+        [
+          "comparative",
+          1
+        ],
+        [
+          "study",
+          1
+        ]
+      ],
+      "node_count": 5,
+      "titles_processed": 5
+    },
+    "18": {
+      "keywords": [
+        [
+          "finance",
+          5
+        ],
+        [
+          "novel",
+          3
+        ],
+        [
+          "approach",
+          3
+        ],
+        [
+          "using",
+          3
+        ],
+        [
+          "statistical",
+          3
+        ],
+        [
+          "analysis",
+          3
+        ],
+        [
+          "advances",
+          3
+        ],
+        [
+          "applications",
+          3
+        ],
+        [
+          "natural",
+          2
+        ],
+        [
+          "language",
+          2
+        ]
+      ],
+      "node_count": 6,
+      "titles_processed": 6
+    },
+    "19": {
+      "keywords": [
+        [
+          "novel",
+          5
+        ],
+        [
+          "approach",
+          5
+        ],
+        [
+          "finance",
+          5
+        ],
+        [
+          "using",
+          5
+        ],
+        [
+          "optimization",
+          5
+        ]
+      ],
+      "node_count": 5,
+      "titles_processed": 5
+    },
+    "20": {
+      "keywords": [
+        [
+          "comparative",
+          3
+        ],
+        [
+          "study",
+          3
+        ],
+        [
+          "methods",
+          3
+        ],
+        [
+          "optimization",
+          1
+        ],
+        [
+          "statistical",
+          1
+        ],
+        [
+          "analysis",
+          1
+        ],
+        [
+          "classification",
+          1
+        ]
+      ],
+      "node_count": 3,
+      "titles_processed": 3
+    },
+    "21": {
+      "keywords": [
+        [
+          "clustering",
+          4
+        ],
+        [
+          "healthcare",
+          2
+        ],
+        [
+          "manufacturing",
+          2
+        ],
+        [
+          "data",
+          1
+        ],
+        [
+          "novel",
+          1
+        ],
+        [
+          "approach",
+          1
+        ],
+        [
+          "using",
+          1
+        ]
+      ],
+      "node_count": 4,
+      "titles_processed": 4
+    },
+    "22": {
+      "keywords": [
+        [
+          "healthcare",
+          4
+        ],
+        [
+          "deep",
+          4
+        ],
+        [
+          "learning",
+          4
+        ],
+        [
+          "enhancing",
+          2
+        ],
+        [
+          "through",
+          2
+        ],
+        [
+          "optimization",
+          2
+        ],
+        [
+          "nlp",
+          1
+        ],
+        [
+          "novel",
+          1
+        ],
+        [
+          "approach",
+          1
+        ],
+        [
+          "using",
+          1
+        ]
+      ],
+      "node_count": 4,
+      "titles_processed": 4
+    },
+    "23": {
+      "keywords": [
+        [
+          "comparative",
+          2
+        ],
+        [
+          "study",
+          2
+        ],
+        [
+          "optimization",
+          2
+        ],
+        [
+          "methods",
+          2
+        ],
+        [
+          "data",
+          2
+        ]
+      ],
+      "node_count": 2,
+      "titles_processed": 2
+    },
+    "24": {
+      "keywords": [
+        [
+          "comparative",
+          4
+        ],
+        [
+          "study",
+          4
+        ],
+        [
+          "deep",
+          4
+        ],
+        [
+          "learning",
+          4
+        ],
+        [
+          "methods",
+          4
+        ],
+        [
+          "data",
+          1
+        ]
+      ],
+      "node_count": 4,
+      "titles_processed": 4
+    },
+    "25": {
+      "keywords": [
+        [
+          "enhancing",
+          1
+        ],
+        [
+          "education",
+          1
+        ],
+        [
+          "through",
+          1
+        ],
+        [
+          "deep",
+          1
+        ],
+        [
+          "learning",
+          1
+        ],
+        [
+          "optimization",
+          1
+        ]
+      ],
+      "node_count": 1,
+      "titles_processed": 1
+    },
+    "26": {
+      "keywords": [
+        [
+          "finance",
+          3
+        ],
+        [
+          "clustering",
+          3
+        ],
+        [
+          "enhancing",
+          2
+        ],
+        [
+          "through",
+          2
+        ],
+        [
+          "optimization",
+          2
+        ],
+        [
+          "nlp",
+          1
+        ]
+      ],
+      "node_count": 3,
+      "titles_processed": 3
+    },
+    "27": {
+      "keywords": [
+        [
+          "novel",
+          4
+        ],
+        [
+          "approach",
+          4
+        ],
+        [
+          "education",
+          4
+        ],
+        [
+          "using",
+          4
+        ],
+        [
+          "optimization",
+          4
+        ]
+      ],
+      "node_count": 4,
+      "titles_processed": 4
+    },
+    "28": {
+      "keywords": [
+        [
+          "novel",
+          2
+        ],
+        [
+          "approach",
+          2
+        ],
+        [
+          "healthcare",
+          2
+        ],
+        [
+          "using",
+          2
+        ],
+        [
+          "optimization",
+          2
+        ]
+      ],
+      "node_count": 2,
+      "titles_processed": 2
+    },
+    "29": {
+      "keywords": [
+        [
+          "comparative",
+          3
+        ],
+        [
+          "study",
+          3
+        ],
+        [
+          "optimization",
+          3
+        ],
+        [
+          "methods",
+          3
+        ],
+        [
+          "nlp",
+          3
+        ]
+      ],
+      "node_count": 3,
+      "titles_processed": 3
+    },
+    "30": {
+      "keywords": [
+        [
+          "advances",
+          2
+        ],
+        [
+          "transformer",
+          2
+        ],
+        [
+          "models",
+          2
+        ],
+        [
+          "applications",
+          2
+        ],
+        [
+          "manufacturing",
+          1
+        ],
+        [
+          "finance",
+          1
+        ]
+      ],
+      "node_count": 2,
+      "titles_processed": 2
+    },
+    "31": {
+      "keywords": [
+        [
+          "advances",
+          3
+        ],
+        [
+          "sentiment",
+          3
+        ],
+        [
+          "analysis",
+          3
+        ],
+        [
+          "applications",
+          3
+        ],
+        [
+          "manufacturing",
+          2
+        ],
+        [
+          "healthcare",
+          1
+        ]
+      ],
+      "node_count": 3,
+      "titles_processed": 3
+    },
+    "32": {
+      "keywords": [
+        [
+          "advances",
+          3
+        ],
+        [
+          "applications",
+          3
+        ],
+        [
+          "distributed",
+          2
+        ],
+        [
+          "systems",
+          2
+        ],
+        [
+          "healthcare",
+          2
+        ],
+        [
+          "manufacturing",
+          1
+        ],
+        [
+          "big",
+          1
+        ],
+        [
+          "data",
+          1
+        ],
+        [
+          "analytics",
+          1
+        ]
+      ],
+      "node_count": 3,
+      "titles_processed": 3
+    },
+    "33": {
+      "keywords": [
+        [
+          "optimization",
+          3
+        ],
+        [
+          "finance",
+          3
+        ],
+        [
+          "data",
+          1
+        ]
+      ],
+      "node_count": 3,
+      "titles_processed": 3
+    },
+    "34": {
+      "keywords": [
+        [
+          "finance",
+          5
+        ],
+        [
+          "classification",
+          5
+        ],
+        [
+          "novel",
+          2
+        ],
+        [
+          "approach",
+          2
+        ],
+        [
+          "using",
+          2
+        ],
+        [
+          "data",
+          1
+        ]
+      ],
+      "node_count": 5,
+      "titles_processed": 5
+    },
+    "35": {
+      "keywords": [
+        [
+          "classification",
+          4
+        ],
+        [
+          "novel",
+          3
+        ],
+        [
+          "approach",
+          3
+        ],
+        [
+          "using",
+          3
+        ],
+        [
+          "healthcare",
+          2
+        ],
+        [
+          "manufacturing",
+          2
+        ],
+        [
+          "enhancing",
+          1
+        ],
+        [
+          "through",
+          1
+        ],
+        [
+          "optimization",
+          1
+        ]
+      ],
+      "node_count": 4,
+      "titles_processed": 4
+    },
+    "36": {
+      "keywords": [
+        [
+          "comparative",
+          2
+        ],
+        [
+          "study",
+          2
+        ],
+        [
+          "clustering",
+          2
+        ],
+        [
+          "methods",
+          2
+        ],
+        [
+          "bio",
+          2
+        ]
+      ],
+      "node_count": 2,
+      "titles_processed": 2
+    },
+    "37": {
+      "keywords": [
+        [
+          "statistical",
+          2
+        ],
+        [
+          "analysis",
+          2
+        ],
+        [
+          "manufacturing",
+          2
+        ],
+        [
+          "nlp",
+          1
+        ]
+      ],
+      "node_count": 2,
+      "titles_processed": 2
+    },
+    "38": {
+      "keywords": [
+        [
+          "advances",
+          2
+        ],
+        [
+          "object",
+          2
+        ],
+        [
+          "detection",
+          2
+        ],
+        [
+          "finance",
+          2
+        ],
+        [
+          "applications",
+          2
+        ]
+      ],
+      "node_count": 2,
+      "titles_processed": 2
+    },
+    "39": {
+      "keywords": [
+        [
+          "transportation",
+          3
+        ],
+        [
+          "enhancing",
+          2
+        ],
+        [
+          "through",
+          2
+        ],
+        [
+          "classification",
+          2
+        ],
+        [
+          "optimization",
+          2
+        ],
+        [
+          "advances",
+          1
+        ],
+        [
+          "machine",
+          1
+        ],
+        [
+          "learning",
+          1
+        ],
+        [
+          "applications",
+          1
+        ]
+      ],
+      "node_count": 3,
+      "titles_processed": 3
+    },
+    "40": {
+      "keywords": [
+        [
+          "manufacturing",
+          3
+        ],
+        [
+          "clustering",
+          3
+        ],
+        [
+          "enhancing",
+          2
+        ],
+        [
+          "through",
+          2
+        ],
+        [
+          "optimization",
+          2
+        ],
+        [
+          "novel",
+          1
+        ],
+        [
+          "approach",
+          1
+        ],
+        [
+          "using",
+          1
+        ]
+      ],
+      "node_count": 3,
+      "titles_processed": 3
+    },
+    "41": {
+      "keywords": [
+        [
+          "comparative",
+          3
+        ],
+        [
+          "study",
+          3
+        ],
+        [
+          "methods",
+          3
+        ],
+        [
+          "classification",
+          2
+        ],
+        [
+          "data",
+          1
+        ],
+        [
+          "optimization",
+          1
+        ]
+      ],
+      "node_count": 3,
+      "titles_processed": 3
+    },
+    "42": {
+      "keywords": [
+        [
+          "healthcare",
+          2
+        ],
+        [
+          "statistical",
+          2
+        ],
+        [
+          "analysis",
+          2
+        ],
+        [
+          "novel",
+          1
+        ],
+        [
+          "approach",
+          1
+        ],
+        [
+          "using",
+          1
+        ],
+        [
+          "data",
+          1
+        ]
+      ],
+      "node_count": 2,
+      "titles_processed": 2
+    },
+    "43": {
+      "keywords": [
+        [
+          "enhancing",
+          1
+        ],
+        [
+          "education",
+          1
+        ],
+        [
+          "through",
+          1
+        ],
+        [
+          "deep",
+          1
+        ],
+        [
+          "learning",
+          1
+        ],
+        [
+          "optimization",
+          1
+        ]
+      ],
+      "node_count": 1,
+      "titles_processed": 1
+    },
+    "44": {
+      "keywords": [
+        [
+          "novel",
+          1
+        ],
+        [
+          "approach",
+          1
+        ],
+        [
+          "healthcare",
+          1
+        ],
+        [
+          "using",
+          1
+        ],
+        [
+          "statistical",
+          1
+        ],
+        [
+          "analysis",
+          1
+        ]
+      ],
+      "node_count": 1,
+      "titles_processed": 1
+    },
+    "45": {
+      "keywords": [
+        [
+          "advances",
+          2
+        ],
+        [
+          "cloud",
+          2
+        ],
+        [
+          "computing",
+          2
+        ],
+        [
+          "applications",
+          2
+        ],
+        [
+          "finance",
+          1
+        ],
+        [
+          "transportation",
+          1
+        ]
+      ],
+      "node_count": 2,
+      "titles_processed": 2
+    },
+    "46": {
+      "keywords": [
+        [
+          "enhancing",
+          3
+        ],
+        [
+          "transportation",
+          3
+        ],
+        [
+          "through",
+          3
+        ],
+        [
+          "deep",
+          3
+        ],
+        [
+          "learning",
+          3
+        ],
+        [
+          "optimization",
+          3
+        ]
+      ],
+      "node_count": 3,
+      "titles_processed": 3
+    },
+    "47": {
+      "keywords": [
+        [
+          "advances",
+          2
+        ],
+        [
+          "learning",
+          2
+        ],
+        [
+          "education",
+          2
+        ],
+        [
+          "applications",
+          2
+        ],
+        [
+          "machine",
+          1
+        ],
+        [
+          "deep",
+          1
+        ]
+      ],
+      "node_count": 2,
+      "titles_processed": 2
+    },
+    "48": {
+      "keywords": [
+        [
+          "education",
+          2
+        ],
+        [
+          "bio",
+          2
+        ],
+        [
+          "clustering",
+          1
+        ],
+        [
+          "classification",
+          1
+        ]
+      ],
+      "node_count": 2,
+      "titles_processed": 2
+    },
+    "49": {
+      "keywords": [
+        [
+          "comparative",
+          1
+        ],
+        [
+          "study",
+          1
+        ],
+        [
+          "classification",
+          1
+        ],
+        [
+          "methods",
+          1
+        ],
+        [
+          "nlp",
+          1
+        ]
+      ],
+      "node_count": 1,
+      "titles_processed": 1
+    },
+    "50": {
+      "keywords": [
+        [
+          "comparative",
+          2
+        ],
+        [
+          "study",
+          2
+        ],
+        [
+          "clustering",
+          2
+        ],
+        [
+          "methods",
+          2
+        ],
+        [
+          "nlp",
+          2
+        ]
+      ],
+      "node_count": 2,
+      "titles_processed": 2
+    },
+    "51": {
+      "keywords": [
+        [
+          "advances",
+          3
+        ],
+        [
+          "finance",
+          3
+        ],
+        [
+          "applications",
+          3
+        ],
+        [
+          "bioinformatics",
+          2
+        ],
+        [
+          "genomic",
+          1
+        ],
+        [
+          "analysis",
+          1
+        ]
+      ],
+      "node_count": 3,
+      "titles_processed": 3
+    },
+    "52": {
+      "keywords": [
+        [
+          "deep",
+          2
+        ],
+        [
+          "learning",
+          2
+        ],
+        [
+          "education",
+          2
+        ],
+        [
+          "nlp",
+          2
+        ]
+      ],
+      "node_count": 2,
+      "titles_processed": 2
+    },
+    "53": {
+      "keywords": [
+        [
+          "finance",
+          6
+        ],
+        [
+          "enhancing",
+          5
+        ],
+        [
+          "through",
+          5
+        ],
+        [
+          "optimization",
+          5
+        ],
+        [
+          "deep",
+          4
+        ],
+        [
+          "learning",
+          4
+        ],
+        [
+          "classification",
+          2
+        ]
+      ],
+      "node_count": 6,
+      "titles_processed": 6
+    },
+    "54": {
+      "keywords": [
+        [
+          "deep",
+          1
+        ],
+        [
+          "learning",
+          1
+        ],
+        [
+          "education",
+          1
+        ],
+        [
+          "nlp",
+          1
+        ]
+      ],
+      "node_count": 1,
+      "titles_processed": 1
+    },
+    "55": {
+      "keywords": [
+        [
+          "novel",
+          2
+        ],
+        [
+          "approach",
+          2
+        ],
+        [
+          "education",
+          2
+        ],
+        [
+          "using",
+          2
+        ],
+        [
+          "deep",
+          2
+        ],
+        [
+          "learning",
+          2
+        ]
+      ],
+      "node_count": 2,
+      "titles_processed": 2
+    },
+    "56": {
+      "keywords": [
+        [
+          "advances",
+          4
+        ],
+        [
+          "applications",
+          4
+        ],
+        [
+          "neural",
+          2
+        ],
+        [
+          "networks",
+          2
+        ],
+        [
+          "finance",
+          2
+        ],
+        [
+          "object",
+          2
+        ],
+        [
+          "detection",
+          2
+        ],
+        [
+          "manufacturing",
+          1
+        ],
+        [
+          "transportation",
+          1
+        ]
+      ],
+      "node_count": 4,
+      "titles_processed": 4
+    },
+    "57": {
+      "keywords": [
+        [
+          "comparative",
+          2
+        ],
+        [
+          "study",
+          2
+        ],
+        [
+          "deep",
+          2
+        ],
+        [
+          "learning",
+          2
+        ],
+        [
+          "methods",
+          2
+        ],
+        [
+          "bio",
+          2
+        ]
+      ],
+      "node_count": 2,
+      "titles_processed": 2
+    },
+    "58": {
+      "keywords": [
+        [
+          "deep",
+          3
+        ],
+        [
+          "learning",
+          3
+        ],
+        [
+          "manufacturing",
+          3
+        ],
+        [
+          "enhancing",
+          1
+        ],
+        [
+          "through",
+          1
+        ],
+        [
+          "optimization",
+          1
+        ]
+      ],
+      "node_count": 3,
+      "titles_processed": 3
+    },
+    "59": {
+      "keywords": [
+        [
+          "comparative",
+          1
+        ],
+        [
+          "study",
+          1
+        ],
+        [
+          "statistical",
+          1
+        ],
+        [
+          "analysis",
+          1
+        ],
+        [
+          "methods",
+          1
+        ],
+        [
+          "nlp",
+          1
+        ]
+      ],
+      "node_count": 1,
+      "titles_processed": 1
+    },
+    "60": {
+      "keywords": [
+        [
+          "advances",
+          2
+        ],
+        [
+          "genomic",
+          2
+        ],
+        [
+          "analysis",
+          2
+        ],
+        [
+          "applications",
+          2
+        ],
+        [
+          "manufacturing",
+          1
+        ],
+        [
+          "healthcare",
+          1
+        ]
+      ],
+      "node_count": 2,
+      "titles_processed": 2
+    },
+    "61": {
+      "keywords": [
+        [
+          "manufacturing",
+          4
+        ],
+        [
+          "enhancing",
+          2
+        ],
+        [
+          "through",
+          2
+        ],
+        [
+          "statistical",
+          2
+        ],
+        [
+          "analysis",
+          2
+        ],
+        [
+          "optimization",
+          2
+        ],
+        [
+          "advances",
+          2
+        ],
+        [
+          "data",
+          2
+        ],
+        [
+          "applications",
+          2
+        ],
+        [
+          "big",
+          1
+        ]
+      ],
+      "node_count": 4,
+      "titles_processed": 4
+    },
+    "62": {
+      "keywords": [
+        [
+          "advances",
+          3
+        ],
+        [
+          "convolutional",
+          3
+        ],
+        [
+          "networks",
+          3
+        ],
+        [
+          "applications",
+          3
+        ],
+        [
+          "transportation",
+          2
+        ],
+        [
+          "healthcare",
+          1
+        ]
+      ],
+      "node_count": 3,
+      "titles_processed": 3
+    },
+    "63": {
+      "keywords": [
+        [
+          "comparative",
+          3
+        ],
+        [
+          "study",
+          3
+        ],
+        [
+          "statistical",
+          3
+        ],
+        [
+          "analysis",
+          3
+        ],
+        [
+          "methods",
+          3
+        ],
+        [
+          "data",
+          3
+        ]
+      ],
+      "node_count": 3,
+      "titles_processed": 3
+    },
+    "64": {
+      "keywords": [
+        [
+          "transportation",
+          2
+        ],
+        [
+          "clustering",
+          2
+        ],
+        [
+          "novel",
+          1
+        ],
+        [
+          "approach",
+          1
+        ],
+        [
+          "using",
+          1
+        ],
+        [
+          "bio",
+          1
+        ]
+      ],
+      "node_count": 2,
+      "titles_processed": 2
+    },
+    "65": {
+      "keywords": [
+        [
+          "novel",
+          1
+        ],
+        [
+          "approach",
+          1
+        ],
+        [
+          "finance",
+          1
+        ],
+        [
+          "using",
+          1
+        ],
+        [
+          "classification",
+          1
+        ]
+      ],
+      "node_count": 1,
+      "titles_processed": 1
+    },
+    "66": {
+      "keywords": [
+        [
+          "education",
+          5
+        ],
+        [
+          "nlp",
+          4
+        ],
+        [
+          "classification",
+          2
+        ],
+        [
+          "optimization",
+          2
+        ],
+        [
+          "clustering",
+          1
+        ]
+      ],
+      "node_count": 5,
+      "titles_processed": 5
+    },
+    "67": {
+      "keywords": [
+        [
+          "optimization",
+          2
+        ],
+        [
+          "healthcare",
+          2
+        ],
+        [
+          "data",
+          1
+        ],
+        [
+          "enhancing",
+          1
+        ],
+        [
+          "through",
+          1
+        ],
+        [
+          "statistical",
+          1
+        ],
+        [
+          "analysis",
+          1
+        ]
+      ],
+      "node_count": 2,
+      "titles_processed": 2
+    },
+    "68": {
+      "keywords": [
+        [
+          "optimization",
+          2
+        ],
+        [
+          "manufacturing",
+          2
+        ],
+        [
+          "data",
+          1
+        ],
+        [
+          "novel",
+          1
+        ],
+        [
+          "approach",
+          1
+        ],
+        [
+          "using",
+          1
+        ]
+      ],
+      "node_count": 2,
+      "titles_processed": 2
+    }
+  }
+}

@@ -25,8 +25,8 @@ class EnhancedGraphMetricsReporter:
         self.run_id = run_id or f"run_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
         self.logger = logging.getLogger(__name__)
 
-        # Create visualizations directory
-        self.viz_dir = self.output_dir / "visualizations"
+        # Create plots directory
+        self.viz_dir = self.output_dir / "plots"
         self.viz_dir.mkdir(exist_ok=True)
 
     def generate_reports(self, metrics: Dict[str, Any], graph: nx.Graph,
@@ -665,10 +665,14 @@ class EnhancedGraphMetricsReporter:
         isolation = metrics.get("node_isolation", {})
         degree = metrics.get("degree_statistics", {})
 
+        # Basic stats
         nodes = structure.get("num_nodes", 0)
         edges = structure.get("num_edges", 0)
         avg_degree = degree.get("average_degree", 0)
         density = connectivity.get("density", 0)
+        nodes_after_cleaning = isolation.get("num_nodes_after_removal", nodes)
+        edges_after_cleaning = isolation.get("num_edges_after_removal", edges)
+        removal_pct = isolation.get("removal_percentage", 0)
 
         # Size classification
         size_desc = ("small" if nodes < 100 else
@@ -681,8 +685,9 @@ class EnhancedGraphMetricsReporter:
 
         summary = f"""**Network Overview:**
 - **Scale:** {size_desc.title()} {structure.get('is_directed', False) and 'directed' or 'undirected'} network
-- **Size:** {nodes:,} nodes, {edges:,} edges
-- **Connectivity:** {density_desc} (density: {density:.1%})
+- **Original Size:** {nodes:,} nodes, {edges:,} edges
+- **Post-Cleaning Size:** {nodes_after_cleaning:,} nodes, {edges_after_cleaning:,} edges (removed {removal_pct:.2%} of nodes)
+- **Connectivity:** {density_desc} (density: {density:.5%})
 - **Average Connections:** {avg_degree:.1f} per node
 
 **Key Characteristics:**"""
@@ -703,12 +708,6 @@ class EnhancedGraphMetricsReporter:
             summary += "\n- 📈 **Growth Potential:** Very sparse network with room for expansion"
         elif density > 0.5:
             summary += "\n- 🔗 **Highly Integrated:** Dense connectivity indicates tight coupling"
-
-        # Clustering insights
-        clustering = metrics.get("clustering_metrics", {}).get(
-            "average_clustering", 0)
-        if clustering > 0.3:
-            summary += f"\n- 🎯 **Strong Communities:** High clustering ({clustering:.1%}) suggests community structure"
 
         return summary
 

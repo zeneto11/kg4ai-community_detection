@@ -9,11 +9,7 @@ from typing import Dict, Tuple
 import networkx as nx
 import pandas as pd
 
-from community_detection.evaluation import analyze_graph
-from community_detection.evaluation.community_metrics import (
-    evaluate_communities, export_community_results_to_csv,
-    generate_community_size_barplots, generate_community_size_histograms,
-    generate_community_size_rankplots)
+from community_detection.evaluation import evaluator
 from community_detection.methods.infomap_detector import InfomapDetector
 from community_detection.methods.kmeans_detector import KMeansDetector
 from community_detection.methods.leiden_detector import LeidenDetector
@@ -74,7 +70,7 @@ def main():
     log_header("Graph Analysis")
 
     # Analyze graph
-    metrics, G = analyze_graph(
+    metrics, G = evaluator.analyze_graph(
         G,
         output_dir=output_path,
         run_id=run_id,
@@ -89,119 +85,46 @@ def main():
     # ===================== Community Detection =====================
     log_header("Community Detection")
 
-    # Detect communities with Infomap
-    start_time_infomap = time.time()
-    infomap_detector = InfomapDetector()
-    infomap_detector.fit(G)
-    infomap_communities = infomap_detector.get_communities()
-    logger.info(
-        f"Infomap found {len(infomap_communities)} communities in {format_time(time.time() - start_time_infomap)}")
-    logger.info("-"*67)
+    def run_detector(name, detector, G, logger):
+        start_time = time.time()
+        detector.fit(G)
+        communities = detector.get_communities()
+        elapsed = format_time(time.time() - start_time)
+        logger.info(
+            f"{name} found {len(communities)} communities in {elapsed}")
+        logger.info("-" * 67)
+        return communities
 
-    # Detect communities with Louvain
-    start_time_louvain = time.time()
-    louvain_detector = LouvainDetector()
-    louvain_detector.fit(G)
-    louvain_communities = louvain_detector.get_communities()
-    logger.info(
-        f"Louvain found {len(louvain_communities)} communities in {format_time(time.time() - start_time_louvain)}")
-    logger.info("-"*67)
+    # Define detectors to run
+    detectors = {
+        "Infomap": InfomapDetector(),
+        "Louvain": LouvainDetector(),
+        "Leiden": LeidenDetector(),
+        "K-means": KMeansDetector(
+            k=50,
+            embedding_model="all-MiniLM-L6-v2",
+            umap_components=15,
+            auto_select_k=True
+        )
+    }
 
-    # Detect communities with Leiden
-    start_time_leiden = time.time()
-    leiden_detector = LeidenDetector()
-    leiden_detector.fit(G)
-    leiden_communities = leiden_detector.get_communities()
-    logger.info(
-        f"Leiden found {len(leiden_communities)} communities in {format_time(time.time() - start_time_leiden)}")
-    logger.info("-"*67)
-
-    # Detect communities with K-means (embedding-based)
-    start_time_kmeans = time.time()
-    kmeans_detector = KMeansDetector(
-        k=50,                   # Based on evaluation results showing optimal performance
-        embedding_model='all-MiniLM-L6-v2',
-        umap_components=15,
-        auto_select_k=True     # Set to True to auto-select k from range
-    )
-    kmeans_detector.fit(G)
-    kmeans_communities = kmeans_detector.get_communities()
-    logger.info(
-        f"K-means found {len(kmeans_communities)} communities in {format_time(time.time() - start_time_kmeans)}")
-    logger.info("-"*67)
+    # Run all detectors and collect communities
+    communities_dict = {
+        name.lower(): run_detector(name, detector, G, logger)
+        for name, detector in detectors.items()
+    }
 
     # ===================== Evaluation =====================
     log_header("Community Evaluation")
 
-    # Evaluate communities
-    infomap_metrics = evaluate_communities(G, infomap_communities)
-    louvain_metrics = evaluate_communities(G, louvain_communities)
-    leiden_metrics = evaluate_communities(G, leiden_communities)
-    kmeans_metrics = evaluate_communities(G, kmeans_communities)
-
-    # Save community metrics in structured format
-    community_results = {
-        "run_id": run_id,
-        "timestamp": time.strftime("%Y-%m-%d %H:%M:%S"),
-        "graph_info": graph_info,
-        "infomap": {
-            "num_communities": len(infomap_communities),
-            "metrics": infomap_metrics
-        },
-        "louvain": {
-            "num_communities": len(louvain_communities),
-            "metrics": louvain_metrics
-        },
-        "leiden": {
-            "num_communities": len(leiden_communities),
-            "metrics": leiden_metrics
-        },
-        "kmeans": {
-            "num_communities": len(kmeans_communities),
-            "metrics": kmeans_metrics
-        }
-    }
-
-    # Save structured community results
-    community_path = output_path / f"{run_id}_community_results.json"
-    with open(community_path, 'w') as f:
-        json.dump(community_results, f, indent=2)
-
-    log_substep(f"Community results saved to {community_path}")
-
-    # Export results to CSV for easy comparison
-    csv_path = export_community_results_to_csv(community_results, output_path)
-    log_substep(f"Community comparison CSV saved to {csv_path}")
-
-    # Generate community size histograms
-    communities_dict = {
-        'infomap': infomap_communities,
-        'louvain': louvain_communities,
-        'leiden': leiden_communities,
-        'kmeans': kmeans_communities
-    }
-
-    histogram_paths = generate_community_size_barplots(
-        communities_dict, output_path)
-    log_substep("Community size histograms generated:")
-    for algorithm, path in histogram_paths.items():
-        logger.info(f"   • {algorithm.title()}: {path}")
-
-    # Log comparison-friendly summary
-    logger.info("📊 COMMUNITY DETECTION COMPARISON")
-    logger.info("="*67)
-    logger.info(
-        f"{'Method':<12} {'Communities':<12} {'Modularity':<12} {'Homophily':<12}")
-    logger.info("-"*67)
-    logger.info(
-        f"{'Infomap':<12} {len(infomap_communities):<12} {infomap_metrics['modularity']:<12.4f} {infomap_metrics['homophily']:<12.4f}")
-    logger.info(
-        f"{'Louvain':<12} {len(louvain_communities):<12} {louvain_metrics['modularity']:<12.4f} {louvain_metrics['homophily']:<12.4f}")
-    logger.info(
-        f"{'Leiden':<12} {len(leiden_communities):<12} {leiden_metrics['modularity']:<12.4f} {leiden_metrics['homophily']:<12.4f}")
-    logger.info(
-        f"{'K-means':<12} {len(kmeans_communities):<12} {kmeans_metrics['modularity']:<12.4f} {kmeans_metrics['homophily']:<12.4f}")
-    logger.info("="*67)
+    # Evaluate and compare communities
+    evaluator.analyze_communities(
+        G,
+        communities_dict,
+        output_path=output_path,
+        run_id=run_id,
+        graph_info=graph_info
+    )
 
     # ===================== Visualization =====================
     log_header("Community Visualization")

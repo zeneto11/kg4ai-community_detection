@@ -1,0 +1,102 @@
+2025-09-29 02:52:57,075 - INFO - 
+====================================================================================================
+                             Initializing Community Detection Pipeline                              
+====================================================================================================
+2025-09-29 02:53:13,622 - INFO - NQ (Natural Questions) from Google graph
+2025-09-29 02:53:13,623 - INFO - Description: Graph constructed from wiki articles citation data in the Natural Questions dataset
+2025-09-29 02:53:13,623 - INFO - 
+====================================================================================================
+                                           Graph Analysis                                           
+====================================================================================================
+2025-09-29 02:53:34,930 - INFO - Computing self_loops...
+2025-09-29 02:53:34,947 - INFO - ✅ self_loops completed in 0s
+2025-09-29 02:53:34,947 - INFO - Computing density...
+2025-09-29 02:53:34,965 - INFO - ✅ density completed in 0s
+2025-09-29 02:53:43,806 - INFO - Computing connectivity_check...
+2025-09-29 02:53:44,343 - INFO - ✅ connectivity_check completed in 0s
+2025-09-29 02:53:44,343 - INFO - Computing reciprocity...
+2025-09-29 02:53:53,826 - INFO - ✅ reciprocity completed in 9s
+2025-09-29 02:54:12,575 - INFO - --> JSON metrics saved to community_detection/output/run127/run127_metrics.json
+2025-09-29 02:54:12,577 - INFO - --> Enhanced Markdown report saved to community_detection/output/run127/run127_report.md
+2025-09-29 02:54:12,577 - INFO - ================================================================================
+2025-09-29 02:54:12,577 - INFO -                            🚀 GRAPH ANALYSIS COMPLETE                            
+2025-09-29 02:54:12,577 - INFO - --------------------------------------------------------------------------------
+2025-09-29 02:54:12,577 - INFO - **Network Overview:**
+2025-09-29 02:54:12,577 - INFO - - **Scale:** Very Large directed network
+2025-09-29 02:54:12,577 - INFO - - **Original Size:** 108,071 nodes, 5,122,983 edges
+2025-09-29 02:54:12,577 - INFO - - **Post-Cleaning Size:** 107,534 nodes, 5,122,982 edges (removed 0.68% of nodes)
+2025-09-29 02:54:12,577 - INFO - - **Connectivity:** sparse (density: 0.04430%)
+2025-09-29 02:54:12,577 - INFO - - **Average Connections:** 95.3 per node
+2025-09-29 02:54:12,577 - INFO - **Key Characteristics:**
+2025-09-29 02:54:12,577 - INFO - - ✅ **Fully Connected:** All nodes are reachable
+2025-09-29 02:54:12,577 - INFO - - 📈 **Growth Potential:** Very sparse network with room for expansion
+2025-09-29 02:54:12,577 - INFO - --------------------------------------------------------------------------------
+2025-09-29 02:54:12,577 - INFO - 📊 Computed metrics in 47.23 seconds
+2025-09-29 02:54:12,577 - INFO - ================================================================================
+2025-09-29 02:54:12,577 - INFO - 
+====================================================================================================
+                                        Community Detection                                         
+====================================================================================================
+2025-09-29 02:56:27,488 - INFO - Infomap found 1249 communities in 2m 14s
+2025-09-29 02:56:27,492 - INFO - -------------------------------------------------------------------
+2025-09-29 02:56:36,435 - INFO - Converted to undirected weighted graph:
+2025-09-29 02:56:36,435 - INFO -    Weight distribution: {1: 3621598, 2: 750692}
+2025-09-29 02:57:49,638 - INFO - Louvain found 24 communities in 1m 22s
+2025-09-29 02:57:49,638 - INFO - -------------------------------------------------------------------
+2025-09-29 02:58:02,151 - INFO - Converted to undirected weighted graph:
+2025-09-29 02:58:02,151 - INFO -    Weight distribution: {1: 3621598, 2: 750692}
+2025-09-29 02:59:13,252 - INFO - Leiden found 19 communities in 1m 23s
+2025-09-29 02:59:13,252 - INFO - -------------------------------------------------------------------
+2025-09-29 02:59:13,252 - INFO - Starting optimized K-means community detection
+2025-09-29 02:59:18,298 - INFO - Loading sentence transformer model: all-MiniLM-L6-v2
+2025-09-29 02:59:20,206 - INFO - Use pytorch device_name: cuda:0
+2025-09-29 02:59:20,206 - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-09-29 02:59:23,224 - INFO - Generating embeddings for 107534 nodes with batch size 2048
+2025-09-29 02:59:36,702 - INFO - Generated embeddings shape: (107534, 384)
+2025-09-29 02:59:36,702 - INFO - Applying PCA to reduce from 384 to 50 dimensions
+2025-09-29 02:59:37,505 - INFO - PCA explained variance ratio: 0.458
+2025-09-29 02:59:37,506 - INFO - Reducing dimensions with UMAP to 15 components
+2025-09-29 02:59:37,506 - INFO - Very large dataset detected, using low-dimensional approximation
+2025-09-29 03:00:57,888 - INFO - Reduced embeddings shape: (107534, 15)
+2025-09-29 03:00:58,899 - INFO - Evaluating k values in parallel: [30, 40, 50, 60, 70]
+2025-09-29 03:00:58,900 - INFO - Sampling 10000 points from 107534 for evaluation
+2025-09-29 03:00:58,902 - INFO - Sampling 10000 points from 107534 for evaluation
+2025-09-29 03:00:58,907 - INFO - Sampling 10000 points from 107534 for evaluation
+2025-09-29 03:00:58,907 - INFO - Sampling 10000 points from 107534 for evaluation
+2025-09-29 03:00:59,522 - INFO - Sampling 10000 points from 107534 for evaluation
+2025-09-29 03:01:00,460 - INFO - K=30: Silhouette=0.352, CH=1775.4, DB=1.191
+2025-09-29 03:01:00,461 - INFO - K=40: Silhouette=0.343, CH=1656.9, DB=1.134
+2025-09-29 03:01:00,461 - INFO - K=50: Silhouette=0.333, CH=1535.2, DB=1.165
+2025-09-29 03:01:00,462 - INFO - K=60: Silhouette=0.300, CH=1393.6, DB=1.184
+2025-09-29 03:01:00,462 - INFO - K=70: Silhouette=0.307, CH=1255.0, DB=1.243
+2025-09-29 03:01:00,463 - INFO - Selected optimal k: 30 (votes: 2)
+2025-09-29 03:01:00,465 - INFO - Running final K-means clustering with k=30
+2025-09-29 03:01:00,465 - INFO - Sampling 10000 points from 107534 for evaluation
+2025-09-29 03:01:00,718 - INFO - K-means clustering completed: 30 communities found
+2025-09-29 03:01:00,718 - INFO - Final metrics - Silhouette: 0.351, CH: 1745.9, DB: 1.178
+2025-09-29 03:01:00,720 - INFO - K-means found 30 communities in 1m 47s
+2025-09-29 03:01:00,720 - INFO - -------------------------------------------------------------------
+2025-09-29 03:01:00,720 - INFO - 
+====================================================================================================
+                                        Community Evaluation                                        
+====================================================================================================
+2025-09-29 03:41:17,612 - INFO - --> Community results saved to community_detection/output/run127/run127_community_results.json
+2025-09-29 03:41:17,615 - INFO - --> Community comparison CSV saved to community_detection/output/run127/run127_comparison.csv
+2025-09-29 03:41:19,141 - INFO - --> Community size bar plots generated:
+2025-09-29 03:41:19,141 - INFO -    • Infomap: community_detection/output/run127/plots/infomap_community_size_barplot.png
+2025-09-29 03:41:19,141 - INFO -    • Louvain: community_detection/output/run127/plots/louvain_community_size_barplot.png
+2025-09-29 03:41:19,142 - INFO -    • Leiden: community_detection/output/run127/plots/leiden_community_size_barplot.png
+2025-09-29 03:41:19,142 - INFO -    • K-Means: community_detection/output/run127/plots/k-means_community_size_barplot.png
+2025-09-29 03:41:19,142 - INFO - 📊 COMMUNITY DETECTION COMPARISON
+2025-09-29 03:41:19,142 - INFO - ===================================================================
+2025-09-29 03:41:19,142 - INFO - Method       Communities  Modularity   Avg TPR      Avg Conductance
+2025-09-29 03:41:19,142 - INFO - -------------------------------------------------------------------
+2025-09-29 03:41:19,142 - INFO - Infomap      1249         0.5054       0.9189       0.4769      
+2025-09-29 03:41:19,142 - INFO - Louvain      24           0.5967       0.9593       0.2926      
+2025-09-29 03:41:19,142 - INFO - Leiden       19           0.5993       0.9606       0.2908      
+2025-09-29 03:41:19,142 - INFO - K-Means      30           0.2512       0.7085       0.7217      
+2025-09-29 03:41:19,142 - INFO - ===================================================================
+2025-09-29 03:41:19,142 - INFO - 
+====================================================================================================
+                                      Community Visualization                                       
+====================================================================================================

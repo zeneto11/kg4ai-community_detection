@@ -153,12 +153,13 @@ class KMeansDetector(CommunityDetector):
         # Use GPU if available, otherwise CPU
         device = "cuda" if hasattr(model, 'device') and 'cuda' in str(
             model.device) else "cpu"
+        print(f"Using device: {device}")
 
         embeddings = model.encode(
             texts,
             batch_size=self.batch_size,
             show_progress_bar=True,
-            device='cpu',
+            device=device,
             normalize_embeddings=True  # Normalize for better clustering
         )
 
