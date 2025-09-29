@@ -1,0 +1,86 @@
+{
+  "graph_context": {
+    "total_nodes": 108071,
+    "largest_component_nodes": 94675,
+    "experiment_date": "2025-09-23T18:49:03.652320",
+    "algorithms_used": "exact_algorithms",
+    "note": "Results based on exact NetworkX algorithms, not fast approximations"
+  },
+  "optimal_sample_configurations": {
+    "fast": {
+      "time_budget_seconds": 5.0,
+      "diameter": {
+        "sample_size": 6122,
+        "ratio": 0.0647,
+        "expected_time": 4.93
+      },
+      "radius": {
+        "sample_size": 3401,
+        "ratio": 0.0359,
+        "expected_time": 0.34
+      },
+      "avg_distance": {
+        "sample_size": 6122,
+        "ratio": 0.0647,
+        "expected_time": 3.9
+      },
+      "global_efficiency": {
+        "sample_size": 6122,
+        "ratio": 0.0647,
+        "expected_time": 4.86
+      }
+    },
+    "balanced": {
+      "time_budget_seconds": 30.0,
+      "diameter": {
+        "sample_size": 6122,
+        "ratio": 0.0647,
+        "expected_time": 4.93
+      },
+      "radius": {
+        "sample_size": 6122,
+        "ratio": 0.0647,
+        "expected_time": 5.08
+      },
+      "avg_distance": {
+        "sample_size": 6122,
+        "ratio": 0.0647,
+        "expected_time": 3.9
+      },
+      "global_efficiency": {
+        "sample_size": 6122,
+        "ratio": 0.0647,
+        "expected_time": 4.86
+      }
+    },
+    "thorough": {
+      "time_budget_seconds": 60.0,
+      "diameter": {
+        "sample_size": 10000,
+        "ratio": 0.1056,
+        "expected_time": 34.65
+      },
+      "radius": {
+        "sample_size": 10000,
+        "ratio": 0.1056,
+        "expected_time": 34.94
+      },
+      "avg_distance": {
+        "sample_size": 10000,
+        "ratio": 0.1056,
+        "expected_time": 32.31
+      },
+      "global_efficiency": {
+        "sample_size": 10000,
+        "ratio": 0.1056,
+        "expected_time": 35.73
+      }
+    }
+  },
+  "scaling_insights": {
+    "algorithm_complexity": "All exact algorithms show quadratic scaling O(n\u00b2)",
+    "performance_cliff": "Sharp increase in computation time after ~6k nodes",
+    "practical_limit": "Sample sizes beyond 10k nodes require >30s per metric",
+    "bottleneck_metric": "All metrics have similar scaling - no single bottleneck"
+  }
+}

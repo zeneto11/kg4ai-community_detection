@@ -9,11 +9,11 @@ from typing import Dict, Tuple
 import networkx as nx
 import pandas as pd
 
+from community_detection.evaluation import analyze_graph
 from community_detection.evaluation.community_metrics import (
     evaluate_communities, export_community_results_to_csv,
     generate_community_size_barplots, generate_community_size_histograms,
     generate_community_size_rankplots)
-from community_detection.evaluation.reporter import analyze_graph_enhanced
 from community_detection.methods.infomap_detector import InfomapDetector
 from community_detection.methods.kmeans_detector import KMeansDetector
 from community_detection.methods.leiden_detector import LeidenDetector
@@ -25,37 +25,6 @@ from community_detection.utils.time import format_time
 from community_detection.visualization.community_visualizer import (
     CommunityVisualizer, SimpleKeywordExtractor)
 
-
-# def create_test_graph():
-#     """Create different types of test graphs to demonstrate reporting."""
-
-#     citation_graph = nx.barabasi_albert_graph(200, 3, seed=42)
-#     # Convert to directed and add some realistic citation patterns
-#     citation_graph = citation_graph.to_directed()
-
-#     # Add some node metadata to simulate papers
-#     for i, node in enumerate(citation_graph.nodes()):
-#         citation_graph.nodes[node]['title'] = f"Paper_{i:03d}"
-#         citation_graph.nodes[node]['year'] = 2020 + \
-#             (i % 5)  # Papers from 2020-2024
-
-#     # Remove some edges to make it more citation-like (younger papers don't cite older ones)
-#     edges_to_remove = []
-#     for u, v in citation_graph.edges():
-#         u_year = citation_graph.nodes[u].get('year', 2020)
-#         v_year = citation_graph.nodes[v].get('year', 2020)
-#         if u_year < v_year:  # Remove "backwards" citations
-#             edges_to_remove.append((u, v))
-
-#     citation_graph.remove_edges_from(edges_to_remove)
-
-#     citation_info = {
-#         "source": "Simulated Citation Network",
-#         "description": "Directed graph simulating academic paper citations",
-#         "parameters": {"n": 200, "temporal_structure": True}
-#     }
-
-#     return citation_graph, citation_info
 
 def create_test_graph():
     """Create test graph with metadata."""
@@ -84,95 +53,6 @@ def create_test_graph():
     return G, graph_info
 
 
-# def create_test_graph() -> Tuple[nx.Graph, Dict]:
-#     """Create a test graph with realistic titles for keyword extraction testing."""
-
-#     # Create a scale-free network (similar to citation patterns)
-#     citation_graph = nx.barabasi_albert_graph(200, 3, seed=42)
-#     citation_graph = citation_graph.to_directed()
-
-#     # Define research domains and topics for realistic titles
-#     research_domains = {
-#         "ai": ["machine learning", "neural networks", "deep learning", "reinforcement learning"],
-#         "nlp": ["natural language processing", "transformer models", "text generation", "sentiment analysis"],
-#         "cv": ["computer vision", "object detection", "image segmentation", "convolutional networks"],
-#         "bio": ["bioinformatics", "genomic analysis", "protein folding", "drug discovery"],
-#         "data": ["data mining", "big data analytics", "distributed systems", "cloud computing"]
-#     }
-
-#     # Create realistic paper titles with keywords
-#     def generate_paper_title(domain, topic, technique, application):
-#         templates = [
-#             f"A novel approach to {application} using {technique}",
-#             f"{technique.title()} for {application} in {domain}",
-#             f"Advances in {topic} for {application} applications",
-#             f"Comparative study of {technique} methods in {domain}",
-#             f"Enhancing {application} through {technique} optimization"
-#         ]
-#         return random.choice(templates)
-
-#     # Add realistic node metadata with titles containing keywords
-#     for i, node in enumerate(citation_graph.nodes()):
-#         # Assign nodes to research domains (some nodes belong to multiple domains)
-#         domains = random.sample(
-#             list(research_domains.keys()), k=random.randint(1, 2))
-
-#         # Build title components from assigned domains
-#         domain_key = random.choice(domains)
-#         topic = random.choice(research_domains[domain_key])
-#         technique = random.choice(
-#             ["deep learning", "statistical analysis", "optimization", "clustering", "classification"])
-#         application = random.choice(
-#             ["healthcare", "finance", "education", "manufacturing", "transportation"])
-
-#         citation_graph.nodes[node]['title'] = generate_paper_title(
-#             domain_key, topic, technique, application)
-#         citation_graph.nodes[node]['year'] = 2020 + \
-#             (i % 5)  # Papers from 2020-2024
-#         citation_graph.nodes[node]['domain'] = domains
-
-#     # Remove some edges to make it more citation-like (younger papers don't cite older ones)
-#     edges_to_remove = []
-#     for u, v in citation_graph.edges():
-#         u_year = citation_graph.nodes[u].get('year', 2020)
-#         v_year = citation_graph.nodes[v].get('year', 2020)
-#         if u_year < v_year:  # Remove "backwards" citations
-#             edges_to_remove.append((u, v))
-
-#     citation_graph.remove_edges_from(edges_to_remove)
-
-#     citation_info = {
-#         "source": "Simulated Citation Network with Realistic Titles",
-#         "description": "Directed graph simulating academic paper citations with keyword-rich titles",
-#         "parameters": {
-#             "n": 200,
-#             "temporal_structure": True,
-#             "research_domains": list(research_domains.keys()),
-#             "title_generation": "template-based with keywords"
-#         }
-#     }
-
-#     return citation_graph, citation_info
-
-
-# def create_test_graph():
-#     """Create test graph with metadata."""
-#     # Use built-in test graph
-#     G = nx.LFR_benchmark_graph(
-#         n=250, tau1=3, tau2=1.5, mu=0.1,
-#         average_degree=5, min_community=20,
-#         seed=42
-#     )
-
-#     # Graph metadata for reporting
-#     graph_info = {
-#         "source": "LFR Benchmark",
-#         "description": "Synthetic graph generated using LFR benchmark for community detection testing"
-#     }
-
-#     return G, graph_info
-
-
 def main():
     start_time = time.time()
 
@@ -194,7 +74,7 @@ def main():
     log_header("Graph Analysis")
 
     # Analyze graph
-    metrics, G = analyze_graph_enhanced(
+    metrics, G = analyze_graph(
         G,
         output_dir=output_path,
         run_id=run_id,
@@ -378,8 +258,6 @@ def main():
     logger.info("Pipeline Summary".center(67))
     logger.info("-"*67)
     logger.info(f"   • Run ID: {run_id}")
-    logger.info(
-        f"   • Graph: {graph_info['source']} ({metrics['basic_properties']['num_nodes']} nodes)")
     logger.info(f"   • Runtime: {format_time(elapsed)}")
 
 

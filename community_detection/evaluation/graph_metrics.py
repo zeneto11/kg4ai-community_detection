@@ -1,647 +1,797 @@
+# community_detection/evaluation/graph_metrics.py
+
 import logging
-import statistics
+import random
+import time
+from typing import Any, Dict, Tuple
 
 import networkx as nx
 import numpy as np
+from networkx.algorithms import approximation as approx
 
-# Configure logging
-logger = logging.getLogger(__name__)
+from community_detection.utils.metrics_status import MetricStatus
+from community_detection.utils.time import format_time
 
 
-def analyze_graph(G, threshold=10000, compute_advanced_metrics=True, remove_isolated=True, print_results=True):
-    """
-    Comprehensive analysis of graph properties and metrics.
+class MetricTimer:
+    """Context manager for timing metric computations."""
 
-    Parameters:
-    -----------
-    G : networkx.Graph or networkx.DiGraph
-        The graph to analyze
-    threshold : int, default=10000
-        Node count threshold to decide whether to compute expensive metrics
-    compute_advanced_metrics : bool, default=True
-        Whether to compute computationally expensive metrics
-    remove_isolated : bool, default=True
-        Whether to remove isolated nodes before analysis
-    print_results : bool, default=True
-        Whether to print results (otherwise just returns the metrics dict)
+    def __init__(self, metric_name: str, logger: logging.Logger):
+        self.metric_name = metric_name
+        self.logger = logger
+        self.start_time = None
+        self.end_time = None
 
-    Returns:
-    --------
-    dict
-        Dictionary containing all computed metrics
-    """
-    results = {}
+    def __enter__(self):
+        self.start_time = time.time()
+        self.logger.info(f"Computing {self.metric_name}...")
+        return self
 
-    # Basic properties
-    results["is_directed"] = G.is_directed()
-    results["is_weighted"] = nx.is_weighted(G)
-    results["is_multigraph"] = G.is_multigraph()
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        self.end_time = time.time()
+        duration = self.end_time - self.start_time
+        if exc_type is None:
+            self.logger.info(
+                f"✅ {self.metric_name} completed in {format_time(duration)}")
+        else:
+            self.logger.warning(
+                f"❌ {self.metric_name} failed after {format_time(duration)}: {exc_val}")
 
-    # Make a copy to avoid modifying the original graph
-    if remove_isolated:
-        G = G.copy()
+    @property
+    def duration(self):
+        if self.end_time and self.start_time:
+            return self.end_time - self.start_time
+        return None
 
-    # Connectivity analysis
-    G_undirected = G.to_undirected()
-    results["is_connected_undirected"] = nx.is_connected(G_undirected)
 
-    if G.is_directed():
-        results["is_strongly_connected"] = nx.is_strongly_connected(G)
-        results["is_weakly_connected"] = nx.is_weakly_connected(G)
-        results["num_weakly_connected_components"] = nx.number_weakly_connected_components(
-            G)
-        results["num_strongly_connected_components"] = nx.number_strongly_connected_components(
-            G)
+class FastDistanceAlgorithms:
+    """Fast approximation algorithms for distance metrics using BFS sampling."""
 
-        # Get sizes of components
-        weak_components = list(nx.weakly_connected_components(G))
-        strong_components = list(nx.strongly_connected_components(G))
+    def __init__(self, logger=None, G: nx.Graph = None, percentage: float = 0.25):
+        self.logger = logger
+        self.distance_graph = G
+        self.percentage = percentage
 
-        results["largest_weakly_connected_component_size"] = len(
-            max(weak_components, key=len))
-        results["largest_strongly_connected_component_size"] = len(
-            max(strong_components, key=len))
+        # Create analysis subgraph upon initialization
+        if G:
+            self.analysis_graph, self.analysis_info = self._create_analysis_subgraph(
+                G, percentage)
+        else:
+            self.logger.warning(
+                "No graph provided for FastDistanceAlgorithms.")
 
-        # Component size statistics
-        weak_comp_sizes = [len(c) for c in weak_components]
-        strong_comp_sizes = [len(c) for c in strong_components]
+    @staticmethod
+    def bfs_sample(G: nx.Graph, start, sample_size: int) -> nx.Graph:
+        """Build a subgraph using BFS sampling from a starting node."""
+        visited = {start}
+        queue = [start]
 
-        results["weakly_connected_component_sizes"] = weak_comp_sizes
-        results["strongly_connected_component_sizes"] = strong_comp_sizes
+        while queue and len(visited) < sample_size:
+            v = queue.pop(0)
+            for u in G.neighbors(v):
+                if u not in visited:
+                    visited.add(u)
+                    queue.append(u)
+                    if len(visited) >= sample_size:
+                        break
 
-        # Calculate component size distribution stats
-        results["weakly_cc_size_mean"] = np.mean(weak_comp_sizes)
-        results["weakly_cc_size_median"] = np.median(weak_comp_sizes)
-        results["strongly_cc_size_mean"] = np.mean(strong_comp_sizes)
-        results["strongly_cc_size_median"] = np.median(strong_comp_sizes)
-    else:
-        # For undirected graphs
-        components = list(nx.connected_components(G))
-        results["num_connected_components"] = len(components)
-        results["largest_connected_component_size"] = len(
-            max(components, key=len))
-        results["connected_component_sizes"] = [len(c) for c in components]
+        return G.subgraph(visited).copy()
 
-        # Calculate component size distribution stats
-        comp_sizes = [len(c) for c in components]
-        results["cc_size_mean"] = np.mean(comp_sizes)
-        results["cc_size_median"] = np.median(comp_sizes)
+    def _create_analysis_subgraph(self, G: nx.Graph, percentage: float = 0.25) -> Tuple[nx.Graph, str]:
+        """Create a connected subgraph using BFS sampling and return analysis info."""
+        original_nodes = G.number_of_nodes()
+        sample_size = int(original_nodes * percentage)
 
-    # Node-level statistics
-    results["num_nodes"] = G.number_of_nodes()
-    results["num_edges"] = G.number_of_edges()
+        # Step 1: BFS sampling
+        start_node = random.choice(list(G.nodes()))
+        sample_graph = self.bfs_sample(G, start_node, sample_size)
 
-    if G.is_directed():
-        results["num_nodes_zero_in_degree"] = len(
-            [n for n, d in G.in_degree() if d == 0])
-        results["num_nodes_zero_out_degree"] = len(
-            [n for n, d in G.out_degree() if d == 0])
+        self.logger.info(f"     BFS sampling: {sample_graph.number_of_nodes()} nodes from {original_nodes} "
+                         f"({percentage*100:.1f}% target, actual: {sample_graph.number_of_nodes()/original_nodes*100:.1f}%)")
 
-    results["num_nodes_zero_total_degree"] = len(
-        [n for n, d in G.degree() if d == 0])
+        # Step 2: Get largest connected component
+        ccs = list(nx.connected_components(sample_graph))
+        if not ccs:
+            return sample_graph, "bfs_sample_disconnected"
 
-    # Remove isolated nodes if requested
-    if remove_isolated and results["num_nodes_zero_total_degree"] > 0:
-        isolated_nodes = [n for n, d in G.degree() if d == 0]
-        G.remove_nodes_from(isolated_nodes)
-        results["num_isolated_nodes_removed"] = len(isolated_nodes)
-        results["num_nodes_after_removal"] = G.number_of_nodes()
-        results["num_edges_after_removal"] = G.number_of_edges()
+        largest_cc = max(ccs, key=len)
+        analysis_graph = sample_graph.subgraph(largest_cc).copy()
+        component_info = f"largest_cc_{len(analysis_graph.nodes())}_nodes"
 
-    # Trivial graph statistics
-    results["average_degree"] = statistics.mean(
-        [d for _, d in G.degree()]) if G.number_of_nodes() > 0 else 0
-    results["density"] = nx.density(G)
-    results["self_loops"] = nx.number_of_selfloops(G)
+        self.logger.info(f"     Largest CC: {len(analysis_graph.nodes())} nodes "
+                         f"({len(analysis_graph.nodes())/sample_graph.number_of_nodes()*100:.1f}% of sample)")
 
-    if G.is_directed():
+        return analysis_graph, component_info
+
+    def approximate_radius_sampling(self, G: nx.Graph) -> Tuple[float, str]:
+        """Fast radius approximation using using X% of nodes."""
         try:
-            results["reciprocity"] = nx.reciprocity(G)
+            radius = nx.radius(self.analysis_graph)
+        except nx.NetworkXError:
+            return float('inf'), "disconnected"
+
+        return radius, f"{self.percentage*100:.1f}% BFS sampling"
+
+    def approximate_avg_path_sampling(self, G: nx.Graph) -> Tuple[float, str]:
+        """Average shortest path length using X% of nodes."""
+        try:
+            average_shortest_path_length = nx.average_shortest_path_length(
+                self.analysis_graph)
+        except nx.NetworkXNoPath:
+            return float('inf'), "disconnected"
+
+        return average_shortest_path_length, f"{self.percentage*100:.1f}% BFS sampling"
+
+    def estimate_global_efficiency(self, G: nx.Graph) -> Tuple[float, str]:
+        """Fast global efficiency estimation using using X% of nodes."""
+        try:
+            global_efficiency = nx.global_efficiency(self.analysis_graph)
+        except nx.NetworkXError:
+            return float('inf'), "disconnected"
+
+        return global_efficiency, f"{self.percentage*100:.1f}% BFS sampling"
+
+
+class GraphMetricsComputer:
+    """Separated metric computation logic with improved error handling."""
+
+    def __init__(self, logger: logging.Logger):
+        self.logger = logger
+        self.computation_times = {}
+        self.metric_statuses = {}
+        self.warnings = []
+
+    def compute_all_metrics(self, G: nx.Graph, threshold: int = 10000, sample_percentage: float = 0.25,
+                            compute_advanced_metrics: bool = True,
+                            remove_isolated: bool = True) -> Tuple[Dict[str, Any], nx.Graph]:
+        """Compute all graph metrics with proper validation and error handling."""
+        start = time.time()
+
+        # Validate input graph
+        if not self._validate_graph(G):
+            raise ValueError("Invalid input graph")
+
+        results = {}
+        original_G = G.copy()
+
+        # Basic validation and preprocessing
+        results.update(self._compute_basic_properties(G))
+
+        # Handle isolated nodes
+        if remove_isolated:
+            G, isolation_stats = self._handle_isolated_nodes(G)
+            results.update(isolation_stats)
+
+        # Core metric categories (with proper grouping)
+        results.update(self._compute_structure_metrics(G))
+        results.update(self._compute_connectivity_metrics(G, original_G))
+        results.update(self._compute_degree_metrics(G))
+        results.update(self._compute_component_metrics(G))
+
+        if G.is_directed():
+            results.update(self._compute_directed_metrics(G))
+
+        # Advanced metrics (expensive computations)
+        if compute_advanced_metrics:
+            results.update(self._compute_clustering_metrics(G))
+            results.update(self._compute_distance_metrics(
+                G, threshold, sample_percentage))
+            results.update(self._compute_centrality_metrics(G, threshold))
+            results.update(self._compute_structural_features(G))
+
+        # Add computation metadata
+        elapsed = time.time() - start
+        results['_computation_metadata'] = {
+            'total_time': elapsed,
+            'computation_times': self.computation_times,
+            'metric_statuses': self.metric_statuses,
+            'warnings': self.warnings
+        }
+
+        return results, G
+
+    def _validate_graph(self, G: nx.Graph) -> bool:
+        """Validate input graph."""
+        if G is None:
+            self.warnings.append("Graph is None")
+            return False
+
+        if G.number_of_nodes() == 0:
+            self.warnings.append("Graph has no nodes")
+            return False
+
+        return True
+
+    def _compute_with_timer(self, metric_name: str, computation_func, *args, **kwargs):
+        """Execute computation with timing and error handling."""
+        with MetricTimer(metric_name, self.logger) as timer:
+            try:
+                result = computation_func(*args, **kwargs)
+                self.metric_statuses[metric_name] = MetricStatus.COMPUTED
+                self.computation_times[metric_name] = timer.duration
+                return result
+            except Exception as e:
+                self.metric_statuses[metric_name] = MetricStatus.FAILED
+                self.warnings.append(f"{metric_name}: {str(e)}")
+                self.logger.warning(f"Failed to compute {metric_name}: {e}")
+                return None
+
+    def _compute_basic_properties(self, G: nx.Graph) -> Dict[str, Any]:
+        """Compute basic graph structure properties."""
+        return {
+            "is_directed": G.is_directed(),
+            "is_weighted": nx.is_weighted(G),
+            "is_multigraph": G.is_multigraph(),
+            "num_nodes": G.number_of_nodes(),
+            "num_edges": G.number_of_edges()
+        }
+
+    def _handle_isolated_nodes(self, G: nx.Graph) -> Tuple[nx.Graph, Dict[str, Any]]:
+        """Handle isolated node and small component removal with proper tracking."""
+        original_nodes = G.number_of_nodes()
+
+        # Set default minimum component size based on graph size
+        if original_nodes < 1000:
+            # Keep components with 2+ nodes
+            min_component_size = 2
+        elif original_nodes < 10000:
+            # Keep components with 5+ nodes
+            min_component_size = 5
+        else:
+            # 0.1% of graph size, minimum 10
+            min_component_size = max(10, int(original_nodes * 0.001))
+
+        # Step 1: Remove isolated nodes (degree 0)
+        zero_degree_nodes = [n for n, d in G.degree() if d == 0]
+        G_after_isolated = G.copy()
+        if zero_degree_nodes:
+            G_after_isolated.remove_nodes_from(zero_degree_nodes)
+
+        # Step 2: Identify and remove small components
+        if G.is_directed():
+            components = list(nx.weakly_connected_components(G_after_isolated))
+        else:
+            components = list(nx.connected_components(G_after_isolated))
+
+        # Find components to remove (smaller than threshold)
+        small_components = [comp for comp in components if len(
+            comp) < min_component_size]
+        nodes_in_small_components = set()
+        for comp in small_components:
+            nodes_in_small_components.update(comp)
+
+        # Create final graph without small components
+        final_graph = G_after_isolated.copy()
+        if nodes_in_small_components:
+            final_graph.remove_nodes_from(nodes_in_small_components)
+
+        # Calculate statistics
+        isolation_stats = {
+            "num_nodes_zero_total_degree": len(zero_degree_nodes),
+            "num_isolated_nodes_removed": len(zero_degree_nodes),
+            "min_component_size_threshold": min_component_size,
+            "num_small_components_removed": len(small_components),
+            "num_nodes_in_small_components_removed": len(nodes_in_small_components),
+            "total_nodes_removed": len(zero_degree_nodes) + len(nodes_in_small_components),
+            "num_nodes_after_removal": final_graph.number_of_nodes(),
+            "num_edges_after_removal": final_graph.number_of_edges(),
+            "removal_percentage": (
+                (len(zero_degree_nodes) + len(nodes_in_small_components) * 100) /
+                original_nodes if original_nodes > 0 else 0)
+        }
+
+        return final_graph, isolation_stats
+
+    def _compute_structure_metrics(self, G: nx.Graph) -> Dict[str, Any]:
+        """Compute structural features."""
+        metrics = {}
+
+        # Self-loops
+        metrics["self_loops"] = self._compute_with_timer(
+            "self_loops", nx.number_of_selfloops, G
+        ) or 0
+
+        return metrics
+
+    def _compute_connectivity_metrics(self, G: nx.Graph, original_G: nx.Graph) -> Dict[str, Any]:
+        """Compute connectivity and density metrics."""
+        metrics = {}
+
+        # Density
+        metrics["density"] = self._compute_with_timer(
+            "density", nx.density, G) or 0.0
+
+        # Connectivity for undirected version
+        G_undirected = G.to_undirected() if G.is_directed() else G
+        metrics["is_connected_undirected"] = self._compute_with_timer(
+            "connectivity_check", nx.is_connected, G_undirected
+        ) or False
+
+        # Reciprocity for directed graphs
+        if G.is_directed():
+            metrics["reciprocity"] = self._compute_with_timer(
+                "reciprocity", self._safe_reciprocity, G
+            )
+
+        return metrics
+
+    def _safe_reciprocity(self, G: nx.DiGraph) -> float:
+        """Safely compute reciprocity."""
+        try:
+            return nx.reciprocity(G)
         except:
-            results["reciprocity"] = None
+            return 0.0
 
-    # Degree statistics
-    all_degrees = [d for _, d in G.degree()]
-    results["max_degree"] = max(all_degrees) if all_degrees else 0
-    results["min_degree"] = min(all_degrees) if all_degrees else 0
-    results["median_degree"] = statistics.median(
-        all_degrees) if all_degrees else 0
-    results["std_dev_degree"] = statistics.stdev(
-        all_degrees) if len(all_degrees) > 1 else 0
+    def _compute_degree_metrics(self, G: nx.Graph) -> Dict[str, Any]:
+        """Compute degree distribution statistics."""
+        metrics = {}
 
-    if G.is_directed():
+        all_degrees = [d for _, d in G.degree()]
+        if not all_degrees:
+            return metrics
+
+        metrics.update({
+            "average_degree": np.mean(all_degrees),
+            "max_degree": max(all_degrees),
+            "min_degree": min(all_degrees),
+            "median_degree": np.median(all_degrees),
+            "std_dev_degree": np.std(all_degrees)
+        })
+
+        return metrics
+
+    def _compute_component_metrics(self, G: nx.Graph) -> Dict[str, Any]:
+        """Compute connected component analysis."""
+        metrics = {}
+
+        if G.is_directed():
+            # Weakly connected components
+            weak_components = list(nx.weakly_connected_components(G))
+            weak_sizes = [len(c) for c in weak_components]
+
+            metrics.update({
+                "num_weakly_connected_components": len(weak_components),
+                "largest_weakly_connected_component_size": max(weak_sizes) if weak_sizes else 0,
+                "weakly_cc_size_mean": np.mean(weak_sizes) if weak_sizes else 0,
+                "weakly_cc_size_median": np.median(weak_sizes) if weak_sizes else 0,
+                "weakly_connected_component_sizes": weak_sizes
+            })
+
+            # Strongly connected components
+            strong_components = list(nx.strongly_connected_components(G))
+            strong_sizes = [len(c) for c in strong_components]
+
+            metrics.update({
+                "is_strongly_connected": nx.is_strongly_connected(G),
+                "is_weakly_connected": nx.is_weakly_connected(G),
+                "num_strongly_connected_components": len(strong_components),
+                "largest_strongly_connected_component_size": max(strong_sizes) if strong_sizes else 0,
+                "strongly_cc_size_mean": np.mean(strong_sizes) if strong_sizes else 0,
+                "strongly_cc_size_median": np.median(strong_sizes) if strong_sizes else 0,
+                "strongly_connected_component_sizes": strong_sizes
+            })
+        else:
+            # Undirected connected components
+            components = list(nx.connected_components(G))
+            comp_sizes = [len(c) for c in components]
+
+            metrics.update({
+                "num_connected_components": len(components),
+                "largest_connected_component_size": max(comp_sizes) if comp_sizes else 0,
+                "cc_size_mean": np.mean(comp_sizes) if comp_sizes else 0,
+                "cc_size_median": np.median(comp_sizes) if comp_sizes else 0,
+                "connected_component_sizes": comp_sizes
+            })
+
+        return metrics
+
+    def _compute_directed_metrics(self, G: nx.DiGraph) -> Dict[str, Any]:
+        """Compute directed graph specific metrics."""
+        metrics = {}
+
+        # In/out degree statistics
         in_degrees = [d for _, d in G.in_degree()]
         out_degrees = [d for _, d in G.out_degree()]
 
-        results["max_in_degree"] = max(in_degrees) if in_degrees else 0
-        results["min_in_degree"] = min(in_degrees) if in_degrees else 0
-        results["mean_in_degree"] = statistics.mean(
-            in_degrees) if in_degrees else 0
-        results["median_in_degree"] = statistics.median(
-            in_degrees) if in_degrees else 0
+        if in_degrees:
+            metrics.update({
+                "num_nodes_zero_in_degree": len([d for d in in_degrees if d == 0]),
+                "max_in_degree": max(in_degrees),
+                "min_in_degree": min(in_degrees),
+                "mean_in_degree": np.mean(in_degrees),
+                "median_in_degree": np.median(in_degrees)
+            })
 
-        results["max_out_degree"] = max(out_degrees) if out_degrees else 0
-        results["min_out_degree"] = min(out_degrees) if out_degrees else 0
-        results["mean_out_degree"] = statistics.mean(
-            out_degrees) if out_degrees else 0
-        results["median_out_degree"] = statistics.median(
-            out_degrees) if out_degrees else 0
+        if out_degrees:
+            metrics.update({
+                "num_nodes_zero_out_degree": len([d for d in out_degrees if d == 0]),
+                "max_out_degree": max(out_degrees),
+                "min_out_degree": min(out_degrees),
+                "mean_out_degree": np.mean(out_degrees),
+                "median_out_degree": np.median(out_degrees)
+            })
 
-    # Advanced metrics (computationally expensive)
-    if compute_advanced_metrics:
-        logger.info('Initiating advanced metrics calculation...')
+        # PageRank
+        if G.number_of_nodes() <= 10000:
+            pagerank = self._compute_with_timer(
+                "pagerank", nx.pagerank, G, alpha=0.85)
+            if pagerank:
+                metrics["average_pagerank"] = np.mean(list(pagerank.values()))
+                metrics["max_pagerank"] = max(pagerank.values())
 
-        # Transitivity and clustering
-        logger.info('Calculating transitivity...')
-        results["transitivity"] = nx.transitivity(G)
-        logger.info('Calculating average clustering...')
-        results["average_clustering"] = nx.average_clustering(G)
+        return metrics
 
-        # Filtered average clustering (only nodes with degree > 1)
-        logger.info('Calculating filtered average clustering...')
-        all_cc = list(nx.clustering(G).values())
-        cc_list = []
-        for i, x in enumerate(all_degrees):
-            if x > 1:
-                cc_list.append(all_cc[i])
-        results["filtered_average_clustering"] = statistics.mean(
-            cc_list) if cc_list else 0
+    def _compute_clustering_metrics(self, G: nx.Graph) -> Dict[str, Any]:
+        """Compute clustering coefficients with scalability awareness."""
+        metrics = {}
 
-        # For connected graphs or largest component
-        if results.get("is_connected_undirected", False):
-            try:
-                logger.info('Calculating average shortest path length...')
-                results["average_shortest_path_length"] = nx.average_shortest_path_length(
-                    G_undirected)
-                logger.info('Calculating diameter...')
-                results["diameter"] = nx.diameter(G_undirected)
-                logger.info('Calculating radius...')
-                results["radius"] = nx.radius(G_undirected)
-            except nx.NetworkXError:
-                # Handle disconnected graphs - use largest component
-                pass
+        # Transitivity
+        metrics["transitivity"] = self._compute_with_timer(
+            "transitivity", nx.transitivity, G) or 0.0
 
-        # Get largest connected component for disconnected graphs
-        if not results.get("is_connected_undirected", False):
-            logger.info(
-                'Calculating metrics for largest connected component...')
-            largest_cc = max(nx.connected_components(G_undirected), key=len)
-            largest_cc_graph = G_undirected.subgraph(largest_cc).copy()
-            results["largest_cc_size"] = len(largest_cc)
-            results["largest_cc_fraction"] = len(
-                largest_cc) / G.number_of_nodes()
+        # Average clustering
+        metrics["average_clustering"] = self._compute_with_timer(
+            "average_clustering", nx.average_clustering, G
+        ) or 0.0
 
-            try:
-                results["largest_cc_average_shortest_path_length"] = nx.average_shortest_path_length(
-                    largest_cc_graph)
-                results["largest_cc_diameter"] = nx.diameter(largest_cc_graph)
-                results["largest_cc_radius"] = nx.radius(largest_cc_graph)
-            except:
-                # Handle errors in case of very large components
-                pass
+        # Filtered clustering (nodes with degree > 1)
+        clustering_vals = self._compute_with_timer(
+            "node_clustering", nx.clustering, G) or {}
+        if clustering_vals:
+            degrees = dict(G.degree())
+            filtered_clustering = [clustering_vals[n] for n in clustering_vals
+                                   if degrees.get(n, 0) > 1]
+            metrics["filtered_average_clustering"] = np.mean(
+                filtered_clustering) if filtered_clustering else 0.0
 
-        # Centrality measures - use threshold to avoid memory issues
+        return metrics
+
+    def _compute_distance_metrics(self, G: nx.Graph, threshold: int, sample_percentage: float) -> Dict[str, Any]:
+        """Compute path-based metrics with proper component validation."""
+        metrics = {}
+
+        # Determine if we should use fast approximations
+        use_fast_methods = G.number_of_nodes() > threshold // 2
+
+        # Choose appropriate component for analysis
+        if G.is_directed():
+            if nx.is_strongly_connected(G):
+                analysis_graph = G
+                prefix = ""
+            else:
+                # Use largest strongly connected component
+                sccs = list(nx.strongly_connected_components(G))
+                if sccs:
+                    largest_scc = max(sccs, key=len)
+                    analysis_graph = G.subgraph(largest_scc).copy()
+                    prefix = "largest_scc_"
+                else:
+                    return metrics
+        else:
+            if nx.is_connected(G):
+                analysis_graph = G
+                prefix = ""
+            else:
+                # Use largest connected component
+                ccs = list(nx.connected_components(G))
+                if ccs:
+                    largest_cc = max(ccs, key=len)
+                    analysis_graph = G.subgraph(largest_cc).copy()
+                    prefix = "largest_cc_"
+                else:
+                    return metrics
+
+        # For directed graphs, use undirected version for distance calculations
+        distance_graph = analysis_graph.to_undirected(
+        ) if analysis_graph.is_directed() else analysis_graph
+
+        # Log computation strategy
+        if use_fast_methods:
+            self.logger.info(
+                f"Distance metrics: using BFS sampling on {distance_graph.number_of_nodes()} nodes")
+
+            # Initialize fast algorithms with the distance graph
+            fast_algo = FastDistanceAlgorithms(
+                logger=self.logger, G=distance_graph, percentage=sample_percentage)
+        else:
+            self.logger.info(
+                f"Distance metrics: using exact methods on {distance_graph.number_of_nodes()} nodes")
+
+        # DIAMETER
+        if use_fast_methods:
+            diameter = self._compute_with_timer(
+                f"{prefix}diameter_fast",
+                approx.diameter,
+                distance_graph
+            )
+            if diameter is not None:
+                metrics[f"{prefix}diameter"] = diameter
+                metrics[f"{prefix}diameter_method"] = "Aproximation from networkx"
+        else:
+            diameter = self._compute_with_timer(
+                f"{prefix}diameter", nx.diameter, distance_graph)
+            if diameter is not None:
+                metrics[f"{prefix}diameter"] = diameter
+                metrics[f"{prefix}diameter_method"] = "exact"
+
+        # RADIUS
+        if use_fast_methods:
+            radius, method = self._compute_with_timer(
+                f"{prefix}radius_fast",
+                fast_algo.approximate_radius_sampling,
+                distance_graph  # not used inside function, sample graph used instead
+            )
+            if radius is not None:
+                metrics[f"{prefix}radius"] = radius
+                metrics[f"{prefix}radius_method"] = method
+        else:
+            radius = self._compute_with_timer(
+                f"{prefix}radius", nx.radius, distance_graph)
+            if radius is not None:
+                metrics[f"{prefix}radius"] = radius
+                metrics[f"{prefix}radius_method"] = "exact"
+
+        # AVERAGE SHORTEST PATH LENGTH
+        if use_fast_methods:
+            avg_path, method = self._compute_with_timer(
+                f"{prefix}avg_path_fast",
+                fast_algo.approximate_avg_path_sampling,
+                distance_graph  # not used inside function, sample graph used instead
+            )
+            if avg_path is not None:
+                metrics[f"{prefix}average_shortest_path_length"] = avg_path
+                metrics[f"{prefix}average_shortest_path_length_method"] = method
+        else:
+            avg_path = self._compute_with_timer(
+                f"{prefix}average_shortest_path_length",
+                nx.average_shortest_path_length,
+                distance_graph  # not used inside function, sample graph used instead
+            )
+            if avg_path is not None:
+                metrics[f"{prefix}average_shortest_path_length"] = avg_path
+                metrics[f"{prefix}average_shortest_path_length_method"] = "exact"
+
+        # GLOBAL EFFICIENCY
+        if use_fast_methods:
+            efficiency, method = self._compute_with_timer(
+                f"{prefix}global_efficiency_fast",
+                fast_algo.estimate_global_efficiency,
+                distance_graph
+            )
+            if efficiency is not None:
+                metrics[f"{prefix}global_efficiency"] = efficiency
+                metrics[f"{prefix}global_efficiency_method"] = method
+        else:
+            efficiency = self._compute_with_timer(
+                f"{prefix}global_efficiency",
+                nx.global_efficiency,
+                distance_graph
+            )
+            if efficiency is not None:
+                metrics[f"{prefix}global_efficiency"] = efficiency
+                metrics[f"{prefix}global_efficiency_method"] = "exact"
+
+        return metrics
+
+    def _compute_centrality_metrics(self, G: nx.Graph, threshold: int) -> Dict[str, Any]:
+        """Compute centrality measures with scalability limits."""
+        metrics = {}
+
         node_count = G.number_of_nodes()
-        if node_count <= threshold:  # Adjust threshold based on available memory
-            logger.info('Calculating centrality measures...')
+
+        # Degree centrality (always computable)
+        degree_cent = self._compute_with_timer(
+            "degree_centrality", nx.degree_centrality, G)
+        if degree_cent:
+            metrics["average_degree_centrality"] = np.mean(
+                list(degree_cent.values()))
+
+        # Closeness centrality (moderate cost)
+        if node_count <= threshold:
+            closeness_cent = self._compute_with_timer(
+                "closeness_centrality", nx.closeness_centrality, G)
+            if closeness_cent:
+                metrics["average_closeness_centrality"] = np.mean(
+                    list(closeness_cent.values()))
+
+        # Betweenness centrality (expensive)
+        if node_count <= threshold // 10:
+            k = min(500, node_count)
+            betw_cent = self._compute_with_timer(
+                "betweenness_centrality",
+                lambda g: nx.betweenness_centrality(g, normalized=True, k=k),
+                G
+            )
+            if betw_cent:
+                metrics["average_betweenness_centrality"] = np.mean(
+                    list(betw_cent.values()))
+
+        # Eigenvector centrality (can fail to converge)
+        if node_count <= threshold // 5:
             try:
-                results["average_degree_centrality"] = np.mean(
-                    list(dict(nx.degree_centrality(G)).values()))
+                eigen_cent = self._compute_with_timer(
+                    "eigenvector_centrality",
+                    lambda g: nx.eigenvector_centrality(
+                        g, max_iter=100, tol=1e-4),
+                    G
+                )
+                if eigen_cent:
+                    metrics["average_eigenvector_centrality"] = np.mean(
+                        list(eigen_cent.values()))
             except:
-                pass
+                metrics["average_eigenvector_centrality"] = "Failed to converge"
+                self.metric_statuses["eigenvector_centrality"] = MetricStatus.FAILED
 
-            try:
-                results["average_closeness_centrality"] = np.mean(
-                    list(dict(nx.closeness_centrality(G)).values()))
-            except:
-                pass
+        return metrics
 
-            if node_count <= threshold/10:  # Betweenness is very expensive
-                try:
-                    results["average_betweenness_centrality"] = np.mean(list(dict(nx.betweenness_centrality(G,
-                                                                                                            normalized=True,
-                                                                                                            k=min(500, node_count))).values()))
-                except:
-                    pass
+    def _compute_structural_features(self, G: nx.Graph) -> Dict[str, Any]:
+        """Compute advanced structural features."""
+        metrics = {}
 
-                # Eigenvector centrality
-                try:
-                    results["average_eigenvector_centrality"] = np.mean(list(dict(nx.eigenvector_centrality(
-                        G, max_iter=100, tol=1e-4)).values()))
-                except:
-                    results["average_eigenvector_centrality"] = "Failed to converge"
-
-            # PageRank for directed graphs
-            if G.is_directed() and node_count <= threshold:
-                try:
-                    pagerank = nx.pagerank(G, alpha=0.85)
-                    results["average_pagerank"] = np.mean(
-                        list(pagerank.values()))
-                    results["max_pagerank"] = max(pagerank.values())
-                except:
-                    pass
-
-        # Additional metrics
-        # Bridges (edges that would increase number of connected components if removed)
+        # Bridges (undirected graphs only)
         if not G.is_directed():
-            logger.info('Calculating number of bridges...')
-            try:
-                results["num_bridges"] = len(list(nx.bridges(G)))
-            except:
-                pass
+            bridges = self._compute_with_timer(
+                "bridges", lambda g: list(nx.bridges(g)), G)
+            if bridges is not None:
+                metrics["num_bridges"] = len(bridges)
 
-        # Assortativity - do nodes connect to similar degree nodes?
+        # Degree assortativity
+        metrics["degree_assortativity"] = self._compute_with_timer(
+            "degree_assortativity", nx.degree_assortativity_coefficient, G
+        )
+
+        # Core decomposition
+        G_for_core = G.to_undirected() if G.is_directed() else G
+        if nx.number_of_selfloops(G_for_core) > 0:
+            G_for_core = G_for_core.copy()
+            G_for_core.remove_edges_from(nx.selfloop_edges(G_for_core))
+
+        core_numbers = self._compute_with_timer(
+            "core_decomposition", nx.core_number, G_for_core)
+        if core_numbers:
+            metrics["max_core_number"] = max(core_numbers.values())
+            metrics["mean_core_number"] = np.mean(list(core_numbers.values()))
+
+        # Rich club coefficient (expensive for large graphs)
+        if not G.is_directed():
+            degrees = [d for _, d in G.degree()]
+            if degrees:
+                k = max(5, int(np.percentile(degrees, 90)))
+                rich_club = self._compute_with_timer(
+                    "rich_club_coefficient",
+                    lambda g: nx.rich_club_coefficient(
+                        g, normalized=False).get(k, None),
+                    G
+                )
+                metrics["rich_club_coefficient"] = rich_club
+
+        return metrics
+
+
+class CitationNetworkAnalyzer:
+    """Specialized analysis for citation networks."""
+
+    @staticmethod
+    def analyze(G: nx.DiGraph, top_n: int = 10) -> Dict[str, Any]:
+        """
+        Analyzes a citation network with specialized metrics and visualizations for citation data.
+
+        Parameters
+        ----------
+        G : networkx.DiGraph
+            The citation graph to analyze
+        top_n : int, default=10
+            Number of top nodes to show in rankings
+
+        Returns
+        -------
+        dict
+            Dictionary containing all computed citation metrics
+        """
+        results = {}
+
+        # Basic degree statistics
+        out_degrees = [deg for _, deg in G.out_degree()]
+        in_degrees = [deg for _, deg in G.in_degree()]
+
+        # Summary statistics for citations made (out-degree)
+        results["citations_made_mean"] = np.mean(out_degrees)
+        results["citations_made_median"] = np.median(out_degrees)
+        results["citations_made_max"] = np.max(out_degrees)
+        results["citations_made_min"] = np.min(out_degrees)
+        results["citations_made_std"] = np.std(out_degrees)
+
+        # Summary statistics for citations received (in-degree)
+        results["citations_received_mean"] = np.mean(in_degrees)
+        results["citations_received_median"] = np.median(in_degrees)
+        results["citations_received_max"] = np.max(in_degrees)
+        results["citations_received_min"] = np.min(in_degrees)
+        results["citations_received_std"] = np.std(in_degrees)
+
+        # Top citing nodes (articles that cite the most others)
+        out_deg_dict = dict(G.out_degree())
+        top_out_nodes = sorted(out_deg_dict.items(),
+                               key=lambda x: x[1], reverse=True)[:top_n]
+        results["top_citing_nodes"] = [
+            (node, G.nodes[node].get('title', str(node)), degree)
+            for node, degree in top_out_nodes
+        ]
+
+        # Top cited nodes (articles cited by the most others)
+        in_deg_dict = dict(G.in_degree())
+        top_in_nodes = sorted(in_deg_dict.items(),
+                              key=lambda x: x[1], reverse=True)[:top_n]
+        results["top_cited_nodes"] = [
+            (node, G.nodes[node].get('title', str(node)), degree)
+            for node, degree in top_in_nodes
+        ]
+
+        # Special node categories
+        results["num_isolated_nodes"] = len(
+            [n for n, d in G.degree() if d == 0])
+        results["num_terminal_nodes"] = len(
+            [n for n, d in G.out_degree() if d == 0])
+        results["num_source_nodes"] = len(
+            [n for n, d in G.in_degree() if d == 0])
+
+        # H-index of the network
+        in_degrees_sorted = sorted(in_degrees, reverse=True)
+        h_index = 0
+        for i, citations in enumerate(in_degrees_sorted):
+            if i + 1 <= citations:
+                h_index = i + 1
+            else:
+                break
+        results["h_index"] = h_index
+
+        # PageRank - article influence score
+        pagerank_scores = nx.pagerank(G, alpha=0.85)
+        pagerank_top_nodes = sorted(
+            pagerank_scores.items(), key=lambda x: x[1], reverse=True)[:top_n]
+        results["pagerank_top_nodes"] = [
+            (node, G.nodes[node].get('title', str(node)), score)
+            for node, score in pagerank_top_nodes
+        ]
+        results["pagerank_mean"] = np.mean(list(pagerank_scores.values()))
+        results["pagerank_std"] = np.std(list(pagerank_scores.values()))
+
+        # Citation concentration (Gini coefficient)
+        def gini_coefficient(x):
+            """Calculate Gini coefficient for inequality measurement."""
+            sorted_x = sorted(x)
+            n = len(x)
+            cumsum = np.cumsum(sorted_x)
+            return (n + 1 - 2 * np.sum(cumsum) / cumsum[-1]) / n if cumsum[-1] > 0 else 0
+
+        results["citation_gini_coefficient"] = gini_coefficient(in_degrees)
+
+        # Self-citation rate (if graph has self-loops)
+        self_citations = nx.number_of_selfloops(G)
+        total_citations = G.number_of_edges()
+        results["self_citation_rate"] = self_citations / \
+            total_citations if total_citations > 0 else 0
+
+        # Citation age analysis (if nodes have temporal data)
+        results["temporal_analysis_available"] = any(
+            'year' in G.nodes[n] or 'date' in G.nodes[n]
+            for n in list(G.nodes())[:10]
+        )
+
+        # Authority and hub scores (HITS algorithm)
         try:
-            logger.info('Calculating degree assortativity...')
-            results["degree_assortativity"] = nx.degree_assortativity_coefficient(
-                G)
-        except:
-            results["degree_assortativity"] = None
+            hits_scores = nx.hits(G, max_iter=100, normalized=True)
+            authorities, hubs = hits_scores
+            results["top_authorities"] = sorted(
+                authorities.items(), key=lambda x: x[1], reverse=True)[:top_n]
+            results["top_hubs"] = sorted(
+                hubs.items(), key=lambda x: x[1], reverse=True)[:top_n]
+            results["authority_mean"] = np.mean(list(authorities.values()))
+            results["hub_mean"] = np.mean(list(hubs.values()))
+        except Exception:
+            results["hits_analysis_failed"] = True
 
-        # Core decomposition - find k-cores (subgraphs where all nodes have degree >= k)
-        # Create a copy without self-loops for core number calculation
-        logger.info('Calculating core numbers...')
-        if nx.number_of_selfloops(G) > 0:
-            G_no_loops = G.copy()
-            G_no_loops.remove_edges_from(nx.selfloop_edges(G_no_loops))
-            core_graph = G_no_loops.to_undirected()
-        else:
-            core_graph = G_undirected
+        # Citation density
+        results["citation_density"] = results.get("citations_made_mean", 0) / (G.number_of_nodes() - 1) \
+            if G.number_of_nodes() > 1 else 0
 
-        try:
-            core_numbers = nx.core_number(core_graph)
-            results["max_core_number"] = max(
-                core_numbers.values()) if core_numbers else 0
-            results["mean_core_number"] = np.mean(list(core_numbers.values()))
-        except:
-            pass
-
-        # Rich club coefficient - tendency of high-degree nodes to connect to each other
-        logger.info('Calculating rich club coefficient...')
-        if not G.is_directed() and node_count <= threshold/2:
-            try:
-                # 90th percentile degree
-                k = max(5, int(np.percentile([d for _, d in G.degree()], 90)))
-                results["rich_club_coefficient"] = nx.rich_club_coefficient(
-                    G, normalized=False).get(k, None)
-            except:
-                results["rich_club_coefficient"] = None
-
-        # Efficiency measures
-        logger.info('Calculating global efficiency...')
-        if node_count <= threshold/2:
-            try:
-                results["global_efficiency"] = nx.global_efficiency(
-                    G_undirected)
-            except:
-                pass
-
-    # Print results if requested
-    if print_results:
-        logger.info("\n===== Basic Graph Properties =====")
-        logger.info(
-            f" • Is directed..............................: {results['is_directed']}")
-        logger.info(
-            f" • Is weighted..............................: {results['is_weighted']}")
-        logger.info(
-            f" • Is multi-graph...........................: {results['is_multigraph']}")
-        logger.info(
-            f" • Is connected (undirected view)...........: {results['is_connected_undirected']}")
-
-        if G.is_directed():
-            logger.info(
-                f" • Is strongly connected....................: {results['is_strongly_connected']}")
-            logger.info(
-                f" • Is weakly connected......................: {results['is_weakly_connected']}")
-
-        logger.info("\n===== Node-level Statistics =====")
-        logger.info(
-            f" • Number of nodes..........................: {results['num_nodes']}")
-
-        if G.is_directed():
-            logger.info(
-                f" • Number of nodes with zero in-degree......: {results['num_nodes_zero_in_degree']}")
-            logger.info(
-                f" • Number of nodes with zero out-degree.....: {results['num_nodes_zero_out_degree']}")
-
-        logger.info(
-            f" • Number of nodes with zero total degree...: {results['num_nodes_zero_total_degree']}")
-
-        if remove_isolated and results.get("num_isolated_nodes_removed", 0) > 0:
-            logger.info(
-                f"\nRemoved {results['num_isolated_nodes_removed']} isolated nodes")
-            logger.info(
-                f" • Nodes after removal.....................: {results['num_nodes_after_removal']}")
-            logger.info(
-                f" • Edges after removal.....................: {results['num_edges_after_removal']}")
-
-        logger.info("\n===== Global Graph Statistics - Trivial =====")
-        logger.info(
-            f" • Number of edges..........................: {results['num_edges']}")
-        logger.info(
-            f" • Average degree...........................: {results['average_degree']:.2f}")
-        logger.info(
-            f" • Density..................................: {results['density']:.6f}")
-        logger.info(
-            f" • Self-loops...............................: {results['self_loops']}")
-
-        if G.is_directed():
-            logger.info(
-                f" • Reciprocity..............................: {results.get('reciprocity', 'N/A')}")
-            logger.info(
-                f" • Number of connected components (weakly)..: {results['num_weakly_connected_components']}")
-            logger.info(
-                f" • Number of connected components (strongly): {results['num_strongly_connected_components']}")
-            logger.info(
-                f" • Largest weakly connected component size..: {results['largest_weakly_connected_component_size']}")
-            logger.info(
-                f" • Largest strongly connected component size: {results['largest_strongly_connected_component_size']}")
-            logger.info(
-                f" • Weak component size (mean)...............: {results['weakly_cc_size_mean']:.2f}")
-            logger.info(
-                f" • Strong component size (mean).............: {results['strongly_cc_size_mean']:.2f}")
-        else:
-            logger.info(
-                f" • Number of connected components...........: {results['num_connected_components']}")
-            logger.info(
-                f" • Largest connected component size.........: {results['largest_connected_component_size']}")
-            logger.info(
-                f" • Component size (mean)....................: {results.get('cc_size_mean', 'N/A')}")
-
-        if compute_advanced_metrics:
-            logger.info("\n===== Global Graph Statistics - Advanced =====")
-            logger.info(
-                f" • Transitivity.............................: {results['transitivity']:.6f}")
-            logger.info(
-                f" • Average clustering coefficient...........: {results['average_clustering']:.6f}")
-            logger.info(
-                f" • Filtered avg clustering (deg > 1)........: {results['filtered_average_clustering']:.6f}")
-
-            if "average_shortest_path_length" in results:
-                logger.info(
-                    f" • Average distance.........................: {results['average_shortest_path_length']:.4f}")
-                logger.info(
-                    f" • Diameter.................................: {results['diameter']}")
-                logger.info(
-                    f" • Radius...................................: {results['radius']}")
-            elif "largest_cc_average_shortest_path_length" in results:
-                logger.info(
-                    " • Graph is disconnected. Metrics for largest connected component:")
-                logger.info(
-                    f"   - Size...................................: {results['largest_cc_size']} ({results.get('largest_cc_fraction', 0)*100:.1f}% of graph)")
-                logger.info(
-                    f"   - Average distance.......................: {results.get('largest_cc_average_shortest_path_length', 'N/A')}")
-                logger.info(
-                    f"   - Diameter...............................: {results.get('largest_cc_diameter', 'N/A')}")
-                logger.info(
-                    f"   - Radius.................................: {results.get('largest_cc_radius', 'N/A')}")
-
-            if "global_efficiency" in results:
-                logger.info(
-                    f" • Global efficiency........................: {results['global_efficiency']:.6f}")
-
-            if "average_degree_centrality" in results:
-                logger.info(
-                    f" • Average degree centrality................: {results['average_degree_centrality']:.6f}")
-
-            if "average_closeness_centrality" in results:
-                logger.info(
-                    f" • Average closeness centrality.............: {results['average_closeness_centrality']:.6f}")
-
-            if "average_betweenness_centrality" in results:
-                logger.info(
-                    f" • Average betweenness centrality...........: {results['average_betweenness_centrality']:.6f}")
-
-            if "average_eigenvector_centrality" in results and results["average_eigenvector_centrality"] != "Failed to converge":
-                logger.info(
-                    f" • Average eigenvector centrality...........: {results['average_eigenvector_centrality']:.6f}")
-
-            if "average_pagerank" in results:
-                logger.info(
-                    f" • Average PageRank.........................: {results['average_pagerank']:.6f}")
-                logger.info(
-                    f" • Maximum PageRank.........................: {results['max_pagerank']:.6f}")
-
-            if "max_core_number" in results:
-                logger.info(
-                    f" • Max core number..........................: {results['max_core_number']}")
-                if "mean_core_number" in results:
-                    logger.info(
-                        f" • Mean core number.........................: {results['mean_core_number']:.2f}")
-
-            if "num_bridges" in results:
-                logger.info(
-                    f" • Number of bridges........................: {results['num_bridges']}")
-
-            if results.get("degree_assortativity") is not None:
-                logger.info(
-                    f" • Degree assortativity.....................: {results['degree_assortativity']:.6f}")
-
-            if results.get("rich_club_coefficient") is not None:
-                logger.info(
-                    f" • Rich club coefficient....................: {results['rich_club_coefficient']:.6f}")
-
-    return results, G
-
-
-def analyze_citation_network(G, top_n=10, print_results=True):
-    """
-    Analyzes a citation network with specialized metrics and visualizations for citation data.
-
-    Parameters:
-    -----------
-    G : networkx.DiGraph
-        The citation graph to analyze
-    top_n : int, default=10
-        Number of top nodes to show in rankings
-    print_results : bool, default=True
-        Whether to print results
-
-    Returns:
-    --------
-    dict
-        Dictionary containing all computed citation metrics
-    """
-    results = {}
-
-    # Basic degree statistics
-    out_degrees = [deg for _, deg in G.out_degree()]
-    in_degrees = [deg for _, deg in G.in_degree()]
-
-    # Summary statistics for citations made (out-degree)
-    results["citations_made_mean"] = np.mean(out_degrees)
-    results["citations_made_median"] = np.median(out_degrees)
-    results["citations_made_max"] = np.max(out_degrees)
-    results["citations_made_min"] = np.min(out_degrees)
-    results["citations_made_std"] = np.std(out_degrees)
-
-    # Summary statistics for citations received (in-degree)
-    results["citations_received_mean"] = np.mean(in_degrees)
-    results["citations_received_median"] = np.median(in_degrees)
-    results["citations_received_max"] = np.max(in_degrees)
-    results["citations_received_min"] = np.min(in_degrees)
-    results["citations_received_std"] = np.std(in_degrees)
-
-    # Top citing nodes (articles that cite the most others)
-    out_deg_dict = dict(G.out_degree())
-    top_out_nodes = sorted(out_deg_dict.items(),
-                           key=lambda x: x[1], reverse=True)[:top_n]
-    results["top_citing_nodes"] = [(node, G.nodes[node].get(
-        'title', str(node)), degree) for node, degree in top_out_nodes]
-
-    # Top cited nodes (articles cited by the most others)
-    in_deg_dict = dict(G.in_degree())
-    top_in_nodes = sorted(in_deg_dict.items(),
-                          key=lambda x: x[1], reverse=True)[:top_n]
-    results["top_cited_nodes"] = [(node, G.nodes[node].get(
-        'title', str(node)), degree) for node, degree in top_in_nodes]
-
-    # Special node categories
-    results["num_isolated_nodes"] = len([n for n, d in G.degree() if d == 0])
-    results["num_terminal_nodes"] = len(
-        # Nodes that don't cite others
-        [n for n, d in G.out_degree() if d == 0])
-    results["num_source_nodes"] = len(
-        [n for n, d in G.in_degree() if d == 0])     # Nodes not cited by others
-
-    # H-index of the network
-    in_degrees_sorted = sorted(in_degrees, reverse=True)
-    h_index = 0
-    for i, citations in enumerate(in_degrees_sorted):
-        if i+1 <= citations:
-            h_index = i+1
-        else:
-            break
-    results["h_index"] = h_index
-
-    # PageRank - article influence score
-    pagerank_scores = nx.pagerank(G, alpha=0.85)
-    pagerank_top_nodes = sorted(
-        pagerank_scores.items(), key=lambda x: x[1], reverse=True)[:top_n]
-    results["pagerank_top_nodes"] = [(node, G.nodes[node].get(
-        'title', str(node)), score) for node, score in pagerank_top_nodes]
-    results["pagerank_mean"] = np.mean(list(pagerank_scores.values()))
-    results["pagerank_std"] = np.std(list(pagerank_scores.values()))
-
-    # Additional citation-specific metrics
-    # Citation concentration (Gini coefficient for citation distribution)
-    def gini_coefficient(x):
-        """Calculate Gini coefficient for inequality measurement."""
-        sorted_x = sorted(x)
-        n = len(x)
-        cumsum = np.cumsum(sorted_x)
-        return (n + 1 - 2 * np.sum(cumsum) / cumsum[-1]) / n if cumsum[-1] > 0 else 0
-
-    results["citation_gini_coefficient"] = gini_coefficient(in_degrees)
-
-    # Self-citation rate (if graph has self-loops)
-    self_citations = nx.number_of_selfloops(G)
-    total_citations = G.number_of_edges()
-    results["self_citation_rate"] = self_citations / \
-        total_citations if total_citations > 0 else 0
-
-    # Citation age analysis (if nodes have temporal data)
-    # This would require additional node attributes - placeholder for now
-    results["temporal_analysis_available"] = any(
-        'year' in G.nodes[n] or 'date' in G.nodes[n] for n in list(G.nodes())[:10])
-
-    # Authority and hub scores (HITS algorithm)
-    try:
-        hits_scores = nx.hits(G, max_iter=100, normalized=True)
-        authorities, hubs = hits_scores
-        results["top_authorities"] = sorted(
-            authorities.items(), key=lambda x: x[1], reverse=True)[:top_n]
-        results["top_hubs"] = sorted(
-            hubs.items(), key=lambda x: x[1], reverse=True)[:top_n]
-        results["authority_mean"] = np.mean(list(authorities.values()))
-        results["hub_mean"] = np.mean(list(hubs.values()))
-    except:
-        # HITS may not converge for some graphs
-        results["hits_analysis_failed"] = True
-
-    # Citation network density vs regular networks
-    # (this is already computed in basic analysis, but worth highlighting)
-    results["citation_density"] = results.get(
-        "citations_made_mean", 0) / (G.number_of_nodes() - 1) if G.number_of_nodes() > 1 else 0
-
-    # Print results if requested
-    if print_results:
-        logger.info("\n===== Citation Network Analysis =====")
-
-        logger.info("\n----- Citation Distribution Statistics -----")
-        logger.info("Citations made (out-degree):")
-        logger.info(
-            f" • Mean.............: {results['citations_made_mean']:.2f}")
-        logger.info(
-            f" • Median...........: {results['citations_made_median']:.1f}")
-        logger.info(f" • Max..............: {results['citations_made_max']}")
-        logger.info(f" • Min..............: {results['citations_made_min']}")
-        logger.info(
-            f" • Std Deviation....: {results['citations_made_std']:.2f}")
-
-        logger.info("\nCitations received (in-degree):")
-        logger.info(
-            f" • Mean.............: {results['citations_received_mean']:.2f}")
-        logger.info(
-            f" • Median...........: {results['citations_received_median']:.1f}")
-        logger.info(
-            f" • Max..............: {results['citations_received_max']}")
-        logger.info(
-            f" • Min..............: {results['citations_received_min']}")
-        logger.info(
-            f" • Std Deviation....: {results['citations_received_std']:.2f}")
-        logger.info(f" • Network H-index..: {results['h_index']}")
-
-        logger.info("\n----- Node Categories -----")
-        logger.info(
-            f" • Isolated nodes (no citations)...: {results['num_isolated_nodes']}")
-        logger.info(
-            f" • Terminal nodes (don't cite).....: {results['num_terminal_nodes']}")
-        logger.info(
-            f" • Source nodes (not cited)........: {results['num_source_nodes']}")
-
-        logger.info("\n----- Top Citing Nodes -----")
-        logger.info(f"Top {top_n} nodes that cite the most others:")
-        for i, (node, degree) in enumerate(results["top_citing_nodes"], 1):
-            node_title = G.nodes[node].get('title', str(node))
-            logger.info(f" {i}. {node_title} ({degree} citations made)")
-
-        logger.info(f"\n----- Top Cited Nodes -----")
-        logger.info(f"Top {top_n} nodes that are cited by the most others:")
-        for i, (node, degree) in enumerate(results["top_cited_nodes"], 1):
-            node_title = G.nodes[node].get('title', str(node))
-            logger.info(f" {i}. {node_title} ({degree} citations received)")
-
-        logger.info(f"\n----- Most Influential Nodes (PageRank) -----")
-        logger.info(f"Top {top_n} nodes by PageRank score:")
-        for i, (node, score) in enumerate(results["pagerank_top_nodes"], 1):
-            node_title = G.nodes[node].get('title', str(node))
-            logger.info(f" {i}. {node_title} (score: {score:.6f})")
-
-        logger.info(f"\n----- Additional Citation Metrics -----")
-        logger.info(
-            f" • Citation Gini coefficient.......: {results['citation_gini_coefficient']:.4f}")
-        logger.info(
-            f" • Self-citation rate..............: {results['self_citation_rate']:.4f}")
-        logger.info(
-            f" • Citation density................: {results['citation_density']:.6f}")
-
-        if "top_authorities" in results:
-            logger.info(f"\n----- Top Authorities (HITS Algorithm) -----")
-            for i, (node, score) in enumerate(results["top_authorities"][:5], 1):
-                node_title = G.nodes[node].get('title', str(node))
-                logger.info(f" {i}. {node_title} (authority: {score:.6f})")
-
-            logger.info(f"\n----- Top Hubs (HITS Algorithm) -----")
-            for i, (node, score) in enumerate(results["top_hubs"][:5], 1):
-                node_title = G.nodes[node].get('title', str(node))
-                logger.info(f" {i}. {node_title} (hub: {score:.6f})")
-
-        if results.get("hits_analysis_failed"):
-            logger.info(" • HITS analysis failed to converge")
-
-        if results.get("temporal_analysis_available"):
-            logger.info(
-                " • Temporal data detected - consider time-based analysis")
-
-    return results
+        return results

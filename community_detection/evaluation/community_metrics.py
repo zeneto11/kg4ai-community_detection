@@ -211,31 +211,31 @@ def evaluate_communities(graph: nx.Graph, communities: List[Set]) -> Dict[str, f
     tpr_values = []
     clustering_values = []
 
-    # for community in communities:
-    #     size = len(community)
-    #     if size < 2:
-    #         continue  # Skip singleton communities
+    for community in communities:
+        size = len(community)
+        if size < 2:
+            continue  # Skip singleton communities
 
-    # conductance_values.append((conductance(graph, community), size))
-    # tpr_values.append((triad_participation_ratio(graph, community), size))
-    # clustering_values.append(
-    #     (clustering_coefficient(graph, community), size))
+    conductance_values.append((conductance(graph, community), size))
+    tpr_values.append((triad_participation_ratio(graph, community), size))
+    clustering_values.append(
+        (clustering_coefficient(graph, community), size))
 
     # Compute weighted averages
-    # if conductance_values:
-    #     total_weight = sum(weight for _, weight in conductance_values)
-    #     results["avg_conductance"] = sum(
-    #         value * weight for value, weight in conductance_values) / total_weight
+    if conductance_values:
+        total_weight = sum(weight for _, weight in conductance_values)
+        results["avg_conductance"] = sum(
+            value * weight for value, weight in conductance_values) / total_weight
 
-    # if tpr_values:
-    #     total_weight = sum(weight for _, weight in tpr_values)
-    #     results["avg_tpr"] = sum(
-    #         value * weight for value, weight in tpr_values) / total_weight
+    if tpr_values:
+        total_weight = sum(weight for _, weight in tpr_values)
+        results["avg_tpr"] = sum(
+            value * weight for value, weight in tpr_values) / total_weight
 
-    # if clustering_values:
-    #     total_weight = sum(weight for _, weight in clustering_values)
-    #     results["avg_clustering"] = sum(
-    #         value * weight for value, weight in clustering_values) / total_weight
+    if clustering_values:
+        total_weight = sum(weight for _, weight in clustering_values)
+        results["avg_clustering"] = sum(
+            value * weight for value, weight in clustering_values) / total_weight
 
     return results
 
