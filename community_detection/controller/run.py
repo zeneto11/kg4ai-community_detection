@@ -10,6 +10,7 @@ import networkx as nx
 import pandas as pd
 
 from community_detection.evaluation import evaluator
+from community_detection.evaluation.community_report_extension import CommunityReportExtension
 from community_detection.methods.infomap_detector import InfomapDetector
 from community_detection.methods.kmeans_detector import KMeansDetector
 from community_detection.methods.leiden_detector import LeidenDetector
@@ -22,34 +23,34 @@ from community_detection.visualization.visualizer import \
     run_community_visualization
 
 
-# def create_test_graph():
-#     """Create test graph with metadata."""
-#     # Load dataset
-#     df = pd.read_csv("data/v0.0/df_nq_version0.csv")
+def create_test_graph():
+    """Create test graph with metadata."""
+    # Load dataset
+    df = pd.read_csv("data/v0.0/df_nq_version0.csv")
 
-#     # Convert stringified lists into real Python lists
-#     df["cites_ids"] = df["cites_ids"].apply(ast.literal_eval)
+    # Convert stringified lists into real Python lists
+    df["cites_ids"] = df["cites_ids"].apply(ast.literal_eval)
 
-#     # Create a directed graph
-#     G = nx.DiGraph()
+    # Create a directed graph
+    G = nx.DiGraph()
 
-#     # Add edges to the graph
-#     for _, row in df.iterrows():
-#         src = row["id"]
-#         G.add_node(src, title=row["d_properties_document_title"])
-#         for tgt in row["cites_ids"]:
-#             G.add_edge(src, tgt)
+    # Add edges to the graph
+    for _, row in df.iterrows():
+        src = row["id"]
+        G.add_node(src, title=row["d_properties_document_title"])
+        for tgt in row["cites_ids"]:
+            G.add_edge(src, tgt)
 
-#     # Graph metadata for reporting
-#     graph_info = {
-#         "source": "NQ (Natural Questions) from Google",
-#         "description": "Graph constructed from wiki articles citation data in the Natural Questions dataset"
-#     }
+    # Graph metadata for reporting
+    graph_info = {
+        "source": "NQ (Natural Questions) from Google",
+        "description": "Graph constructed from wiki articles citation data in the Natural Questions dataset"
+    }
 
-#     return G, graph_info
+    return G, graph_info
 
 
-def create_test_graph() -> Tuple[nx.Graph, Dict]:
+# def create_test_graph() -> Tuple[nx.Graph, Dict]:
     """Create a test graph with realistic titles for keyword extraction testing."""
 
     # Create a scale-free network (similar to citation patterns)
@@ -197,7 +198,7 @@ def main():
         include_citation_analysis=True,
         citation_top_n=10,
         threshold=10000,
-        compute_advanced_metrics=False,
+        compute_advanced_metrics=True,
         remove_isolated=True
     )
 
@@ -252,11 +253,6 @@ def main():
         graph_info=graph_info
     )
 
-    # Get communities from previous run
-    communities_path = "community_detection/output/run129_raw_communities.json"
-    with open(communities_path, 'r') as f:
-        communities_dict = json.load(f)
-
     # ===================== Visualization =====================
     log_header("Community Visualization")
 
@@ -268,6 +264,18 @@ def main():
         run_id=run_id,
         logger=logger
     )
+
+    # ===================== Community Report Extension =====================
+    log_header("Extending Report with Community Analysis")
+
+    # Extend existing report with community analysis section
+    community_reporter = CommunityReportExtension(output_path, run_id)
+    success = community_reporter.extend_report()
+
+    if success:
+        log_substep("Community analysis section added to report")
+    else:
+        logger.warning("Failed to extend report with community analysis")
 
     # ===================== Pipeline Summary =====================
     elapsed = time.time() - start_time

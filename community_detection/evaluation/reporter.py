@@ -444,7 +444,7 @@ class EnhancedGraphMetricsReporter:
                 if 'degree_distribution' in viz_paths:
                     f.write(f"### Comprehensive Degree Analysis\n")
                     f.write(
-                        f"![Degree Analysis](visualizations/{viz_paths['degree_distribution']})\n")
+                        f"![Degree Analysis](plots/{viz_paths['degree_distribution']})\n")
                     f.write(
                         "*Four-panel analysis showing linear distribution, log-log scaling for power-law detection, ")
                     f.write(
@@ -453,7 +453,7 @@ class EnhancedGraphMetricsReporter:
                 if 'clustering_distribution' in viz_paths:
                     f.write(f"### Clustering Coefficient Analysis\n")
                     f.write(
-                        f"![Clustering Analysis](visualizations/{viz_paths['clustering_distribution']})\n")
+                        f"![Clustering Analysis](plots/{viz_paths['clustering_distribution']})\n")
                     f.write(
                         "*Distribution and box plot analysis of local clustering coefficients, ")
                     f.write("showing community structure tendencies.*\n\n")
@@ -461,7 +461,7 @@ class EnhancedGraphMetricsReporter:
                 if 'component_distribution' in viz_paths:
                     f.write(f"### Connected Component Analysis\n")
                     f.write(
-                        f"![Component Analysis](visualizations/{viz_paths['component_distribution']})\n")
+                        f"![Component Analysis](plots/{viz_paths['component_distribution']})\n")
                     f.write(
                         "*Analysis of network fragmentation showing component size distribution ")
                     f.write("and structural connectivity patterns.*\n\n")
