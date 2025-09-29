@@ -1,0 +1,76 @@
+2025-09-29 18:49:26,152 - INFO - 
+====================================================================================================
+                             Initializing Community Detection Pipeline                              
+====================================================================================================
+2025-09-29 18:49:43,280 - INFO - NQ (Natural Questions) from Google graph
+2025-09-29 18:49:43,281 - INFO - Description: Graph constructed from wiki articles citation data in the Natural Questions dataset
+2025-09-29 18:49:43,281 - INFO - 
+====================================================================================================
+                                           Graph Analysis                                           
+====================================================================================================
+2025-09-29 18:50:06,360 - INFO - Computing self_loops...
+2025-09-29 18:50:06,380 - INFO - ✅ self_loops completed in 0s
+2025-09-29 18:50:06,380 - INFO - Computing density...
+2025-09-29 18:50:06,397 - INFO - ✅ density completed in 0s
+2025-09-29 18:50:15,294 - INFO - Computing connectivity_check...
+2025-09-29 18:50:15,781 - INFO - ✅ connectivity_check completed in 0s
+2025-09-29 18:50:15,781 - INFO - Computing reciprocity...
+2025-09-29 18:50:25,276 - INFO - ✅ reciprocity completed in 9s
+2025-09-29 18:50:43,625 - INFO - --> JSON metrics saved to community_detection/output/run133/run133_metrics.json
+2025-09-29 18:50:43,626 - INFO - --> Enhanced Markdown report saved to community_detection/output/run133/run133_report.md
+2025-09-29 18:50:43,627 - INFO - ================================================================================
+2025-09-29 18:50:43,627 - INFO -                            🚀 GRAPH ANALYSIS COMPLETE                            
+2025-09-29 18:50:43,627 - INFO - --------------------------------------------------------------------------------
+2025-09-29 18:50:43,627 - INFO - **Network Overview:**
+2025-09-29 18:50:43,627 - INFO - - **Scale:** Very Large directed network
+2025-09-29 18:50:43,627 - INFO - - **Original Size:** 108,071 nodes, 5,122,983 edges
+2025-09-29 18:50:43,627 - INFO - - **Post-Cleaning Size:** 107,534 nodes, 5,122,982 edges (removed 0.68% of nodes)
+2025-09-29 18:50:43,627 - INFO - - **Connectivity:** sparse (density: 0.04430%)
+2025-09-29 18:50:43,627 - INFO - - **Average Connections:** 95.3 per node
+2025-09-29 18:50:43,627 - INFO - **Key Characteristics:**
+2025-09-29 18:50:43,627 - INFO - - ✅ **Fully Connected:** All nodes are reachable
+2025-09-29 18:50:43,627 - INFO - - 📈 **Growth Potential:** Very sparse network with room for expansion
+2025-09-29 18:50:43,627 - INFO - --------------------------------------------------------------------------------
+2025-09-29 18:50:43,627 - INFO - 📊 Computed metrics in 49.02 seconds
+2025-09-29 18:50:43,627 - INFO - ================================================================================
+2025-09-29 18:50:43,665 - INFO - 
+====================================================================================================
+                                      Community Visualization                                       
+====================================================================================================
+2025-09-29 18:50:43,665 - INFO - --> Extracting community keywords...
+2025-09-29 18:50:43,863 - INFO -    • Infomap: 1249 communities processed
+2025-09-29 18:50:44,069 - INFO -    • Louvain: 24 communities processed
+2025-09-29 18:50:44,289 - INFO -    • Leiden: 19 communities processed
+2025-09-29 18:50:44,490 - INFO -    • K-Means: 30 communities processed
+2025-09-29 18:50:44,508 - INFO - --> Community keywords saved to community_detection/output/run133/run133_community_keywords.json
+2025-09-29 18:50:44,508 - INFO - --> Example community keywords:
+2025-09-29 18:50:44,508 - INFO -    • Infomap:
+2025-09-29 18:50:44,508 - INFO -       Community 0 (Countries, History, European, World): countries(164), history(132), european(102), world(84), economy(77)
+2025-09-29 18:50:44,508 - INFO -       Community 1 (States, United, New, York): states(1160), united(1132), new(393), york(221), state(219)
+2025-09-29 18:50:44,508 - INFO -       ...
+2025-09-29 18:50:44,508 - INFO -    • Louvain:
+2025-09-29 18:50:44,508 - INFO -       Community 0 (Middle, Earth, Rings, Lord): middle(27), earth(27), rings(22), lord(20), film(7)
+2025-09-29 18:50:44,508 - INFO -       Community 1 (Song, You, Love, Album): song(2423), you(1357), love(627), album(491), music(327)
+2025-09-29 18:50:44,508 - INFO -       ...
+2025-09-29 18:50:44,508 - INFO -    • Leiden:
+2025-09-29 18:50:44,508 - INFO -       Community 0 (Film, Series, Season, Episodes): film(1857), series(978), season(933), episodes(532), characters(393)
+2025-09-29 18:50:44,508 - INFO -       Community 1 (Song, You, Love, Album): song(2432), you(1337), love(610), album(492), music(337)
+2025-09-29 18:50:44,508 - INFO -       ...
+2025-09-29 18:50:44,508 - INFO -    • K-Means:
+2025-09-29 18:50:44,508 - INFO -       Community 0 (Christmas, Man, Girl, You): christmas(119), man(111), girl(97), you(93), she(83)
+2025-09-29 18:50:44,508 - INFO -       Community 1 (River, Park, National, Lake): river(255), park(147), national(122), lake(115), island(104)
+2025-09-29 18:50:44,508 - INFO -       ...
+2025-09-29 18:50:44,508 - INFO - Generating macro-graph visualizations for Infomap...
+2025-09-29 18:51:54,395 - INFO - Generating macro-graph visualizations for Louvain...
+2025-09-29 18:52:00,189 - INFO - Generating macro-graph visualizations for Leiden...
+2025-09-29 18:52:03,503 - INFO - Generating macro-graph visualizations for K-Means...
+2025-09-29 18:52:10,419 - INFO - 
+====================================================================================================
+                                         Pipeline Complete                                          
+====================================================================================================
+2025-09-29 18:52:10,419 - INFO - --> All outputs saved to community_detection/output/run133
+2025-09-29 18:52:10,419 - INFO - ===================================================================
+2025-09-29 18:52:10,419 - INFO -                           Pipeline Summary                         
+2025-09-29 18:52:10,419 - INFO - -------------------------------------------------------------------
+2025-09-29 18:52:10,419 - INFO -    • Run ID: run133
+2025-09-29 18:52:10,419 - INFO -    • Runtime: 2m 44s

@@ -1,10 +1,7 @@
 import ast
-import json
 import logging
-import random
 import time
 from pathlib import Path
-from typing import Dict, Tuple
 
 import networkx as nx
 import pandas as pd
@@ -18,8 +15,7 @@ from community_detection.utils.logger import (init_logger, log_header,
                                               log_substep)
 from community_detection.utils.run_manager import get_run
 from community_detection.utils.time import format_time
-from community_detection.visualization.community_visualizer import (
-    CommunityVisualizer, SimpleKeywordExtractor)
+from community_detection.visualization.visualizer import run_community_visualization
 
 
 def create_test_graph():
@@ -129,48 +125,14 @@ def main():
     # ===================== Visualization =====================
     log_header("Community Visualization")
 
-    # Generate macro-graph visualizations
-    visualizer = CommunityVisualizer(G)
-    macro_paths = visualizer.generate_all_macro_visualizations(
-        communities_dict, output_path, threshold=3
+    # Generate visualizations and keywords
+    visualization_results = run_community_visualization(
+        G=G,
+        communities_dict=communities_dict,
+        output_path=output_path,
+        run_id=run_id,
+        logger=logger
     )
-
-    log_substep("Macro-graph visualizations generated:")
-    for algorithm, paths in macro_paths.items():
-        logger.info(f"   • {algorithm.title()}:")
-        logger.info(f"     - Weighted: {paths['weighted']}")
-        logger.info(f"     - Thresholded: {paths['thresholded']}")
-
-    # Generate community keywords
-    log_substep("Extracting community keywords...")
-    keyword_extractor = SimpleKeywordExtractor()
-
-    community_keywords = {}
-    for algorithm, communities_list in communities_dict.items():
-        keywords = keyword_extractor.extract_community_keywords(
-            communities_list, G, top_k=10)
-        community_keywords[algorithm] = keywords
-        logger.info(
-            f"   • {algorithm.title()}: {len(keywords)} communities processed")
-
-    # Save community keywords to JSON
-    keywords_path = output_path / f"{run_id}_community_keywords.json"
-    with open(keywords_path, 'w') as f:
-        json.dump(community_keywords, f, indent=2,
-                  default=lambda x: list(x) if isinstance(x, set) else x)
-    log_substep(f"Community keywords saved to {keywords_path}")
-
-    # Log some example keywords
-    log_substep("Example community keywords:")
-    for algorithm, keywords_dict in community_keywords.items():
-        logger.info(f"   • {algorithm.title()}:")
-        # Show keywords for first 2 communities
-        for comm_id in list(keywords_dict.keys())[:2]:
-            keywords = keywords_dict[comm_id]['keywords']
-            # Show top 5 with counts
-            top_keywords = [f"{kw[0]}({kw[1]})" for kw in keywords[:5]]
-            logger.info(
-                f"      Community {comm_id}: {', '.join(top_keywords)}")
 
     # ===================== Pipeline Summary =====================
     elapsed = time.time() - start_time
