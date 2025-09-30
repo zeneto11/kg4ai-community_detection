@@ -430,7 +430,7 @@ class EnhancedGraphMetricsReporter:
             comp_metadata = metrics.get('metadata', {}).get(
                 'computation_metadata', {})
             f.write(
-                f"| **Total Time** | {format_time(comp_metadata['total_time'])} |\n\n")
+                f"| **Analysis Duration** | {format_time(comp_metadata['total_time'])} |\n\n")
 
             # Executive Summary
             f.write("## 🎯 Executive Summary\n\n")

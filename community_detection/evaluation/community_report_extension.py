@@ -264,18 +264,19 @@ class CommunityReportExtension:
         """Generate table of top communities with their keywords."""
 
         section = f"#### Top {limit} Communities by Size\n\n"
-        section += "| Rank | Community ID | Community Name | Keywords |\n"
-        section += "|------|--------------|----------------|----------|\n"
+        section += "| Rank | Community ID | Community Name | Size | Keywords |\n"
+        section += "|------|--------------|----------------|------|----------|\n"
 
         # Sort communities by relevance/size (use community name length as proxy)
         sorted_communities = sorted(
             keywords.items(),
-            key=lambda x: len(x[1].get('keywords', [])),
+            key=lambda x: x[1].get('node_count', 0),
             reverse=True
         )[:limit]
 
         for rank, (comm_id, comm_data) in enumerate(sorted_communities, 1):
             comm_name = comm_data.get('comm_name', f'Community {comm_id}')
+            size = comm_data.get('node_count', 0)
             keywords_list = comm_data.get('keywords', [])
 
             # Extract top 5 keywords
@@ -284,7 +285,7 @@ class CommunityReportExtension:
             keywords_str = ', '.join(
                 top_keywords) if top_keywords else 'No keywords'
 
-            section += f"| {rank} | **C{comm_id}** | **{comm_name}** | `{keywords_str}` |\n"
+            section += f"| {rank} | **C{comm_id}** | **{comm_name}** | `{size}` | `{keywords_str}` |\n"
 
         section += "\n"
         return section
