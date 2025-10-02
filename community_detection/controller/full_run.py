@@ -48,16 +48,16 @@ def create_test_graph():
 def main():
     start_time = time.time()
 
-    # Setup with enhanced run management
+    # Create new output folder for this run
     output_path = get_run(Path("community_detection/output"))
     run_id = output_path.name
 
-    # Setup logging
+    # Logging setup
     init_logger(output_path / "pipeline.log")
     log_header("Initializing Community Detection Pipeline")
     logger = logging.getLogger(__name__)
 
-    # Load graph
+    # Load input graph
     G, graph_info = create_test_graph()
     logger.info(f"{graph_info['source']} graph")
     logger.info(f"Description: {graph_info['description']}")
@@ -68,14 +68,15 @@ def main():
     # Analyze graph
     metrics, G = evaluator.analyze_graph(
         G,
-        output_dir=output_path,
-        run_id=run_id,
-        graph_info=graph_info,
-        include_citation_analysis=True,
-        citation_top_n=10,
+        output_dir=output_path,             # where metrics/plots are saved
+        run_id=run_id,                      # run identifier for outputs
+        graph_info=graph_info,              # metadata for reports
+        include_citation_analysis=True,     # enable if nodes have 'title' + citation edges
+        citation_top_n=10,                  # report top-N most cited nodes
+        # max nodes for exact heavy metrics; larger graphs use approximations/skip
         threshold=10000,
-        compute_advanced_metrics=False,
-        remove_isolated=True
+        compute_advanced_metrics=False,     # skip heavy metrics unless needed
+        remove_isolated=True                # drop disconnected nodes and small components
     )
 
     # ===================== Community Detection =====================
