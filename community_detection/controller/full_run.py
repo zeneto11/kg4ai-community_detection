@@ -19,27 +19,71 @@ from community_detection.visualization.visualizer import run_community_visualiza
 
 
 def create_test_graph():
-    """Create test graph with metadata."""
-    # Load dataset
+    """
+    Create and return a test citation graph with standardized metadata.
+
+    This function builds a **directed graph (DiGraph)** from a CSV dataset of
+    Wikipedia-like documents, where each node represents a document (identified
+    by its unique `id`) and directed edges represent citations between documents.
+
+    The resulting graph is designed as a **reference example** for downstream
+    graph-based pipelines. Following this structure ensures compatibility with
+    models and tools expecting:
+      - Unique node IDs
+      - Textual metadata under the node attribute `title`
+      - A single edge type: "cites" (representing document-to-document citation)
+
+    **Expected CSV schema:** (feel free to adapt as needed)
+        - `id` (str): Unique identifier for each document node.
+        - `d_properties_document_title` (str): Title of the document (used as node attribute).
+        - `cites_ids` (strified list): List of document IDs that this document cites.
+
+    **Graph Schema:**
+        - **Node attributes:**
+            - `title`: str — Human-readable title of the document.
+        - **Edge attributes:**
+            - `type`: str — Relationship type; always `"cites"` in this example.
+        - **Graph metadata:**
+            - `"source"`: Dataset origin.
+            - `"description"`: Summary of what the graph represents.
+            - `"schema_version"`: Version tag for reproducibility.
+
+    Returns
+    -------
+    G : networkx.DiGraph
+        A directed graph where each node is a document, and edges indicate citations.
+    graph_info : dict
+        Metadata describing the dataset, schema, and intended use.
+    """
+
+    # === Load dataset ===
     df = pd.read_csv("data/v0.0/df_nq_version0.csv")
 
-    # Convert stringified lists into real Python lists
+    # Convert stringified Python lists (e.g., "[1, 2, 3]") into real lists
     df["cites_ids"] = df["cites_ids"].apply(ast.literal_eval)
 
-    # Create a directed graph
+    # === Create a directed graph ===
     G = nx.DiGraph()
 
-    # Add edges to the graph
+    # === Add nodes and edges ===
     for _, row in df.iterrows():
-        src = row["id"]
-        G.add_node(src, title=row["d_properties_document_title"])
-        for tgt in row["cites_ids"]:
-            G.add_edge(src, tgt)
+        src_id = row["id"]
 
-    # Graph metadata for reporting
+        # Ensure the node exists with its attributes
+        G.add_node(src_id, title=row["d_properties_document_title"])
+
+        # Add directed "cites" edges
+        for tgt_id in row["cites_ids"]:
+            G.add_edge(src_id, tgt_id, type="cites")
+
+    # === Attach graph-level metadata ===
     graph_info = {
-        "source": "NQ (Natural Questions) from Google",
-        "description": "Graph constructed from wiki articles citation data in the Natural Questions dataset"
+        "source": "Natural Questions (NQ) dataset — Google",
+        "description": (
+            "Directed citation graph built from Wikipedia documents found in "
+            "the Natural Questions dataset. Each node represents a document "
+            "and each edge indicates a citation (outgoing link)."
+        ),
     }
 
     return G, graph_info

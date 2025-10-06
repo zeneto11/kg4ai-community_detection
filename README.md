@@ -54,42 +54,21 @@ The project includes the following key dependencies:
 - **Visualization**: `matplotlib`
 - **Data Processing**: `pandas`, `numpy`
 
-## 🎯 Usage
-
-### Quick Start
-
-The project provides two main entry points for running community detection:
-
-#### Standard Run
-
-For a basic community detection analysis:
-
-```bash
-python community_detection/controller/run.py
-```
-
-This script:
-
-- Loads the NQ dataset graph
-- Runs all four community detection algorithms
-- Generates evaluation metrics and comparisons
-- Creates visualizations and community reports
-- Outputs results to `community_detection/output/runXXX/`
-
-#### Full Pipeline Run
+## 🎯 Pipeline
 
 For a complete analysis pipeline:
 
 ```bash
-python community_detection/controller/full_run.py
+poetry run python -m community_detection.controller.full_run
 ```
 
-This includes everything from the standard run plus:
+This will execute the **entire community detection pipeline**, including:
 
-- Extended graph analysis
-- Enhanced visualization suite
-- Comprehensive community keyword extraction
-- Detailed performance benchmarking
+1. **Graph Construction** – builds a citation graph from the dataset.
+2. **Graph Analysis** – computes key structural metrics and statistics.
+3. **Community Detection** – runs multiple algorithms (Infomap, Louvain, Leiden, and K-means).
+4. **Evaluation & Comparison** – compares algorithms using internal and structural metrics.
+5. **Visualization & Reporting** – produces plots, keyword summaries, and a Markdown report.
 
 ### Output Structure
 
@@ -121,24 +100,6 @@ For reference, examine the `run142-NQv0-best_run` output which demonstrates:
 - **Visualizations**: Community size distributions and interaction networks
 - **Detailed Report**: 40+ metrics with explanations and recommendations
 
-## 📓 Notebooks
-
-The `notebook/` directory contains Jupyter notebooks for exploratory analysis and method development:
-
-### Analysis Notebooks
-
-- **`nq_dataset.ipynb`**: Main analysis of the Natural Questions dataset
-- **`distance_metrics.ipynb`**: Exploration of distance and similarity metrics
-- **`macrographs.ipynb`**: Community interaction network analysis
-- **`wiki_clustering.ipynb`**: Wikipedia article clustering experiments
-
-### Algorithm-Specific Notebooks
-
-- **`nq_dataset_infomap.ipynb`**: Infomap algorithm deep dive
-- **`nq_dataset_louvain.ipynb`**: Louvain algorithm analysis
-- **`nq_dataset_leiden.ipynb`**: Leiden algorithm evaluation
-- **`nq_dataset_hpmocd.ipynb`**: HPMOCD (hierarchical) algorithm testing
-
 ## 📊 Output Explanation
 
 ### Core Metrics
@@ -163,94 +124,26 @@ The `notebook/` directory contains Jupyter notebooks for exploratory analysis an
 - **`community_keywords.json`**: Extracted keywords and community names
 - **`raw_communities.json`**: Direct algorithm outputs for reproducibility
 
-## 🔧 Contributing
+## 📓 Notebooks
 
-### Adding New Community Detection Methods
+The `notebook/` directory contains Jupyter notebooks for exploratory analysis and method development.
 
-To implement a new community detection algorithm:
-
-1. **Create a new detector class** in `community_detection/methods/`:
-
-```python
-# community_detection/methods/my_detector.py
-from community_detection.methods.base import CommunityDetector
-import networkx as nx
-
-class MyDetector(CommunityDetector):
-    def __init__(self, param1=default_value, **kwargs):
-        super().__init__(**kwargs)
-        self.param1 = param1
-
-    def fit(self, graph: nx.Graph):
-        # Implement your algorithm here
-        communities = your_algorithm(graph, self.param1)
-
-        # Store results (communities should be List[Set[nodes]])
-        self._set_results(communities=communities)
-        return self
-```
-
-2. **Add to the controller scripts**:
-
-```python
-# In run.py or full_run.py
-from community_detection.methods.my_detector import MyDetector
-
-detectors = {
-    # ... existing detectors
-    "MyAlgorithm": MyDetector(param1=value),
-}
-```
-
-3. **Test your implementation**:
-   - Run the pipeline with your new detector
-   - Check that outputs are generated correctly
-   - Verify metrics are computed properly
-
-### Development Guidelines
-
-- Follow the existing code structure and naming conventions
-- Add comprehensive docstrings to new methods
-- Include parameter validation in detector constructors
-- Test with both directed and undirected graphs
-- Update this README if adding major features
-
-## 📚 Research Applications
-
-This framework has been used for:
-
-- **Citation Network Analysis**: Understanding academic paper relationships
-- **Knowledge Graph Communities**: Detecting topical clusters in Wikipedia
-- **Algorithm Benchmarking**: Comparing community detection methods
-- **Network Evolution**: Tracking community changes over time
-
-### Citation
-
-If you use this framework in your research, please cite:
-
-```bibtex
-@software{kg4ai_community_detection,
-  title={KG4AI Community Detection Framework},
-  author={José Almeida Neto},
-  year={2025},
-  url={https://github.com/zeneto11/kg4ai-community_detection}
-}
-```
-
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 👨‍💻 Author
+## Author
 
 **José Almeida Neto**
 
 - Email: josealmeidaneto2002@gmail.com
 - GitHub: [@zeneto11](https://github.com/zeneto11)
 
-## 🙏 Acknowledgments
+## Acknowledgments
 
 - Natural Questions dataset from Google Research
 - NetworkX and igraph communities for graph processing tools
 - Infomap, Leiden, and Louvain algorithm developers
 - The broader network science research community
+
+## References
+
+- [Defining and Evaluating Network Communities based on Ground-truth](https://arxiv.org/pdf/1205.6233)
+- [Community Detection with the Map Equation and Infomap:Theory and Applications](https://arxiv.org/pdf/2311.04036)
+- [GVE-Louvain: Fast Louvain Algorithm for Community Detection in Shared Memory Setting](https://arxiv.org/html/2312.04876v4)
