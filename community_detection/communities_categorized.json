@@ -1,0 +1,666 @@
+[
+  {
+    "algorithm":"louvain",
+    "community_id":"0",
+    "comm_name":"Middle, Earth, Rings, Lord",
+    "keywords_string":"middle, earth, rings, lord, film, series, hobbit, ring, king, tolkien",
+    "num_keywords":10,
+    "category":"lord of the rings"
+  },
+  {
+    "algorithm":"louvain",
+    "community_id":"1",
+    "comm_name":"Song, You, Love, Album",
+    "keywords_string":"song, you, love, album, music, don, all, your, that, what",
+    "num_keywords":10,
+    "category":"love songs"
+  },
+  {
+    "algorithm":"louvain",
+    "community_id":"2",
+    "comm_name":"India, Indian, Cricket, National",
+    "keywords_string":"india, indian, cricket, national, pakistan, film, institute, world, technology, history",
+    "num_keywords":10,
+    "category":"south asian sports culture"
+  },
+  {
+    "algorithm":"louvain",
+    "community_id":"3",
+    "comm_name":"Football, League, Basketball, Baseball",
+    "keywords_string":"football, league, basketball, baseball, season, national, major, bowl, men, nba",
+    "num_keywords":10,
+    "category":"sports leagues"
+  },
+  {
+    "algorithm":"louvain",
+    "community_id":"4",
+    "comm_name":"Vegas, Las, Card, Casino",
+    "keywords_string":"vegas, las, card, casino, nascar, poker, game, series, hotel, racing",
+    "num_keywords":10,
+    "category":"vegas casino racing"
+  },
+  {
+    "algorithm":"louvain",
+    "community_id":"5",
+    "comm_name":"Golf, Open, Championship, Pga",
+    "keywords_string":"golf, open, championship, pga, tour, cup, club, tournament, masters, golfers",
+    "num_keywords":10,
+    "category":"golf tournaments"
+  },
+  {
+    "algorithm":"louvain",
+    "community_id":"6",
+    "comm_name":"Cup, Surname, United, World",
+    "keywords_string":"cup, surname, united, world, football, kingdom, fifa, national, england, league",
+    "num_keywords":10,
+    "category":"football clubs and competitions"
+  },
+  {
+    "algorithm":"louvain",
+    "community_id":"7",
+    "comm_name":"Top, America, Next, Model",
+    "keywords_string":"top, america, next, model, cycle, wedding, season, clothing, hat, fashion",
+    "num_keywords":10,
+    "category":"fashion & apparel"
+  },
+  {
+    "algorithm":"louvain",
+    "community_id":"8",
+    "comm_name":"History, Church, Roman, Ancient",
+    "keywords_string":"history, church, roman, ancient, theory, social, art, book, day, empire",
+    "num_keywords":10,
+    "category":"ancient roman culture"
+  },
+  {
+    "algorithm":"louvain",
+    "community_id":"9",
+    "comm_name":"Law, Management, Market, Tax",
+    "keywords_string":"law, management, market, tax, economics, business, insurance, accounting, financial, cost",
+    "num_keywords":10,
+    "category":"business finance"
+  },
+  {
+    "algorithm":"louvain",
+    "community_id":"10",
+    "comm_name":"Film, Series, Season, Episodes",
+    "keywords_string":"film, series, season, episodes, characters, man, you, star, actor, show",
+    "num_keywords":10,
+    "category":"film & tv"
+  },
+  {
+    "algorithm":"louvain",
+    "community_id":"11",
+    "comm_name":"World, War, South, History",
+    "keywords_string":"world, war, south, history, canada, olympics, united, australia, national, africa",
+    "num_keywords":10,
+    "category":"global historical events"
+  },
+  {
+    "algorithm":"louvain",
+    "community_id":"12",
+    "comm_name":"Little, Old, Baby, Mary",
+    "keywords_string":"little, old, baby, mary, rain, down, song, man, row, round",
+    "num_keywords":10,
+    "category":"nursery rhymes"
+  },
+  {
+    "algorithm":"louvain",
+    "community_id":"13",
+    "comm_name":"Gun, Laws, New, California",
+    "keywords_string":"gun, laws, new, california, carry, united, states, carolina, virginia, arkansas",
+    "num_keywords":10,
+    "category":"state gun laws"
+  },
+  {
+    "algorithm":"louvain",
+    "community_id":"14",
+    "comm_name":"Cell, History, Cuisine, System",
+    "keywords_string":"cell, history, cuisine, system, human, medical, disease, food, health, muscle",
+    "num_keywords":10,
+    "category":"human health & nutrition"
+  },
+  {
+    "algorithm":"louvain",
+    "community_id":"15",
+    "comm_name":"Power, Energy, System, History",
+    "keywords_string":"power, energy, system, history, water, engine, nuclear, solar, ford, united",
+    "num_keywords":10,
+    "category":"energy and transportation"
+  },
+  {
+    "algorithm":"louvain",
+    "community_id":"16",
+    "comm_name":"Titanic, Rms, Seas, Ship",
+    "keywords_string":"titanic, rms, seas, ship, class, ships, film, mariner, wreck, maritime",
+    "num_keywords":10,
+    "category":"titanic maritime film"
+  },
+  {
+    "algorithm":"louvain",
+    "community_id":"17",
+    "comm_name":"Season, Vampire, Diaries, Home",
+    "keywords_string":"season, vampire, diaries, home, series, away, australian, bachelor, characters, wentworth",
+    "num_keywords":10,
+    "category":"television series"
+  },
+  {
+    "algorithm":"louvain",
+    "community_id":"18",
+    "comm_name":"States, United, New, State",
+    "keywords_string":"states, united, new, state, act, york, american, california, national, history",
+    "num_keywords":10,
+    "category":"united states history"
+  },
+  {
+    "algorithm":"louvain",
+    "community_id":"19",
+    "comm_name":"Brady, Series, Days, Our",
+    "keywords_string":"brady, series, days, our, lives, dimera, ninja, warrior, season, characters",
+    "num_keywords":10,
+    "category":"tv show characters"
+  },
+  {
+    "algorithm":"louvain",
+    "community_id":"20",
+    "comm_name":"Dead, Walking, Season, Fear",
+    "keywords_string":"dead, walking, season, fear, grimes, greene, peletier, dixon, template, ratings",
+    "num_keywords":10,
+    "category":"the walking dead"
+  },
+  {
+    "algorithm":"louvain",
+    "community_id":"21",
+    "comm_name":"Office, Season, Michael, Paper",
+    "keywords_string":"office, season, michael, paper, series, day, night, andy, toby, dunder",
+    "num_keywords":10,
+    "category":"the office"
+  },
+  {
+    "algorithm":"louvain",
+    "community_id":"22",
+    "comm_name":"Episodes, Computer, Video, Software",
+    "keywords_string":"episodes, computer, video, software, game, data, system, history, games, network",
+    "num_keywords":10,
+    "category":"video game technology"
+  },
+  {
+    "algorithm":"louvain",
+    "community_id":"23",
+    "comm_name":"Coronation, Street, Characters, Barlow",
+    "keywords_string":"coronation, street, characters, barlow, connor, waterloo, road, platt, baldwin, series",
+    "num_keywords":10,
+    "category":"british tv dramas"
+  },
+  {
+    "algorithm":"leiden",
+    "community_id":"0",
+    "comm_name":"Film, Series, Season, Episodes",
+    "keywords_string":"film, series, season, episodes, characters, man, you, actor, star, show",
+    "num_keywords":10,
+    "category":"tv & film"
+  },
+  {
+    "algorithm":"leiden",
+    "community_id":"1",
+    "comm_name":"Song, You, Love, Album",
+    "keywords_string":"song, you, love, album, music, don, all, your, that, what",
+    "num_keywords":10,
+    "category":"love songs"
+  },
+  {
+    "algorithm":"leiden",
+    "community_id":"2",
+    "comm_name":"World, War, South, United",
+    "keywords_string":"world, war, south, united, history, olympics, canada, australia, africa, national",
+    "num_keywords":10,
+    "category":"global history & sports"
+  },
+  {
+    "algorithm":"leiden",
+    "community_id":"3",
+    "comm_name":"States, United, New, State",
+    "keywords_string":"states, united, new, state, act, york, american, national, california, history",
+    "num_keywords":10,
+    "category":"us state history"
+  },
+  {
+    "algorithm":"leiden",
+    "community_id":"4",
+    "comm_name":"Cell, History, Human, Cuisine",
+    "keywords_string":"cell, history, human, cuisine, system, disease, food, medical, american, muscle",
+    "num_keywords":10,
+    "category":"human health & food"
+  },
+  {
+    "algorithm":"leiden",
+    "community_id":"5",
+    "comm_name":"Power, System, Energy, Engine",
+    "keywords_string":"power, system, energy, engine, history, ford, solar, series, space, number",
+    "num_keywords":10,
+    "category":"energy and transportation"
+  },
+  {
+    "algorithm":"leiden",
+    "community_id":"6",
+    "comm_name":"History, Church, Roman, Ancient",
+    "keywords_string":"history, church, roman, ancient, art, god, bible, empire, catholic, book",
+    "num_keywords":10,
+    "category":"catholic church history"
+  },
+  {
+    "algorithm":"leiden",
+    "community_id":"7",
+    "comm_name":"India, Indian, Cricket, National",
+    "keywords_string":"india, indian, cricket, national, pakistan, institute, film, technology, history, world",
+    "num_keywords":10,
+    "category":"south asian cultural tech"
+  },
+  {
+    "algorithm":"leiden",
+    "community_id":"8",
+    "comm_name":"Episodes, Computer, Video, Game",
+    "keywords_string":"episodes, computer, video, game, software, system, data, games, history, network",
+    "num_keywords":10,
+    "category":"video game software"
+  },
+  {
+    "algorithm":"leiden",
+    "community_id":"9",
+    "comm_name":"Law, Theory, Social, Management",
+    "keywords_string":"law, theory, social, management, analysis, history, psychology, market, model, tax",
+    "num_keywords":10,
+    "category":"social science & economics"
+  },
+  {
+    "algorithm":"leiden",
+    "community_id":"10",
+    "comm_name":"Football, League, Basketball, Baseball",
+    "keywords_string":"football, league, basketball, baseball, season, national, major, state, bowl, men",
+    "num_keywords":10,
+    "category":"men's sports leagues"
+  },
+  {
+    "algorithm":"leiden",
+    "community_id":"11",
+    "comm_name":"Cup, Surname, United, World",
+    "keywords_string":"cup, surname, united, world, fifa, kingdom, football, national, england, league",
+    "num_keywords":10,
+    "category":"football (soccer)"
+  },
+  {
+    "algorithm":"leiden",
+    "community_id":"12",
+    "comm_name":"Las, Vegas, Card, Casino",
+    "keywords_string":"las, vegas, card, casino, poker, game, titanic, rms, seas, hotel",
+    "num_keywords":10,
+    "category":"casino and cruise"
+  },
+  {
+    "algorithm":"leiden",
+    "community_id":"13",
+    "comm_name":"Office, Season, Paper, Michael",
+    "keywords_string":"office, season, paper, michael, day, night, andy, series, toby, dunder",
+    "num_keywords":10,
+    "category":"the office tv series"
+  },
+  {
+    "algorithm":"leiden",
+    "community_id":"14",
+    "comm_name":"Brady, Days, Our, Lives",
+    "keywords_string":"brady, days, our, lives, dimera, characters, horton, hernandez, carver, kiriakis",
+    "num_keywords":10,
+    "category":"days of our lives"
+  },
+  {
+    "algorithm":"leiden",
+    "community_id":"15",
+    "comm_name":"Little, Nyah, Old, Baby",
+    "keywords_string":"little, nyah, old, baby, mary, rain, down, man, row, round",
+    "num_keywords":10,
+    "category":"nursery rhyme"
+  },
+  {
+    "algorithm":"leiden",
+    "community_id":"16",
+    "comm_name":"Coronation, Street, Characters, Barlow",
+    "keywords_string":"coronation, street, characters, barlow, connor, platt, baldwin, roache, webster, michelle",
+    "num_keywords":10,
+    "category":"coronation street characters"
+  },
+  {
+    "algorithm":"leiden",
+    "community_id":"17",
+    "comm_name":"Gun, Laws, New, Carry",
+    "keywords_string":"gun, laws, new, carry, united, states, california, carolina, virginia, concealed",
+    "num_keywords":10,
+    "category":"concealed carry laws"
+  },
+  {
+    "algorithm":"leiden",
+    "community_id":"18",
+    "comm_name":"Home, Away, Characters, Stewart",
+    "keywords_string":"home, away, characters, stewart, braxton, king, casey, darryl, ailsa, kirsty",
+    "num_keywords":10,
+    "category":"sports team characters"
+  },
+  {
+    "algorithm":"k-means",
+    "community_id":"0",
+    "comm_name":"Cat, Dog, Horse, Bear",
+    "keywords_string":"cat, dog, horse, bear, fish, bird, animal, lion, tiger, shark",
+    "num_keywords":10,
+    "category":"animal species"
+  },
+  {
+    "algorithm":"k-means",
+    "community_id":"1",
+    "comm_name":"United, Canada, Kingdom, Australia",
+    "keywords_string":"united, canada, kingdom, australia, new, zealand, ireland, australian, british, history",
+    "num_keywords":10,
+    "category":"british commonwealth history"
+  },
+  {
+    "algorithm":"k-means",
+    "community_id":"2",
+    "comm_name":"Surname, John, Actor, Michael",
+    "keywords_string":"surname, john, actor, michael, david, james, name, william, robert, paul",
+    "num_keywords":10,
+    "category":"personal names"
+  },
+  {
+    "algorithm":"k-means",
+    "community_id":"3",
+    "comm_name":"Film, Awards, Award, Films",
+    "keywords_string":"film, awards, award, films, received, best, nominations, theatre, academy, series",
+    "num_keywords":10,
+    "category":"film awards"
+  },
+  {
+    "algorithm":"k-means",
+    "community_id":"4",
+    "comm_name":"Man, God, Story, Heaven",
+    "keywords_string":"man, god, story, heaven, you, who, lord, family, love, poem",
+    "num_keywords":10,
+    "category":"spiritual themes"
+  },
+  {
+    "algorithm":"k-means",
+    "community_id":"5",
+    "comm_name":"System, Computer, Data, Software",
+    "keywords_string":"system, computer, data, software, network, number, windows, memory, programming, computing",
+    "num_keywords":10,
+    "category":"computer science"
+  },
+  {
+    "algorithm":"k-means",
+    "community_id":"6",
+    "comm_name":"Series, Season, Show, Television",
+    "keywords_string":"series, season, show, television, you, big, vampire, game, family, grey",
+    "num_keywords":10,
+    "category":"television series"
+  },
+  {
+    "algorithm":"k-means",
+    "community_id":"7",
+    "comm_name":"Music, Band, Soundtrack, Tour",
+    "keywords_string":"music, band, soundtrack, tour, musical, singles, rock, songs, one, dance",
+    "num_keywords":10,
+    "category":"music & performance"
+  },
+  {
+    "algorithm":"k-means",
+    "community_id":"8",
+    "comm_name":"Cell, Acid, System, Blood",
+    "keywords_string":"cell, acid, system, blood, muscle, disease, human, syndrome, nerve, bone",
+    "num_keywords":10,
+    "category":"human biological systems"
+  },
+  {
+    "algorithm":"k-means",
+    "community_id":"9",
+    "comm_name":"Hai, Name, Season, Singh",
+    "keywords_string":"hai, name, season, singh, series, dil, india, khan, pyaar, rupaul",
+    "num_keywords":10,
+    "category":"indian tv reality shows"
+  },
+  {
+    "algorithm":"k-means",
+    "community_id":"10",
+    "comm_name":"States, United, Election, State",
+    "keywords_string":"states, united, election, state, new, area, texas, district, presidential, york",
+    "num_keywords":10,
+    "category":"united states elections"
+  },
+  {
+    "algorithm":"k-means",
+    "community_id":"11",
+    "comm_name":"New, City, York, Park",
+    "keywords_string":"new, city, york, park, station, sea, hotel, museum, national, center",
+    "num_keywords":10,
+    "category":"nyc attractions"
+  },
+  {
+    "algorithm":"k-means",
+    "community_id":"12",
+    "comm_name":"History, European, War, China",
+    "keywords_string":"history, european, war, china, union, united, japan, korea, germany, chinese",
+    "num_keywords":10,
+    "category":"world war\u202fii"
+  },
+  {
+    "algorithm":"k-means",
+    "community_id":"13",
+    "comm_name":"Name, Season, Mary, Sarah",
+    "keywords_string":"name, season, mary, sarah, given, elizabeth, jane, victoria, actress, kelly",
+    "num_keywords":10,
+    "category":"actress names"
+  },
+  {
+    "algorithm":"k-means",
+    "community_id":"14",
+    "comm_name":"India, Indian, Pakistan, History",
+    "keywords_string":"india, indian, pakistan, history, pradesh, station, national, sri, chief, metro",
+    "num_keywords":10,
+    "category":"south asian railways"
+  },
+  {
+    "algorithm":"k-means",
+    "community_id":"15",
+    "comm_name":"Water, United, States, Oil",
+    "keywords_string":"water, united, states, oil, nuclear, food, energy, environmental, history, gas",
+    "num_keywords":10,
+    "category":"us energy and environment"
+  },
+  {
+    "algorithm":"k-means",
+    "community_id":"16",
+    "comm_name":"History, Theory, Social, Wikipedia",
+    "keywords_string":"history, theory, social, wikipedia, language, psychology, education, group, english, rule",
+    "num_keywords":10,
+    "category":"social science"
+  },
+  {
+    "algorithm":"k-means",
+    "community_id":"17",
+    "comm_name":"Football, Cup, World, League",
+    "keywords_string":"football, cup, world, league, national, team, season, olympics, fifa, basketball",
+    "num_keywords":10,
+    "category":"sports competitions"
+  },
+  {
+    "algorithm":"k-means",
+    "community_id":"18",
+    "comm_name":"United, States, Bank, Act",
+    "keywords_string":"united, states, bank, act, company, tax, management, financial, market, money",
+    "num_keywords":10,
+    "category":"financial regulation"
+  },
+  {
+    "algorithm":"k-means",
+    "community_id":"19",
+    "comm_name":"Game, Games, Play, Video",
+    "keywords_string":"game, games, play, video, xbox, card, mario, stars, super, race",
+    "num_keywords":10,
+    "category":"video games"
+  },
+  {
+    "algorithm":"k-means",
+    "community_id":"20",
+    "comm_name":"Africa, South, African, Nigeria",
+    "keywords_string":"africa, south, african, nigeria, ghana, state, nigerian, cape, national, history",
+    "num_keywords":10,
+    "category":"african national history"
+  },
+  {
+    "algorithm":"k-means",
+    "community_id":"21",
+    "comm_name":"World, Christmas, Night, House",
+    "keywords_string":"world, christmas, night, house, day, you, all, dark, light, sky",
+    "num_keywords":10,
+    "category":"christmas night sky"
+  },
+  {
+    "algorithm":"k-means",
+    "community_id":"22",
+    "comm_name":"Wine, Plant, Egg, Chicken",
+    "keywords_string":"wine, plant, egg, chicken, beer, chocolate, cheese, stone, ice, cream",
+    "num_keywords":10,
+    "category":"food, drink, and materials"
+  },
+  {
+    "algorithm":"k-means",
+    "community_id":"23",
+    "comm_name":"You, Love, Don, Your",
+    "keywords_string":"you, love, don, your, all, can, that, what, like, way",
+    "num_keywords":10,
+    "category":"common english words"
+  },
+  {
+    "algorithm":"k-means",
+    "community_id":"24",
+    "comm_name":"United, States, Countries, International",
+    "keywords_string":"united, states, countries, international, country, nations, american, national, military, army",
+    "num_keywords":10,
+    "category":"national military"
+  },
+  {
+    "algorithm":"k-means",
+    "community_id":"25",
+    "comm_name":"Film, Novel, King, Series",
+    "keywords_string":"film, novel, king, series, game, dragon, harry, book, doctor, house",
+    "num_keywords":10,
+    "category":"fictional media"
+  },
+  {
+    "algorithm":"k-means",
+    "community_id":"26",
+    "comm_name":"Philippines, Islands, History, Spanish",
+    "keywords_string":"philippines, islands, history, spanish, mexico, america, puerto, states, san, united",
+    "num_keywords":10,
+    "category":"spanish colonial history"
+  },
+  {
+    "algorithm":"k-means",
+    "community_id":"27",
+    "comm_name":"Episodes, Characters, Season, Series",
+    "keywords_string":"episodes, characters, season, series, members, show, cast, power, ncis, rangers",
+    "num_keywords":10,
+    "category":"tv show cast"
+  },
+  {
+    "algorithm":"k-means",
+    "community_id":"28",
+    "comm_name":"Surname, Name, Latin, Del",
+    "keywords_string":"surname, name, latin, del, french, sonnet, people, roman, rice, given",
+    "num_keywords":10,
+    "category":"cultural terms"
+  },
+  {
+    "algorithm":"k-means",
+    "community_id":"29",
+    "comm_name":"War, Battle, World, States",
+    "keywords_string":"war, battle, world, states, united, navy, american, army, history, medal",
+    "num_keywords":10,
+    "category":"military history"
+  },
+  {
+    "algorithm":"k-means",
+    "community_id":"30",
+    "comm_name":"Moon, Solar, Star, Land",
+    "keywords_string":"moon, solar, star, land, earth, sun, stars, space, zone, mars",
+    "num_keywords":10,
+    "category":"space and astronomy"
+  },
+  {
+    "algorithm":"k-means",
+    "community_id":"31",
+    "comm_name":"Church, Catholic, Saint, Bible",
+    "keywords_string":"church, catholic, saint, bible, ancient, roman, saints, jesus, greek, cathedral",
+    "num_keywords":10,
+    "category":"catholic church"
+  },
+  {
+    "algorithm":"k-means",
+    "community_id":"32",
+    "comm_name":"Song, Album, You, Love",
+    "keywords_string":"song, album, you, love, songs, all, one, your, don, world",
+    "num_keywords":10,
+    "category":"music & love"
+  },
+  {
+    "algorithm":"k-means",
+    "community_id":"33",
+    "comm_name":"Fire, Art, Color, Black",
+    "keywords_string":"fire, art, color, black, glass, human, blue, red, ring, power",
+    "num_keywords":10,
+    "category":"colorful artifacts"
+  },
+  {
+    "algorithm":"k-means",
+    "community_id":"34",
+    "comm_name":"River, California, Florida, Lake",
+    "keywords_string":"river, california, florida, lake, new, park, texas, north, carolina, national",
+    "num_keywords":10,
+    "category":"us geographic features"
+  },
+  {
+    "algorithm":"k-means",
+    "community_id":"35",
+    "comm_name":"Engine, Ford, Car, Vehicle",
+    "keywords_string":"engine, ford, car, vehicle, grand, prix, toyota, racing, honda, series",
+    "num_keywords":10,
+    "category":"automotive racing brands"
+  },
+  {
+    "algorithm":"k-means",
+    "community_id":"36",
+    "comm_name":"Star, Film, Series, Comics",
+    "keywords_string":"star, film, series, comics, wars, trek, season, captain, disney, batman",
+    "num_keywords":10,
+    "category":"entertainment media"
+  },
+  {
+    "algorithm":"k-means",
+    "community_id":"37",
+    "comm_name":"Girl, Film, She, Woman",
+    "keywords_string":"girl, film, she, woman, queen, you, lady, little, princess, her",
+    "num_keywords":10,
+    "category":"female film characters"
+  },
+  {
+    "algorithm":"k-means",
+    "community_id":"38",
+    "comm_name":"States, United, Act, Law",
+    "keywords_string":"states, united, act, law, rights, federal, court, national, constitution, party",
+    "num_keywords":10,
+    "category":"u.s. constitutional law"
+  },
+  {
+    "algorithm":"k-means",
+    "community_id":"39",
+    "comm_name":"School, University, High, College",
+    "keywords_string":"school, university, high, college, institute, education, united, technology, schools, states",
+    "num_keywords":10,
+    "category":"education institutions"
+  }
+]
