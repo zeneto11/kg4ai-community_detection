@@ -1,0 +1,259 @@
+Quero que você crie um código em python que faça um conjunto de ações e depois salve um MD com os resultados.
+Explicação: 
+
+Tenho 1 arquivo json run142-NQv0-best_run/run142_raw_communities.json que possui varias comunidades clusterizadas por vários algoritmos , o nosso interesse vai ser o algoritmo Leiden.
+Tenho 1 arquivo jsonl categories.jsonl que possui as categorias de cada nó individual (categorias extraídas da wikipedia, são as reais).
+Tenho 1 arquivo nodes.json que tem o indicador de qual é o id de cada nó.
+Tenho 1 arquivo run142_community_keywords.json que tem as keywords de cada comunidade.
+
+Nosso primeiro objetivo é unir o identificador de cada nó, vamos usar o title que é comum em ambas, pode usar o código abaixo ou adaptar
+
+communities = []
+with open('run142-NQv0-best_run/run142_raw_communities.json', 'r') as f:
+	communities = json.load(f)
+
+communities_list = communities['leiden']
+print(len(communities_list))
+
+categories = pd.read_json('categories.jsonl', lines=True)
+
+with open('nodes.json', 'r', encoding='utf-8-sig') as f:
+    data = json.load(f)
+
+nodes = pd.json_normalize(data)
+
+categories_merged = categories.merge(
+    nodes[["d.identity", "d.properties.title_encode"]],
+    left_on="title",
+    right_on="d.properties.title_encode",
+    how="left"
+)
+
+categories_merged = categories_merged.drop(columns=["d.properties.title_encode"])
+
+
+Agora vamos coloca do lado de cada nó, a qual comunidade ele pertence 
+
+community_map = {}
+for i, ids in enumerate(communities_list):
+    for node_id in ids:
+        community_map[node_id] = i
+
+categories_merged['community_id'] = categories_merged['d.identity'].map(community_map)
+
+print(f"Comunidades atribuídas: {categories_merged['community_id'].nunique()}")
+
+
+Agora vamos contar categorias e categorias_ocultas em cada comunidade
+top20_per_community_wiki = {}
+
+for i in range(len(communities_list)):
+    subset = categories_merged[categories_merged['community_id'] == i]
+
+    # 'categorias' e 'categorias_ocultas' são listas — precisamos achatar
+    all_cats = [cat for cats in subset['categorias'].dropna() for cat in cats]
+    all_hidden = [cat for cats in subset['categorias_ocultas'].dropna() for cat in cats]
+
+    top_cats = Counter(all_cats).most_common(20)
+    top_hidden = Counter(all_hidden).most_common(20)
+
+    top20_per_community_wiki[i] = {
+        "top_categorias": top_cats,
+        "top_categorias_ocultas": top_hidden
+    }
+
+
+Vamos então ler o arquivo JSON 
+with open('run142_community_keywords.json', 'r', encoding='utf-8') as f:
+    data = json.load(f)
+
+Criar uma lista para o DataFrame
+rows = []
+
+Iterar por todos os algoritmos e comunidades (sugiro alterar para pegar apenas o leiden)
+for algorithm_name, communities in data.items():
+    for comm_id, comm_data in communities.items():
+        # Extrair keywords (apenas as palavras, sem as contagens)
+        keywords = comm_data.get('keywords', [])
+        keywords_list = [kw[0] for kw in keywords]
+        keywords_string = ', '.join(keywords_list)
+        
+        rows.append({
+            'algorithm': algorithm_name,
+            'community_id': comm_id,
+            'comm_name': comm_data.get('comm_name', ''),
+            'keywords_string': keywords_string,
+            'num_keywords': len(keywords_list)
+        })
+
+
+Criar DataFrame
+df = pd.DataFrame(rows)
+
+
+Vamos agora categorizar nomear as comunidades com LLM
+ 
+import requests
+import pandas as pd
+
+def categorize_with_ollama(keywords_string, model="llama3.1:8b"):
+    prompt = f"""
+You are a precise classifier. Analyze the following keywords produced by a community detection algorithm and assign a short, meaningful category name (2–4 words maximum).
+
+Keywords:
+{keywords_string}
+
+Return only the answer — no explanations, no text before or after.
+"""
+
+    data = {
+        "model": model,
+        "prompt": prompt,
+        "stream": False,
+        "options": {
+            "seed": 42,
+            "top_k": 1,
+            "top_p": 1,
+            "temperature": 0
+        }
+    }
+
+    url = "http://localhost:11434/api/generate"
+    headers = {"Content-Type": "application/json"}
+
+    try:
+        resp = requests.post(url, headers=headers, json=data, timeout=3000)
+        resp.raise_for_status()
+        result = resp.json()
+        return result.get("response", "").strip().lower()
+    except Exception as e:
+        print(f"Erro ao categorizar: {e}")
+        return "erro"
+
+
+
+
+df = df[df['algorithm'] == 'leiden'] # Sugiro tirar antes para n ter que fazer aqui
+df = df.drop(columns=['description'])
+
+
+import time
+from concurrent.futures import ThreadPoolExecutor, as_completed
+
+print("\nCategorizando comunidades com Ollama...")
+
+def process_row(idx, row):
+    """Função auxiliar que processa uma linha do DataFrame."""
+    print(f"Processando {row['algorithm']} - comunidade {row['community_id']}...")
+    category = categorize_with_ollama(row['keywords_string'])
+    time.sleep(1)
+    print(f"  -> Rows keywords: {row['keywords_string']}")
+    print(f"  -> Categoria: {category}")
+    return idx, category
+
+results = []
+with ThreadPoolExecutor(max_workers=32) as executor:
+    futures = {executor.submit(process_row, idx, row): idx for idx, row in df_correcao.iterrows()}
+    total = len(futures)
+    processed = 0
+
+    for future in as_completed(futures):
+        idx, category = future.result()
+        df_correcao.at[idx, 'category'] = category
+        processed += 1
+        if processed % 10 == 0 or processed == total:
+            print(f"Processados {processed}/{total}")
+
+print("\n=== DataFrame Final ===")
+print(df_correcao.head(10))
+
+
+
+Agora que temos o nome da comunidade feitas por nós e top 20 categorias da comunidade feitas pela wikipédia, quero comparar 
+
+Por exemplo tenho que a comunidade 0 
+
+0: {'top_categorias': [('The Lord of the Rings characters', 95), #Categorias da Wiki
+   ('English-language films', 85),
+   ('American films', 85),
+...
+
+e tenho que 
+leiden	0	Middle, Earth, Rings, Lord	middle, earth, rings, lord, film, series, hobb...	10	lord of the rings
+
+Então devo comparar se o nome que a LLM colocou ("lord of the rings") faz sentido com as categorias da wiki
+
+Algo como
+
+def make_prompt(category_llm, top_categories):
+    top_cats_str = ", ".join([cat for cat, _ in top_categories])
+    prompt = f"""
+You are an accurate semantic evaluator. Evaluate the relevance of the following category created by an LLM model relative to a community's top Wikipedia categories.
+
+LLM category: "{category_llm}"
+Top Wikipedia categories: "{top_cats_str}"
+
+Return only a number between 0 and 1, where 0 means no semantic relationship and 1 means complete semantic relationship.
+"""
+    return prompt
+
+def evaluate_correlation(category_llm, top_categories):
+    prompt = make_prompt(category_llm, top_categories)
+    url = "http://localhost:11434/api/generate"
+    data = {
+        "model": "llama3.1:8b",
+        "prompt": prompt,
+        "stream": False,
+        "options": {
+            "seed": 42,
+            "top_k": 1,
+            "top_p": 1,
+            "temperature": 0
+        }
+    }
+
+    url = "http://localhost:11434/api/generate"
+    headers = {"Content-Type": "application/json"}
+
+    try:
+        resp = requests.post(url, headers=headers, json=data, timeout=3000)
+        resp.raise_for_status()
+        result = resp.json()
+        return result.get("response", "").strip().lower()
+    except Exception as e:
+        print(f"Erro ao categorizar: {e}")
+        return "erro"
+
+
+import pandas as pd
+
+scores = []
+
+for idx, row in df.iterrows():
+    community_id = row['community_id']
+    category_llm = row['category']
+    top_categories = top20_per_community_wiki.get(community_id, {}).get('top_categorias', [])
+    
+    score = evaluate_correlation(category_llm, top_categories)
+    scores.append(score)
+
+df['llm_correlation'] = scores
+
+
+df['llm_correlation'] = pd.to_numeric(df['llm_correlation'], errors='coerce')
+
+
+
+E então quero métricas numéricas além do score que o LLM deu, algo como 
+threshold = 0.7  # acima disso consideramos que bateu com a Wikipedia
+
+df['llm_match'] = df['llm_correlation'] >= threshold
+mean_score = df['llm_correlation'].mean()
+top_50_percent = df[df['llm_correlation'] >= df['llm_correlation'].quantile(0.5)]
+
+print(f"Mean LLM Correlation Score: {mean_score}")
+print(f"Top 50% Communities based on LLM Correlation:\n{top_50_percent}")
+
+#Essa métrica acima é só um exemplo, sinta-se livre para criar métricas melhores
+
+Faça em um arquivo python, sempre que executar gere um .md com os resultados.
