@@ -13,3 +13,6 @@ __pycache__/
 # Other notebooks
 imported/
 output/
+
+test.py
+markdown/
