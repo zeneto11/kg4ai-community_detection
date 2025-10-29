@@ -128,12 +128,17 @@ For reference, examine the `run142-NQv0-best_run` output which demonstrates:
 
 The `notebook/` directory contains Jupyter notebooks for exploratory analysis and method development.
 
-## Author
+## Authors
 
 **José Almeida Neto**
 
 - Email: josealmeidaneto2002@gmail.com
 - GitHub: [@zeneto11](https://github.com/zeneto11)
+
+**Anderson Luis Bento Soares**
+
+- Email: anderson.soares@students.ic.unicamp.br
+- GitHub: [@andersonlbsoares](https://github.com/andersonlbsoares)
 
 ## Acknowledgments
 
