@@ -107,7 +107,7 @@ For reference, examine the `run142-NQv0-best_run` output which demonstrates:
 - **Modularity**: Quality of community division (higher = better)
 - **Conductance**: Community boundary quality (lower = better)
 - **Homophily**: Tendency of similar nodes to cluster
-- **TPR (True Positive Rate)**: Community detection accuracy
+- **TPR (Triad Participation Ratio)**: Community detection accuracy
 - **Clustering Coefficient**: Local connectivity within communities
 
 ### Visualizations

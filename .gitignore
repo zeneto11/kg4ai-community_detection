@@ -15,3 +15,5 @@ imported/
 output/
 
 categories.jsonl
+test.py
+markdown/
