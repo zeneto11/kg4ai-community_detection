@@ -14,5 +14,6 @@ __pycache__/
 imported/
 output/
 
+categories.jsonl
 test.py
 markdown/
