@@ -126,7 +126,83 @@ For reference, examine the `run142-NQv0-best_run` output which demonstrates:
 
 ## 📓 Notebooks
 
-The `notebook/` directory contains Jupyter notebooks for exploratory analysis and method development.
+The `notebook/` directory contains Jupyter notebooks for exploratory analysis and method development:
+
+- **`exploration.ipynb`**: Exploratory data analysis of the graph structure
+- **`extract_categories.ipynb`**: Category extraction from Wikipedia data
+- **`extract_links.ipynb`**: Link extraction and graph construction
+- **`nq_dataset.ipynb`**: Natural Questions dataset processing
+- **`wiki_comparison.ipynb`**: Comparison with Wikipedia clustering results
+- **`methods_study/`**: In-depth studies of detection algorithms
+  - `leiden.ipynb`: Leiden algorithm analysis
+  - `louvain.ipynb`: Louvain algorithm analysis
+  - `infomap.ipynb` & `infomap_first_test.ipynb`: Infomap algorithm studies
+  - `hpmocd.ipynb`: HP-MOCD algorithm exploration
+  - `ml-clustering.ipynb`: Machine learning-based clustering approaches
+- **`metrics_study/`**: Metric analysis and optimization
+  - `distance_metrics.ipynb`: Distance metric comparisons
+  - `macrographs.ipynb`: Macro-graph visualization techniques
+- **`sample/`**: Sample analyses
+  - `subgraph_community.ipynb`: Community detection on subgraphs
+- **`imported/`**: External notebooks
+  - `wikipedia_knowledge_graph_anderson.ipynb`: Wikipedia KG construction
+
+## 📁 Project Structure
+
+```
+kg4ai-community_detection/
+├── community_detection/          # Main package for community detection
+│   ├── controller/               # Pipeline orchestration
+│   │   └── full_run.py          # Complete pipeline execution
+│   ├── methods/                  # Detection algorithms
+│   │   ├── base.py              # Base detector interface
+│   │   ├── leiden_detector.py   # Leiden algorithm
+│   │   ├── louvain_detector.py  # Louvain algorithm
+│   │   ├── infomap_detector.py  # Infomap algorithm
+│   │   ├── kmeans_detector.py   # K-means clustering
+│   │   └── hpmocd_detector.py   # HP-MOCD algorithm
+│   ├── evaluation/               # Evaluation and metrics
+│   │   ├── evaluator.py         # Main evaluation controller
+│   │   ├── graph_metrics.py     # Graph-level metrics
+│   │   ├── community_metrics.py # Community-level metrics
+│   │   ├── reporter.py          # Report generation
+│   │   └── community_report_extension.py  # Extended reporting
+│   ├── visualization/            # Visualization tools
+│   │   ├── visualizer.py        # Main visualization controller
+│   │   ├── community_visualizer.py  # Community-specific plots
+│   │   └── community_namer.py   # Community naming with keywords
+│   ├── utils/                    # Utility modules
+│   │   ├── graph_utility.py     # Graph manipulation helpers
+│   │   ├── logger.py            # Logging configuration
+│   │   ├── run_manager.py       # Run directory management
+│   │   ├── metrics_status.py    # Metrics tracking
+│   │   └── time.py              # Time formatting utilities
+│   └── output/                   # Pipeline outputs (generated)
+│       └── runXXX_[description]/ # Individual run results
+├── community_analysis/           # Advanced community analysis
+│   ├── analisar_comunidades.py  # LLM-based community categorization
+│   ├── nodes.json               # Node data for analysis
+│   ├── run142_raw_communities.json        # Raw community data
+│   ├── run142_community_keywords.json     # Extracted keywords
+│   ├── analise_comunidades_leiden_mistral.md  # Analysis report
+│   └── analise_comunidades_leiden_mistral_detailed.json  # Detailed results
+├── data/                         # Datasets
+│   ├── v0.0/                    # Version 0 data
+│   │   ├── df_nq_version0.csv   # Natural Questions dataset
+│   │   └── nodes.json           # Graph nodes data
+│   ├── chatgpt_test/            # ChatGPT test data
+│   └── wiki_clustering_results/ # Wikipedia clustering benchmarks
+├── notebook/                     # Jupyter notebooks (see above)
+├── pyproject.toml               # Poetry dependencies and config
+└── README.md                    # This file
+```
+
+### Key Components
+
+- **`community_detection/`**: Core framework with modular architecture for detection, evaluation, and visualization
+- **`community_analysis/`**: Advanced analysis tools including LLM-based community categorization with Ollama/Mistral
+- **`data/`**: Input datasets including Natural Questions citation network
+- **`notebook/`**: Research notebooks for experimentation and validation
 
 ## Authors
 
