@@ -220,7 +220,6 @@ Return ONLY the number, nothing else.
         "avg_score": avg_score
     }
 
-
 def evaluate_combined_metrics(categories_llm, top_categories):
     """
     Avalia usando ambas as métricas: LLM-as-a-Judge e BERT-Score.
@@ -273,25 +272,45 @@ def load_and_merge_data():
     logging.info(f"Dados carregados. {len(communities_list)} comunidades encontradas.")
     return communities_list, nodes
 
-def get_top_keywords_as_reference(keywords_df):
-    """
-    Converte as top keywords de cada comunidade em uma estrutura de referência.
-    Usa as keywords como 'categorias de referência' para avaliação.
-    """
-    logging.info("Preparando keywords como referência para avaliação...")
-    top_keywords_per_community = {}
+def keywords_reference(nodes):
+    with open('./run142_raw_communities.json', 'r') as f:
+        communities2 = json.load(f)
+        communities_list2 = communities2['leiden']
+    categories = pd.read_json('./categories.jsonl', lines=True)
     
-    for _, row in keywords_df.iterrows():
-        comm_id = row['community_id']
-        keywords = row['keywords_string'].split(', ')
-        
-        # Criar tuplas (keyword, score artificial) para compatibilidade
-        # Score artificial baseado na posição (primeiras keywords têm mais peso)
-        keyword_tuples = [(kw, 20 - i) for i, kw in enumerate(keywords[:20])]
-        
-        top_keywords_per_community[comm_id] = {"top_categorias": keyword_tuples}
-    
-    return top_keywords_per_community
+    categories_merged = categories.merge(
+        nodes[["d.identity", "d.properties.title_encode"]],
+        left_on="title",
+        right_on="d.properties.title_encode",
+        how="left"
+    )
+
+    categories_merged = categories_merged.drop(columns=["d.properties.title_encode"])
+    community_map = {}
+    for i, ids in enumerate(communities_list2):
+        for node_id in ids:
+            community_map[node_id] = i
+
+    categories_merged['community_id'] = categories_merged['d.identity'].map(community_map)
+
+    top20_per_community_wiki = {}
+
+    for i in range(len(communities_list2)):
+        subset = categories_merged[categories_merged['community_id'] == i]
+
+        # 'categorias' e 'categorias_ocultas' são listas — precisamos achatar
+        all_cats = [cat for cats in subset['categorias'].dropna() for cat in cats]
+        all_hidden = [cat for cats in subset['categorias_ocultas'].dropna() for cat in cats]
+
+        top_cats = Counter(all_cats).most_common(20)
+        top_hidden = Counter(all_hidden).most_common(20)
+
+        top20_per_community_wiki[i] = {
+            "top_categorias": top_cats,
+            "top_categorias_ocultas": top_hidden
+        }
+
+    return top20_per_community_wiki
 
 def prepare_keywords_df():
     """Prepara o DataFrame com as palavras-chave do algoritmo Leiden."""
@@ -567,7 +586,7 @@ def generate_markdown_report(df_final, metrics, top_wiki_categories):
         report.append(f"- **LLM Scores** (Best: {row['llm_best_match']:.3f}, Avg: {row['llm_avg_score']:.3f}): {format_llm_scores(row['evaluation_metrics'])}")
         report.append(f"- **BERT Scores** (P: {row['bert_precision']:.3f}, R: {row['bert_recall']:.3f}, F1s): {format_bert_scores(row['evaluation_metrics'])}")
         report.append(f"- **Palavras-chave**: _{row['keywords_string']}_")
-        report.append(f"- **Top 5 Keywords de Referência**: {format_top_cats(row['community_id'])}")
+        report.append(f"- **Top 5 Categorias de Referência**: {format_top_cats(row['community_id'])}")
         report.append("")
     report.append("\n---")
     
@@ -580,7 +599,7 @@ def generate_markdown_report(df_final, metrics, top_wiki_categories):
         report.append(f"- **LLM Scores** (Best: {row['llm_best_match']:.3f}, Avg: {row['llm_avg_score']:.3f}): {format_llm_scores(row['evaluation_metrics'])}")
         report.append(f"- **BERT Scores** (P: {row['bert_precision']:.3f}, R: {row['bert_recall']:.3f}, F1s): {format_bert_scores(row['evaluation_metrics'])}")
         report.append(f"- **Palavras-chave**: _{row['keywords_string']}_")
-        report.append(f"- **Top 5 Keywords de Referência**: {format_top_cats(row['community_id'])}")
+        report.append(f"- **Top 5 Categorias de Referência**: {format_top_cats(row['community_id'])}")
         report.append("")
     report.append("\n---")
     
@@ -605,7 +624,7 @@ def generate_markdown_report(df_final, metrics, top_wiki_categories):
     df_display['bert_scores_display'] = df_display['evaluation_metrics'].apply(format_bert_scores)
     
     # Criar tabela manualmente para evitar problemas de formatação
-    report.append("\n| ID | Categorias | # Cat | Score Comb | LLM Score | BERT F1 | BERT Prec | BERT Rec | LLM Scores | BERT F1s | Top 5 Keywords |")
+    report.append("\n| ID | Categorias | # Cat | Score Comb | LLM Score | BERT F1 | BERT Prec | BERT Rec | LLM Scores | BERT F1s | Top 5 Categorias |")
     report.append("|---:|:-----------|------:|-----------:|----------:|--------:|----------:|---------:|:-----------|:---------|:---------------|")
     
     for _, row in df_display.iterrows():
@@ -636,9 +655,8 @@ def main():
     # Passo 2: Preparar DataFrame de palavras-chave
     df_keywords = prepare_keywords_df()
     
-    # Passo 3: Criar estrutura de referência usando as keywords
-    # (Como não temos categorias Wikipedia, usamos as próprias keywords como referência)
-    top_keywords_reference = get_top_keywords_as_reference(df_keywords)
+    # Passo 3: Criar estrutura de referência usando o arquivo categories.jsonl
+    top_keywords_reference = keywords_reference(nodes)
     
     # Passo 4: Nomear comunidades com LLM
     logging.info("Iniciando a categorização de comunidades com Ollama...")
